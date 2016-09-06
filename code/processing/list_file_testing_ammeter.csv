@@ -1,0 +1,14 @@
+<li>model.nonContactAmmeterModel.connectionBroken</li>
+<li>model.nonContactAmmeterModel.connectionFormed</li>
+<li>model.nonContactAmmeterModel.measuredCurrentChanged</li>
+<li>model.seriesAmmeter.fireEnded</li>
+<li>model.seriesAmmeter.fireStarted</li>
+<li>model.seriesAmmeter.measuredCurrentChanged</li>
+<li>user.nonContactAmmeter.drag</li>
+<li>user.nonContactAmmeter.endDrag</li>
+<li>user.nonContactAmmeter.startDrag</li>
+<li>user.nonContactAmmeterCheckBox.pressed</li>
+<li>user.seriesAmmeter.addedComponent</li>
+<li>user.seriesAmmeter.movedComponent</li>
+<li>user.seriesAmmeter.removedComponent</li>
+<li>user.seriesAmmeterCheckBox.pressed</li>
