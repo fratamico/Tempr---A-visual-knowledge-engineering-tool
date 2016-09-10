@@ -9,7 +9,7 @@ var chart = d3_horizon()
     .height(height)
     .bands(1)
     .mode("mirror")
-    .interpolate("basis");
+    .interpolate("step-before"); //options: basis, monotone, step-before, linear, etc. basis was default
 
 
 
