@@ -49,7 +49,7 @@
       height: 30px;
     }
 
-    #someID {
+    #collapse_list {
       padding-left: 20px;
     }
 
@@ -160,11 +160,8 @@
     <script type="text/javascript" src="js/listCollapse.js"></script>
     <script type="text/javascript">
     window.onload = function () {
-
-      //choose one of these options
-
-      //option 1 - no auto-child-collapse
-      compactMenu('someID',false,'&plusmn; ');
+      //collapse the menu in raw/merged list
+      compactMenu('collapse_list',false,'&plusmn; ');
 
     }
     </script>
@@ -188,9 +185,8 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="#">Overview</a></li>
-            <li><a href="#">Raw Log Event Frequencies</a></li>
-            <li><a href="#temporal">Temporal Visualizations</a></li>
+            <li><a href="#temporal-heatmap">Temporal Heatmap Visualizations</a></li>
+            <li><a href="#temporal-horizon">Temporal Horizon Chart Visualizations</a></li>
           </ul>
 
         </div>
@@ -200,7 +196,7 @@
 
         <div class="main">
 
-          
+          <!-- <a name="temporal-heatmap"> -->
           <h2 class="sub-header">Temporal Log Event Freqencies - Overview</h2>
 
           <div class="container3">
@@ -212,7 +208,7 @@
             <div id="chart" style='overflow:auto; width:2000px; height:700px;'></div>
           </div>
 
-
+          <!-- <a name="temporal-horizon"> -->
           <h2 class="sub-header">Temporal Log Event Freqencies - Up Close</h2>
           <div class="container">
             <div class="buttons">
@@ -224,7 +220,7 @@
                 <button type="button" onclick="showHorizon()">Visualize</button>
               </div>
             </div>
-            <ul id="someID">
+            <ul id="collapse_list">
               <li>Raw Log Events
                 <ul>
                   <li><input type="checkbox" name="aca" value="model.battery.currentChanged"> model.battery.currentChanged</li>
@@ -490,6 +486,11 @@
     });
 
 });
+        function boldHTML() {
+          var element = document.createElement("b");
+          element.innerHTML = "Bold text";
+          return element;
+        }
 
         function showHorizon() {
           var to_display = $("input:checkbox[name=aca]:checked").map(function(){return $(this).val()}).get();
@@ -510,7 +511,25 @@
           for (var i in to_display) {
             var merged_action_list = [for (e of document.getElementsByClassName(to_display[i] + "_mergedActionList")) e.textContent];
             var horizon_plot_title = document.createElement('p');
-            horizon_plot_title.appendChild(document.createTextNode(to_display[i]));
+            if (merged_action_list.length === 0) {
+              var bold_element = document.createElement("b");
+              bold_element.appendChild(document.createTextNode(to_display[i]));
+              horizon_plot_title.appendChild(bold_element);
+            } else {
+              var bold_element = document.createElement("b");
+              bold_element.appendChild(document.createTextNode(to_display[i] + ": "));
+              horizon_plot_title.appendChild(bold_element);
+              
+              horizon_plot_title.appendChild(document.createElement("br"));
+              
+              var merged_action_list_node = document.createTextNode(merged_action_list.join(" + "));
+              var span = document.createElement('span');
+              span.style.fontSize = "11px";
+              span.style.display="block";
+              span.style.lineHeight = "1.2";
+              span.appendChild(merged_action_list_node);
+              horizon_plot_title.appendChild(span);
+            }
 
             horizon_plots_container.appendChild(horizon_plot_title);
 
