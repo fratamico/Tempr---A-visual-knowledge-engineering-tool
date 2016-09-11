@@ -1,6 +1,6 @@
 function create_graph(action_item, merged_action_list) {
   var action_item_new_name = action_item.split(".").join("_").split(" ").join("_");
-var margin = {top: 50, right: 50, bottom: 50, left: 50},
+  var margin = {top: 50, right: 50, bottom: 50, left: 50},
     width = 890 - margin.left - margin.right,
     height = 300 - margin.top - margin.bottom;
 
@@ -10,8 +10,6 @@ var chart = d3_horizon()
     .bands(1)
     .mode("mirror")
     .interpolate("step-before"); //options: basis, monotone, step-before, linear, etc. basis was default
-
-
 
 var x = d3.scale.ordinal()
     .domain([, "5%", "10%", "15%", "20%", "25%", "30%", "35%", "40%", "45%", "50%", "55%", "60%", "65%", "70%", "75%", "80%", "85%", "90%", "95%", "100%"])
@@ -24,7 +22,6 @@ var xAxis = d3.svg.axis()
 var svg = d3.select("#chart_" + action_item_new_name).append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
-
 
 
 d3.json("processing/json_files/ALL_ACTIONS_FREQUENCY.json", function(error, orig_data) {
@@ -79,6 +76,3 @@ d3.json("processing/json_files/ALL_ACTIONS_FREQUENCY.json", function(error, orig
 });
 
 }
-
-
-
