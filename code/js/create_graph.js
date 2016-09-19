@@ -9,7 +9,7 @@ var chart = d3_horizon()
     .height(height)
     .bands(1)
     .mode("mirror")
-    .interpolate("step-before"); //options: basis, monotone, step-before, linear, etc. basis was default
+    .interpolate("step-before"); //options: basis, monotone, step-before, linear, etc. basis was default. other options: http://www.d3noob.org/2013/01/smoothing-out-lines-in-d3js.html
 
 var x = d3.scale.ordinal()
     .domain([, "5%", "10%", "15%", "20%", "25%", "30%", "35%", "40%", "45%", "50%", "55%", "60%", "65%", "70%", "75%", "80%", "85%", "90%", "95%", "100%"])

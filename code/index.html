@@ -153,6 +153,7 @@
 
 
     <script type="text/javascript" src="js/listCollapse.js"></script>
+    <script language="JavaScript" type="text/javascript" src="js/jquery-3.1.0.min.js"></script>
     <script type="text/javascript">
     window.onload = function () {
       //collapse the menu in raw/merged list
@@ -205,8 +206,7 @@
 
           <!-- <a name="temporal-horizon"> -->
           <h2 class="sub-header">Temporal Log Event Freqencies - Up Close</h2>
-          <div class="container">
-            <div class="buttons">
+          <div class="buttons">
               <div id="merge">
                 <input type="text" size="25" style="height:25px;" id="merge_name" placeholder="Type Merged Name Here"/>
                 <button type="button" id="merge_button">Merge Events</button>
@@ -215,9 +215,12 @@
                 <button type="button" onclick="showHorizon()">Visualize</button>
               </div>
             </div>
+          <div class="container">
+            <input type="text" size="30" style="height:25px;" id="filter_raw_list" placeholder="Type Here to Filter Raw List"/>
+            
             <ul id="collapse_list">
               <li>Raw Log Events
-                <ul>
+                <ul class="filterable_list">
                   <li><input type="checkbox" name="aca" value="model.battery.currentChanged"> model.battery.currentChanged</li>
                   <li><input type="checkbox" name="aca" value="model.battery.fireEnded"> model.battery.fireEnded</li>
                   <li><input type="checkbox" name="aca" value="model.battery.fireStarted"> model.battery.fireStarted</li>
@@ -534,6 +537,19 @@
         
         </script>
         <script type="text/javascript">
+        //to filter the raw list of events
+        $('#filter_raw_list').keyup(function(){
+           var valThis = $(this).val().toLowerCase();
+            if(valThis == ""){
+                $('.filterable_list > li').show();           
+            } else {
+                $('.filterable_list > li').each(function(){
+                    var text = $(this).text().toLowerCase();
+                    (text.indexOf(valThis) >= 0) ? $(this).show() : $(this).hide();
+                });
+           };
+        });
+
 var margin = { top: 50, right: 10, bottom: 50, left: 400 },
   cellSize=12;
   col_number=60;
