@@ -333,7 +333,21 @@
               </li>
               <li>Merged Events
                 <ul id="merged_list">
-                  <li><input type="checkbox" name="aca" value="All Testing"> All Testing
+                  <li><input type="checkbox" name="aca" value="All user testing actions"> All user testing actions
+                    <ul class="no_collapse">
+                      <li class="All user testing actions_mergedActionList">user.blackProbe.drag</li>
+                      <li class="All user testing actions_mergedActionList">user.blackProbe.endDrag</li>
+                      <li class="All user testing actions_mergedActionList">user.blackProbe.startDrag</li>
+                      <li class="All user testing actions_mergedActionList">user.nonContactAmmeter.drag</li>
+                      <li class="All user testing actions_mergedActionList">user.nonContactAmmeter.endDrag</li>
+                      <li class="All user testing actions_mergedActionList">user.nonContactAmmeter.startDrag</li>
+                      <li class="All user testing actions_mergedActionList">user.redProbe.drag</li>
+                      <li class="All user testing actions_mergedActionList">user.redProbe.endDrag</li>
+                      <li class="All user testing actions_mergedActionList">user.redProbe.startDrag</li>
+                      <li class="All user testing actions_mergedActionList">user.seriesAmmeter.addedComponent</li>
+                    </ul>
+                  </li>
+<!--                   <li><input type="checkbox" name="aca" value="All Testing"> All Testing
                     <ul class="no_collapse">
                       <li class="All Testing_mergedActionList">model.nonContactAmmeterModel.connectionBroken</li>
                       <li class="All Testing_mergedActionList">model.nonContactAmmeterModel.connectionFormed</li>
@@ -362,8 +376,8 @@
                       <li class="All Testing_mergedActionList">user.seriesAmmeterCheckBox.pressed</li>
                       <li class="All Testing_mergedActionList">user.voltmeterCheckBox.pressed</li>
                     </ul>
-                  </li>
-                  <li><input type="checkbox" name="aca" value="Voltmeter Testing"> Voltmeter Testing
+                  </li> -->
+<!--                   <li><input type="checkbox" name="aca" value="Voltmeter Testing"> Voltmeter Testing
                     <ul class="no_collapse">
                       <li class="Voltmeter Testing_mergedActionList">model.voltmeterBlackLeadModel.connectionBroken</li>
                       <li class="Voltmeter Testing_mergedActionList">model.voltmeterBlackLeadModel.connectionFormed</li>
@@ -378,15 +392,50 @@
                       <li class="Voltmeter Testing_mergedActionList">user.redProbe.startDrag</li>
                       <li class="Voltmeter Testing_mergedActionList">user.voltmeterCheckBox.pressed</li>
                     </ul>
-                  </li>
-                  <li><input type="checkbox" name="aca" value="Circuit Changes"> Circuit Changes
+                  </li>  -->
+                  <li><input type="checkbox" name="aca" value="User dragging voltmeter probes"> User dragging voltmeter probes
                     <ul class="no_collapse">
-                      <li class="Circuit Changes_mergedActionList">model.nonContactAmmeterModel.measuredCurrentChanged</li>
-                      <li class="Circuit Changes_mergedActionList">model.seriesAmmeter.measuredCurrentChanged</li>
-                      <li class="Circuit Changes_mergedActionList">model.voltmeterModel.measuredVoltageChanged</li>
+                      <li class="User dragging voltmeter probes_mergedActionList">user.blackProbe.drag</li>
+                      <li class="User dragging voltmeter probes_mergedActionList">user.blackProbe.startDrag</li>
+                      <li class="User dragging voltmeter probes_mergedActionList">user.blackProbe.endDrag</li>
+                      <li class="User dragging voltmeter probes_mergedActionList">user.redProbe.drag</li>
+                      <li class="User dragging voltmeter probes_mergedActionList">user.redProbe.startDrag</li>
+                      <li class="User dragging voltmeter probes_mergedActionList">user.redProbe.endDrag</li>
                     </ul>
-                  </li>                  
-                  <li><input type="checkbox" name="aca" value="Ammeter Testing"> Ammeter Testing
+                  </li>  
+                  <li><input type="checkbox" name="aca" value="User dragging nonContactAmmeter probes"> User dragging nonContactAmmeter probes
+                    <ul class="no_collapse">
+                      <li class="User dragging nonContactAmmeter probes_mergedActionList">user.nonContactAmmeter.drag</li>
+                      <li class="User dragging nonContactAmmeter probes_mergedActionList">user.nonContactAmmeter.startDrag</li>
+                      <li class="User dragging nonContactAmmeter probes_mergedActionList">user.nonContactAmmeter.endDrag</li>
+                    </ul>
+                  </li>  
+                  <li><input type="checkbox" name="aca" value="User adding series Ammeter"> User adding series Ammeter
+                    <ul class="no_collapse">
+                      <li class="User adding series Ammeter_mergedActionList">user.seriesAmmeter.addedComponent</li>
+                    </ul>
+                  </li>                   
+                  <li><input type="checkbox" name="aca" value="Instruments detect change"> Instruments detect change
+                    <ul class="no_collapse">
+                      <li class="Instruments detect change_mergedActionList">model.nonContactAmmeterModel.measuredCurrentChanged</li>
+                      <li class="Instruments detect change_mergedActionList">model.seriesAmmeter.measuredCurrentChanged</li>
+                      <li class="Instruments detect change_mergedActionList">model.voltmeterModel.measuredVoltageChanged</li>
+                    </ul>
+                  </li>  
+                  <li><input type="checkbox" name="aca" value="All resistor editor changes"> All resistor editor changes
+                    <ul class="no_collapse">
+                      <li class="All resistor editor changes_mergedActionList">user.resistorEditor.startDrag</li>
+                      <li class="All resistor editor changes_mergedActionList">user.resistorEditor.endDrag</li>
+                      <li class="All resistor editor changes_mergedActionList">user.resistorEditor.changed</li>
+                    </ul>
+                  </li>    
+                  <li><input type="checkbox" name="aca" value="Resistor editor dragging"> Resistor editor dragging
+                    <ul class="no_collapse">
+                      <li class="Resistor editor dragging_mergedActionList">user.resistorEditor.startDrag</li>
+                      <li class="Resistor editor dragging_mergedActionList">user.resistorEditor.endDrag</li>
+                    </ul>
+                  </li>    
+<!--                   <li><input type="checkbox" name="aca" value="Ammeter Testing"> Ammeter Testing
                     <ul class="no_collapse">
                       <li class="Ammeter Testing_mergedActionList">model.nonContactAmmeterModel.connectionBroken</li>
                       <li class="Ammeter Testing_mergedActionList">model.nonContactAmmeterModel.connectionFormed</li>
@@ -403,7 +452,7 @@
                       <li class="Ammeter Testing_mergedActionList">user.seriesAmmeter.removedComponent</li>
                       <li class="Ammeter Testing_mergedActionList">user.seriesAmmeterCheckBox.pressed</li>
                     </ul>
-                  </li>
+                  </li> -->
                   <li><input type="checkbox" name="aca" value="Basic Building - Adding Components"> Basic Building - Adding Components
                     <ul class="no_collapse">
                       <li class="Basic Building - Adding Components_mergedActionList">user.battery.addedComponent</li>
@@ -411,7 +460,7 @@
                       <li class="Basic Building - Adding Components_mergedActionList">user.grabBagResistor.addedComponent</li>
                       <li class="Basic Building - Adding Components_mergedActionList">user.lightBulb.addedComponent</li>
                       <li class="Basic Building - Adding Components_mergedActionList">user.resistor.addedComponent</li>
-                      <li class="Basic Building - Adding Components_mergedActionList">user.seriesAmmeter.addedComponent</li>
+<!--                       <li class="Basic Building - Adding Components_mergedActionList">user.seriesAmmeter.addedComponent</li> -->
                       <li class="Basic Building - Adding Components_mergedActionList">user.wire.addedComponent</li>
                     </ul>
                 </ul>
