@@ -2,7 +2,7 @@ from collections import Counter
 from decimal import Decimal
 import json
 
-NUM_SPLITS = 20
+NUM_SPLITS = 10
 THREEPLACES = Decimal(10) ** -2
 
 
@@ -124,15 +124,16 @@ for i in range(NUM_SPLITS):
 
 
 final_dict = {}
-# write to file
+
 for aca in all_types:
     final_dict[aca] = {}
     for i in range(NUM_SPLITS):
         final_dict[aca][i] = str(avg_freq["High"][i][aca] - avg_freq["Low"][i][aca])
-    outfile = open("json_files/horizon-" + aca + ".json", 'w')
-    outfile.write('{"timeslice":' + str(range(1,NUM_SPLITS + 1)) + ',\n"freq_difference":[')
-    outfile.write(",".join(final_dict[aca].values()))
-    outfile.write("]}")
+    # write to file
+    #outfile = open("json_files/horizon-" + aca + ".json", 'w')
+    #outfile.write('{"timeslice":' + str(range(1,NUM_SPLITS + 1)) + ',\n"freq_difference":[')
+    #outfile.write(",".join(final_dict[aca].values()))
+    #outfile.write("]}")
 
 # Save frequencies to json file
 # This is read back into javascript when merging actions
@@ -149,6 +150,7 @@ print "model.junction.junctionFormed: ", ",".join(final_dict["model.junction.jun
 #print "user.nonContactAmmeter.drag: ", ",".join(final_dict["user.nonContactAmmeter.drag"].values())
 """
 
+"""
 ## Create json files for initially defined merged events
 
 # Voltmeter Testing
@@ -223,7 +225,7 @@ outfile.write('{"timeslice":' + str(range(1,NUM_SPLITS + 1)) + ',\n"freq_differe
 outfile.write(",".join(basic_build_final_dict.values()))
 outfile.write("]}")
 
-
+"""
 
 
 
