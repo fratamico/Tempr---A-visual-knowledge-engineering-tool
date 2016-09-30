@@ -11,7 +11,7 @@ var chart = d3_horizon()
     .height(height)
     .bands(1)
     .mode("mirror")
-    .interpolate("step-before"); //options: basis, monotone, step-before, linear, etc. basis was default. other options: http://www.d3noob.org/2013/01/smoothing-out-lines-in-d3js.html
+    .interpolate("step-after"); //options: basis, monotone, step-before, linear, etc. basis was default. other options: http://www.d3noob.org/2013/01/smoothing-out-lines-in-d3js.html
 
 var x = d3.scale.ordinal()
     .domain([, "5%", "10%", "15%", "20%", "25%", "30%", "35%", "40%", "45%", "50%", "55%", "60%", "65%", "70%", "75%", "80%", "85%", "90%", "95%", "100%"])
@@ -48,6 +48,9 @@ d3.json("processing/json_files/ALL_ACTIONS_FREQUENCY.json", function(error, orig
       data.freq_difference.push(parseFloat(orig_data[action_item][i - 1]));
     };
   }
+
+  data.timeslice.push(NUM_SPLITS+1); //added so that all 10 points are visualized with step-after interpolation
+  data.freq_difference.push(0);
 
   var max_of_array = Math.max.apply(Math, data.freq_difference);
 
