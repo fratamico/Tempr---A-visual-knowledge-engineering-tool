@@ -4,6 +4,8 @@ function create_graph(action_item, merged_action_list) {
     width = 890 - margin.left - margin.right,
     height = 300 - margin.top - margin.bottom;
 
+var NUM_SPLITS = 10;
+
 var chart = d3_horizon()
     .width(width)
     .height(height)
@@ -31,17 +33,17 @@ d3.json("processing/json_files/ALL_ACTIONS_FREQUENCY.json", function(error, orig
   };
 
   if (merged_action_list.length !== 0) {
-    for (var i = 1; i <= 20; i++) {
+    for (var i = 1; i <= NUM_SPLITS; i++) {
       data.timeslice.push(i);
       data.freq_difference.push(0);
     };
     for (var ind=0; ind < merged_action_list.length; ind++){
-      for (var i = 1; i <= 20; i++) {
+      for (var i = 1; i <= NUM_SPLITS; i++) {
         data.freq_difference[i-1] += parseFloat(orig_data[merged_action_list[ind]][i - 1]);
       };
     };
   } else {
-    for (var i = 1; i <= 20; i++) {
+    for (var i = 1; i <= NUM_SPLITS; i++) {
       data.timeslice.push(i);
       data.freq_difference.push(parseFloat(orig_data[action_item][i - 1]));
     };
