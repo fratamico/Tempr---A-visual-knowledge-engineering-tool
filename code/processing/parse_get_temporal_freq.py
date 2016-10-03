@@ -1,6 +1,7 @@
 from collections import Counter
 from decimal import Decimal
 import json
+import numpy as np
 
 NUM_SPLITS = 10
 THREEPLACES = Decimal(10) ** -2
@@ -103,21 +104,32 @@ avg_freq["Low"] = {}
 num_high_users = len(f_dict["High"].keys())
 num_low_users = len(f_dict["Low"].keys())
 
+#get list of frequencies for each user
+users_action_dict = {}
+users_action_dict["High"] = {}
+users_action_dict["Low"] = {}
+
 for i in range(NUM_SPLITS):
     avg_freq["High"][i] = {}
+    users_action_dict["High"][i] = {}
     for aca in all_types:
+        users_action_dict["High"][i][aca] = []
         total = 0
         for user in d["High"]:
             total += f_dict["High"][user][i][aca]
+            users_action_dict["High"][i][aca].append(f_dict["High"][user][i][aca])
         avg_freq["High"][i][aca] = total/float(num_high_users)
 
 
 for i in range(NUM_SPLITS):
     avg_freq["Low"][i] = {}
+    users_action_dict["Low"][i] = {}
     for aca in all_types:
+        users_action_dict["Low"][i][aca] = []
         total = 0
         for user in d["Low"]:
             total += f_dict["Low"][user][i][aca]
+            users_action_dict["Low"][i][aca].append(f_dict["Low"][user][i][aca])
         avg_freq["Low"][i][aca] = total/float(num_low_users)
 
 
@@ -139,6 +151,31 @@ for aca in all_types:
 # This is read back into javascript when merging actions
 with open('json_files/ALL_ACTIONS_FREQUENCY.json', 'w') as fp:
     json.dump(final_dict, fp)
+
+
+#save the median, 25%, and 75% values
+final_percentile_dict = {}
+
+for aca in all_types:
+    final_percentile_dict[aca] = {}
+    for t in ["low_25", "low_med", "low_75", "high_25", "high_med", "high_75"]:
+        final_percentile_dict[aca][t] = {}
+    for i in range(NUM_SPLITS):
+        final_percentile_dict[aca]["low_25"][i] = np.percentile(users_action_dict["Low"][i][aca], 25)
+        final_percentile_dict[aca]["low_med"][i] = np.percentile(users_action_dict["Low"][i][aca], 50)
+        final_percentile_dict[aca]["low_75"][i] = np.percentile(users_action_dict["Low"][i][aca], 75)
+        
+        final_percentile_dict[aca]["high_25"][i] = np.percentile(users_action_dict["High"][i][aca], 25)
+        final_percentile_dict[aca]["high_med"][i] = np.percentile(users_action_dict["High"][i][aca], 50)
+        final_percentile_dict[aca]["high_75"][i] = np.percentile(users_action_dict["High"][i][aca], 75)
+
+# Save frequencies to json file
+# This is read back into javascript when merging actions
+with open('json_files/ALL_ACTIONS_PERCENTILES.json', 'w') as fp:
+    json.dump(final_percentile_dict, fp)
+
+with open('json_files/ALL_ACTIONS.json', 'w') as fp:
+    json.dump(users_action_dict, fp)
 
 
 """
