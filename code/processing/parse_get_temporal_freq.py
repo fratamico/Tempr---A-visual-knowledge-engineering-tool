@@ -3,7 +3,7 @@ from decimal import Decimal
 import json
 import numpy as np
 
-NUM_SPLITS = 10
+NUM_SPLITS = 5
 THREEPLACES = Decimal(10) ** -2
 
 

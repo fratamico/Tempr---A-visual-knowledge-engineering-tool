@@ -11,110 +11,40 @@ var margin = {top: 10, right: 50, bottom: 50, left: 40},
     width = 830 - margin.left - margin.right,
     height = 300 - margin.top - margin.bottom;
 
-NUM_SPLITS = 10;
+
 d3.json("processing/json_files/ALL_ACTIONS.json", function(error, orig_data) {
   var data = {
     "timeslice": [],
     "freq_difference": []
   };
 
-  var high_25 = [
-	  {x: 0, y: 0},
-	  {x: 10, y: 0},
-	  {x: 20, y: 0},
-	  {x: 30, y: 0},
-	  {x: 40, y: 0},
-	  {x: 50, y: 0},
-	  {x: 60, y: 0},
-	  {x: 70, y: 0},
-	  {x: 80, y: 0},
-	  {x: 90, y: 0},
-	  {x: 100, y: 0} //last one is a duplicate of the one before so the step graph looks correct
-	];
+  var NUM_SPLITS = 5;
 
-  var high_50 = [
-	  {x: 0, y: 0},
-	  {x: 10, y: 0},
-	  {x: 20, y: 0},
-	  {x: 30, y: 0},
-	  {x: 40, y: 0},
-	  {x: 50, y: 0},
-	  {x: 60, y: 0},
-	  {x: 70, y: 0},
-	  {x: 80, y: 0},
-	  {x: 90, y: 0},
-	  {x: 100, y: 0} //last one is a duplicate of the one before so the step graph looks correct
-	];
-
-  var high_75 = [
-	  {x: 0, y: 0},
-	  {x: 10, y: 0},
-	  {x: 20, y: 0},
-	  {x: 30, y: 0},
-	  {x: 40, y: 0},
-	  {x: 50, y: 0},
-	  {x: 60, y: 0},
-	  {x: 70, y: 0},
-	  {x: 80, y: 0},
-	  {x: 90, y: 0},
-	  {x: 100, y: 0} //last one is a duplicate of the one before so the step graph looks correct
-	];
-
-	var low_25 = [
-	  {x: 0, y: 0},
-	  {x: 10, y: 0},
-	  {x: 20, y: 0},
-	  {x: 30, y: 0},
-	  {x: 40, y: 0},
-	  {x: 50, y: 0},
-	  {x: 60, y: 0},
-	  {x: 70, y: 0},
-	  {x: 80, y: 0},
-	  {x: 90, y: 0},
-	  {x: 100, y: 0} //last one is a duplicate of the one before so the step graph looks correct
-	];
-
-  var low_50 = [
-	  {x: 0, y: 0},
-	  {x: 10, y: 0},
-	  {x: 20, y: 0},
-	  {x: 30, y: 0},
-	  {x: 40, y: 0},
-	  {x: 50, y: 0},
-	  {x: 60, y: 0},
-	  {x: 70, y: 0},
-	  {x: 80, y: 0},
-	  {x: 90, y: 0},
-	  {x: 100, y: 0} //last one is a duplicate of the one before so the step graph looks correct
-	];
-
-  var low_75 = [
-	  {x: 0, y: 0},
-	  {x: 10, y: 0},
-	  {x: 20, y: 0},
-	  {x: 30, y: 0},
-	  {x: 40, y: 0},
-	  {x: 50, y: 0},
-	  {x: 60, y: 0},
-	  {x: 70, y: 0},
-	  {x: 80, y: 0},
-	  {x: 90, y: 0},
-	  {x: 100, y: 0} //last one is a duplicate of the one before so the step graph looks correct
-	];
+  var high_25 = [];
+  var high_50 = [];
+  var high_75 = [];
+  var low_25 = [];
+  var low_50 = [];
+  var low_75 = [];
+  for (i=0; i<=100; i+=100/NUM_SPLITS) {
+  	high_25.push({x: i, y: 0});
+  	high_50.push({x: i, y: 0});
+  	high_75.push({x: i, y: 0});
+  	low_25.push({x: i, y: 0});
+  	low_50.push({x: i, y: 0});
+  	low_75.push({x: i, y: 0});
+  }
 
   if (merged_action_list.length !== 0) {
-  	for (var i = 0; i <= 9; i++) {
+  	for (var i = 0; i < NUM_SPLITS; i++) {
 	  	var merged_freq_list_high = [];
 	  	var merged_freq_list_low = [];
 	    for (var j = 0; j < 32; j++) {
 	      merged_freq_list_high.push(0);
 	      merged_freq_list_low.push(0);
 	    }
-	    //console.log(merged_freq_list_high);
+	    
 	    for (var ind=0; ind < merged_action_list.length; ind++){
-	    	//console.log(merged_action_list[ind]);
-	    	//console.log(orig_data["High"][ind.toString()])
-	    	//console.log(merged_freq_list_high);
 	    	merged_freq_list_high = addArrays(merged_freq_list_high, orig_data["High"][i.toString()][merged_action_list[ind]]);
 	    	merged_freq_list_low = addArrays(merged_freq_list_low, orig_data["Low"][i.toString()][merged_action_list[ind]]);
 	    }
@@ -126,22 +56,14 @@ d3.json("processing/json_files/ALL_ACTIONS.json", function(error, orig_data) {
         low_50[i].y = math.quantileSeq(merged_freq_list_low, 0.5);
         low_75[i].y = math.quantileSeq(merged_freq_list_low, 0.75);
 	}
-
-    //  for (var i = 1; i <= NUM_SPLITS; i++) {
-        //data.freq_difference[i-1] += parseFloat(orig_data[merged_action_list[ind]][i - 1]);
-    //  };
-    //};
   } else {
-    for (var i = 0; i <= 9; i++) {
-    	//for user in orig_data["High"][i.toString()]
+    for (var i = 0; i < NUM_SPLITS; i++) {
       high_25[i].y = math.quantileSeq(orig_data["High"][i.toString()][action_item], 0.25);
       high_50[i].y = math.quantileSeq(orig_data["High"][i.toString()][action_item], 0.5);
       high_75[i].y = math.quantileSeq(orig_data["High"][i.toString()][action_item], 0.75);
       low_25[i].y = math.quantileSeq(orig_data["Low"][i.toString()][action_item], 0.25);
       low_50[i].y = math.quantileSeq(orig_data["Low"][i.toString()][action_item], 0.5);
       low_75[i].y = math.quantileSeq(orig_data["Low"][i.toString()][action_item], 0.75);
-      //data.timeslice.push(i);
-      //data.freq_difference.push(parseFloat(orig_data[action_item][i - 1]));
     };
   }
 
@@ -209,7 +131,7 @@ d3.json("processing/json_files/ALL_ACTIONS.json", function(error, orig_data) {
 	  svg.append('path')
 	      .datum(d3.range(high_25.length))
 	      .style("fill", "#35978f")
-	      .style("fill-opacity", .5)
+	      .style("fill-opacity", .3)
 	      .attr('class', 'area')
 	      .attr('d', area_high);
 
@@ -222,7 +144,7 @@ d3.json("processing/json_files/ALL_ACTIONS.json", function(error, orig_data) {
 	    svg.append('path')
 	      .datum(d3.range(low_25.length))
 	      .style("fill", "#bf812d")
-	      .style("fill-opacity", .5)
+	      .style("fill-opacity", .3)
 	      .attr('class', 'area')
 	      .attr('d', area_low);
 
