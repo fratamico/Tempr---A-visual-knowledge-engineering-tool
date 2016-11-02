@@ -1,0 +1,1287 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Analyzing PhET Sim Log Data</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/dataTables.bootstrap.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="dashboard.css" rel="stylesheet">
+
+    <script src="js/ie-emulation-modes-warning.js"></script>
+    <script src="js/mergeData.js"></script>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="http://d3js.org/d3.v4.min.js"></script>
+    <script src="js/horizon.js"></script>
+    <script src="js/create_graph.js"></script>
+    <script src="js/create_quartile_graph.js"></script>
+    <script src="js/math.js"></script>
+
+    <style> 
+    .container { border:2px solid #ccc; width:500px; height: 700px; overflow-y: scroll; position: relative; padding-top: 15px; padding-bottom: 15px; float:left;} 
+
+    .container2 { border:2px solid #ccc; width:841px; height: 700px; overflow-y: scroll; position: relative; left: 20px; padding-top: 5px; padding-bottom: 5px; padding-left: 5px} 
+    .container3 { border:2px solid #ccc; width:1000; height: 750px; overflow-y: scroll; position: relative; padding-top: 15px; padding-bottom: 15px;} 
+
+    #showhorizonplot {width: 820px;}
+
+    #merge {
+    position:relative;
+    float:left
+    }
+
+    #visualize {
+        position:relative;
+        float:right;
+    }
+
+    .buttons {
+      height: 30px;
+    }
+
+    #collapse_list {
+      padding-left: 20px;
+    }
+
+    #content
+    {
+        height:auto;
+        width:250px;
+        margin:0px auto;
+    }
+
+    /* disable text selection */
+      svg *::selection {
+         background : transparent;
+      }
+     
+      svg *::-moz-selection {
+         background:transparent;
+      } 
+     
+      svg *::-webkit-selection {
+         background:transparent;
+      }
+      rect.selection {
+        stroke          : #333;
+        stroke-dasharray: 4px;
+        stroke-opacity  : 0.5;
+        fill            : transparent;
+      }
+
+      rect.cell-border {
+        stroke: #eee;
+        stroke-width:0.3px;   
+      }
+
+      rect.cell-selected {
+        stroke: rgb(51,102,153);
+        stroke-width:0.5px;   
+      }
+
+      rect.cell-hover {
+        stroke: #F00;
+        stroke-width:0.3px;   
+      }
+
+      text.mono {
+        font-size: 9pt;
+        font-family: Consolas, courier;
+        fill: #aaa;
+      }
+
+      text.text-selected {
+        fill: #000;
+      }
+
+      text.text-highlight {
+        fill: #c00;
+      }
+      text.text-hover {
+        fill: #00C;
+      }
+      #tooltip {
+        position: absolute;
+        width: 400px;
+        height: auto;
+        padding: 10px;
+        background-color: white;
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        border-radius: 10px;
+        -webkit-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+        -moz-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+        box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+        pointer-events: none;
+      }
+
+      #tooltip.hidden {
+        display: none;
+      }
+
+      #tooltip p {
+        margin: 0;
+        font-family: sans-serif;
+        font-size: 12px;
+        line-height: 20px;
+      }
+
+      /* for horizon plots */
+      .stacked_charts {
+        position: relative;
+      }
+
+
+      /*.axis path,
+      .axis line {
+          fill: none;
+          stroke: black;
+          shape-rendering: crispEdges;
+      }*/
+
+      .axis text {
+          font-family: sans-serif;
+          font-size: 11px;
+      }
+
+      .axis path,
+      .axis line{
+          fill: none;
+          stroke: black;
+      }
+
+  .line{
+    fill: none;
+  }
+
+      .tick line{
+          opacity: 0.2;
+      }
+
+    </style>
+
+
+    <script type="text/javascript" src="js/listCollapse.js"></script>
+    <script language="JavaScript" type="text/javascript" src="js/jquery-3.1.0.min.js"></script>
+    <script type="text/javascript">
+    window.onload = function () {
+      //collapse the menu in raw/merged list
+      compactMenu('collapse_list',false,'&plusmn; ');
+
+    }
+    </script>
+
+
+
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Analyzing PhET Sim Log Data</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#temporal-heatmap">Temporal Heatmap Visualizations</a></li>
+            <li><a href="#temporal-horizon">Temporal Horizon Chart Visualizations</a></li>
+          </ul>
+
+        </div>
+      </div>
+    </nav>
+
+
+        <div class="main">
+
+          <!-- <a name="temporal-heatmap"> -->
+          <h2 class="sub-header">Temporal Log Event Freqencies - Overview</h2>
+
+          <div class="container3">
+            <div id="tooltip" class="hidden">
+              <p><span id="value"></p>
+            </div>
+            <script src="http://d3js.org/d3.v3.min.js"></script>
+
+            <div id="chart" style='overflow:auto; width:2000px; height:700px;'></div>
+          </div>
+
+          <!-- <a name="temporal-horizon"> -->
+          <h2 class="sub-header">Temporal Log Event Freqencies - Up Close</h2>
+          <div class="buttons">
+              <div id="merge">
+                <input type="text" size="25" style="height:25px;" id="merge_name" placeholder="Type Merged Name Here"/>
+                <button type="button" id="merge_button">Merge Events</button>
+              </div>
+              <div id="visualize">
+                <button type="button" onclick="showHorizon()">Visualize</button>
+              </div>
+            </div>
+          <div class="container">
+            <input type="text" size="30" style="height:25px;" id="filter_raw_list" placeholder="Type Here to Filter Raw List"/>
+            
+            <ul id="collapse_list">
+              <li>Raw Log Events
+                <ul class="filterable_list">
+                  <li><input type="checkbox" name="aca" value="forum.created_comment"> forum.created_comment</li>
+                  <li><input type="checkbox" name="aca" value="forum.created_response"> forum.created_response</li>
+                  <li><input type="checkbox" name="aca" value="forum.created_thread"> forum.created_thread</li>
+                  <li><input type="checkbox" name="aca" value="forum.problem_check"> forum.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="forum.read"> forum.read</li>
+                  <li><input type="checkbox" name="aca" value="forum.read_inline"> forum.read_inline</li>
+                  <li><input type="checkbox" name="aca" value="forum.showanswer"> forum.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem1.module0.problem_check"> graded_problem1.module0.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem1.module0.showanswer"> graded_problem1.module0.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem1.module1.problem_check"> graded_problem1.module1.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem1.module1.showanswer"> graded_problem1.module1.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem1.module2.problem_check"> graded_problem1.module2.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem1.module2.showanswer"> graded_problem1.module2.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem1.module3.problem_check"> graded_problem1.module3.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem1.module3.showanswer"> graded_problem1.module3.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem1.module4.problem_check"> graded_problem1.module4.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem1.module4.showanswer"> graded_problem1.module4.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem1.module5.problem_check"> graded_problem1.module5.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem1.module5.showanswer"> graded_problem1.module5.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem1.module6.problem_check"> graded_problem1.module6.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem1.module6.showanswer"> graded_problem1.module6.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem1.module7.problem_check"> graded_problem1.module7.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem1.module7.showanswer"> graded_problem1.module7.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem1.module8.problem_check"> graded_problem1.module8.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem1.module8.showanswer"> graded_problem1.module8.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem10.module2.problem_check"> </li>graded_problem10.module2.problem_check
+                  <li><input type="checkbox" name="aca" value="graded_problem10.module2.showanswer"> graded_problem10.module2.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem10.module3.problem_check"> </li>graded_problem10.module3.problem_check
+                  <li><input type="checkbox" name="aca" value="graded_problem10.module3.showanswer"> graded_problem10.module3.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem10.module4.problem_check"> </li>graded_problem10.module4.problem_check
+                  <li><input type="checkbox" name="aca" value="graded_problem10.module4.showanswer"> graded_problem10.module4.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem10.module5.problem_check"> </li>graded_problem10.module5.problem_check
+                  <li><input type="checkbox" name="aca" value="graded_problem10.module5.showanswer"> graded_problem10.module5.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem10.module6.problem_check"> </li>graded_problem10.module6.problem_check
+                  <li><input type="checkbox" name="aca" value="graded_problem10.module6.showanswer"> graded_problem10.module6.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem10.module7.problem_check"> </li>graded_problem10.module7.problem_check
+                  <li><input type="checkbox" name="aca" value="graded_problem10.module7.showanswer"> graded_problem10.module7.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem11.module2.problem_check"> </li>graded_problem11.module2.problem_check
+                  <li><input type="checkbox" name="aca" value="graded_problem11.module2.showanswer"> graded_problem11.module2.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem11.module5.problem_check"> </li>graded_problem11.module5.problem_check
+                  <li><input type="checkbox" name="aca" value="graded_problem11.module5.showanswer"> graded_problem11.module5.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem11.module7.problem_check"> </li>graded_problem11.module7.problem_check
+                  <li><input type="checkbox" name="aca" value="graded_problem11.module7.showanswer"> graded_problem11.module7.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem12.module2.problem_check"> </li>graded_problem12.module2.problem_check
+                  <li><input type="checkbox" name="aca" value="graded_problem12.module2.showanswer"> graded_problem12.module2.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem12.module7.problem_check"> </li>graded_problem12.module7.problem_check
+                  <li><input type="checkbox" name="aca" value="graded_problem12.module7.showanswer"> graded_problem12.module7.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem13.module7.problem_check"> </li>graded_problem13.module7.problem_check
+                  <li><input type="checkbox" name="aca" value="graded_problem13.module7.showanswer"> graded_problem13.module7.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem14.module7.problem_check"> </li>graded_problem14.module7.problem_check
+                  <li><input type="checkbox" name="aca" value="graded_problem14.module7.showanswer"> graded_problem14.module7.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem15.module7.problem_check"> </li>graded_problem15.module7.problem_check
+                  <li><input type="checkbox" name="aca" value="graded_problem15.module7.showanswer"> graded_problem15.module7.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem16.module7.problem_check"> </li>graded_problem16.module7.problem_check
+                  <li><input type="checkbox" name="aca" value="graded_problem16.module7.showanswer"> graded_problem16.module7.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem17.module7.problem_check"> </li>graded_problem17.module7.problem_check
+                  <li><input type="checkbox" name="aca" value="graded_problem17.module7.showanswer"> graded_problem17.module7.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem18.module7.problem_check"> </li>graded_problem18.module7.problem_check
+                  <li><input type="checkbox" name="aca" value="graded_problem18.module7.showanswer"> graded_problem18.module7.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem19.module7.problem_check"> </li>graded_problem19.module7.problem_check
+                  <li><input type="checkbox" name="aca" value="graded_problem19.module7.showanswer"> graded_problem19.module7.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem2.module0.problem_check"> graded_problem2.module0.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem2.module0.showanswer"> graded_problem2.module0.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem2.module1.problem_check"> graded_problem2.module1.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem2.module1.showanswer"> graded_problem2.module1.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem2.module2.problem_check"> graded_problem2.module2.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem2.module2.showanswer"> graded_problem2.module2.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem2.module3.problem_check"> graded_problem2.module3.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem2.module3.showanswer"> graded_problem2.module3.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem2.module4.problem_check"> graded_problem2.module4.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem2.module4.showanswer"> graded_problem2.module4.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem2.module5.problem_check"> graded_problem2.module5.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem2.module5.showanswer"> graded_problem2.module5.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem2.module6.problem_check"> graded_problem2.module6.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem2.module6.showanswer"> graded_problem2.module6.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem2.module7.problem_check"> graded_problem2.module7.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem2.module7.showanswer"> graded_problem2.module7.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem2.module8.problem_check"> graded_problem2.module8.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem2.module8.showanswer"> graded_problem2.module8.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem20.module7.problem_check"> </li>graded_problem20.module7.problem_check
+                  <li><input type="checkbox" name="aca" value="graded_problem20.module7.showanswer"> graded_problem20.module7.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem3.module1.problem_check"> graded_problem3.module1.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem3.module1.showanswer"> graded_problem3.module1.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem3.module2.problem_check"> graded_problem3.module2.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem3.module2.showanswer"> graded_problem3.module2.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem3.module3.problem_check"> graded_problem3.module3.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem3.module3.showanswer"> graded_problem3.module3.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem3.module4.problem_check"> graded_problem3.module4.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem3.module4.showanswer"> graded_problem3.module4.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem3.module5.problem_check"> graded_problem3.module5.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem3.module5.showanswer"> graded_problem3.module5.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem3.module6.problem_check"> graded_problem3.module6.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem3.module6.showanswer"> graded_problem3.module6.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem3.module7.problem_check"> graded_problem3.module7.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem3.module7.showanswer"> graded_problem3.module7.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem4.module1.problem_check"> graded_problem4.module1.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem4.module1.showanswer"> graded_problem4.module1.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem4.module2.problem_check"> graded_problem4.module2.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem4.module2.showanswer"> graded_problem4.module2.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem4.module3.problem_check"> graded_problem4.module3.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem4.module3.showanswer"> graded_problem4.module3.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem4.module4.problem_check"> graded_problem4.module4.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem4.module4.showanswer"> graded_problem4.module4.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem4.module5.problem_check"> graded_problem4.module5.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem4.module5.showanswer"> graded_problem4.module5.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem4.module6.problem_check"> graded_problem4.module6.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem4.module6.showanswer"> graded_problem4.module6.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem4.module7.problem_check"> graded_problem4.module7.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem4.module7.showanswer"> graded_problem4.module7.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem5.module1.problem_check"> graded_problem5.module1.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem5.module1.showanswer"> graded_problem5.module1.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem5.module2.problem_check"> graded_problem5.module2.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem5.module2.showanswer"> graded_problem5.module2.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem5.module3.problem_check"> graded_problem5.module3.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem5.module3.showanswer"> graded_problem5.module3.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem5.module4.problem_check"> graded_problem5.module4.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem5.module4.showanswer"> graded_problem5.module4.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem5.module5.problem_check"> graded_problem5.module5.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem5.module5.showanswer"> graded_problem5.module5.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem5.module6.problem_check"> graded_problem5.module6.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem5.module6.showanswer"> graded_problem5.module6.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem5.module7.problem_check"> graded_problem5.module7.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem5.module7.showanswer"> graded_problem5.module7.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem6.module1.problem_check"> graded_problem6.module1.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem6.module1.showanswer"> graded_problem6.module1.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem6.module2.problem_check"> graded_problem6.module2.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem6.module2.showanswer"> graded_problem6.module2.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem6.module3.problem_check"> graded_problem6.module3.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem6.module3.showanswer"> graded_problem6.module3.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem6.module4.problem_check"> graded_problem6.module4.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem6.module4.showanswer"> graded_problem6.module4.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem6.module5.problem_check"> graded_problem6.module5.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem6.module5.showanswer"> graded_problem6.module5.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem6.module6.problem_check"> graded_problem6.module6.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem6.module6.showanswer"> graded_problem6.module6.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem6.module7.problem_check"> graded_problem6.module7.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem6.module7.showanswer"> graded_problem6.module7.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem7.module1.problem_check"> graded_problem7.module1.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem7.module1.showanswer"> graded_problem7.module1.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem7.module2.problem_check"> graded_problem7.module2.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem7.module2.showanswer"> graded_problem7.module2.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem7.module3.problem_check"> graded_problem7.module3.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem7.module3.showanswer"> graded_problem7.module3.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem7.module4.problem_check"> graded_problem7.module4.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem7.module4.showanswer"> graded_problem7.module4.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem7.module5.problem_check"> graded_problem7.module5.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem7.module5.showanswer"> graded_problem7.module5.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem7.module6.problem_check"> graded_problem7.module6.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem7.module6.showanswer"> graded_problem7.module6.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem7.module7.problem_check"> graded_problem7.module7.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem7.module7.showanswer"> graded_problem7.module7.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem8.module1.problem_check"> graded_problem8.module1.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem8.module1.showanswer"> graded_problem8.module1.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem8.module2.problem_check"> graded_problem8.module2.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem8.module2.showanswer"> graded_problem8.module2.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem8.module3.problem_check"> graded_problem8.module3.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem8.module3.showanswer"> graded_problem8.module3.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem8.module4.problem_check"> graded_problem8.module4.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem8.module4.showanswer"> graded_problem8.module4.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem8.module5.problem_check"> graded_problem8.module5.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem8.module5.showanswer"> graded_problem8.module5.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem8.module6.problem_check"> graded_problem8.module6.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem8.module6.showanswer"> graded_problem8.module6.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem8.module7.problem_check"> graded_problem8.module7.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem8.module7.showanswer"> graded_problem8.module7.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem9.module1.problem_check"> graded_problem9.module1.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem9.module1.showanswer"> graded_problem9.module1.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem9.module2.problem_check"> graded_problem9.module2.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem9.module2.showanswer"> graded_problem9.module2.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem9.module3.problem_check"> graded_problem9.module3.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem9.module3.showanswer"> graded_problem9.module3.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem9.module4.problem_check"> graded_problem9.module4.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem9.module4.showanswer"> graded_problem9.module4.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem9.module5.problem_check"> graded_problem9.module5.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem9.module5.showanswer"> graded_problem9.module5.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem9.module6.problem_check"> graded_problem9.module6.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem9.module6.showanswer"> graded_problem9.module6.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem9.module7.problem_check"> graded_problem9.module7.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="graded_problem9.module7.showanswer"> graded_problem9.module7.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="self_test1.module1.problem_check"> self_test1.module1.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="self_test1.module1.showanswer"> self_test1.module1.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="self_test1.module2.problem_check"> self_test1.module2.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="self_test1.module2.showanswer"> self_test1.module2.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="self_test1.module3.problem_check"> self_test1.module3.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="self_test1.module3.showanswer"> self_test1.module3.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="self_test1.module4.problem_check"> self_test1.module4.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="self_test1.module4.showanswer"> self_test1.module4.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="self_test1.module5.problem_check"> self_test1.module5.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="self_test1.module5.showanswer"> self_test1.module5.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="self_test1.module6.problem_check"> self_test1.module6.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="self_test1.module6.showanswer"> self_test1.module6.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="self_test10.module2.problem_check"> self_test10.module2.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="self_test10.module2.showanswer"> self_test10.module2.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="self_test10.module3.problem_check"> self_test10.module3.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="self_test10.module3.showanswer"> self_test10.module3.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="self_test11.module2.problem_check"> self_test11.module2.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="self_test11.module2.showanswer"> self_test11.module2.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="self_test11.module3.problem_check"> self_test11.module3.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="self_test11.module3.showanswer"> self_test11.module3.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="self_test12.module2.problem_check"> self_test12.module2.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="self_test12.module2.showanswer"> self_test12.module2.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="self_test12.module3.problem_check"> self_test12.module3.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="self_test12.module3.showanswer"> self_test12.module3.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="self_test13.module2.problem_check"> self_test13.module2.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="self_test13.module2.showanswer"> self_test13.module2.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="self_test13.module3.problem_check"> self_test13.module3.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="self_test13.module3.showanswer"> self_test13.module3.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="self_test14.module2.problem_check"> self_test14.module2.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="self_test14.module2.showanswer"> self_test14.module2.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="self_test14.module3.problem_check"> self_test14.module3.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="self_test14.module3.showanswer"> self_test14.module3.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="self_test15.module2.problem_check"> self_test15.module2.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="self_test15.module2.showanswer"> self_test15.module2.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="self_test15.module3.problem_check"> self_test15.module3.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="self_test15.module3.showanswer"> self_test15.module3.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="self_test16.module2.problem_check"> self_test16.module2.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="self_test16.module2.showanswer"> self_test16.module2.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="self_test16.module3.problem_check"> self_test16.module3.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="self_test16.module3.showanswer"> self_test16.module3.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="self_test17.module2.problem_check"> self_test17.module2.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="self_test17.module2.showanswer"> self_test17.module2.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="self_test17.module3.problem_check"> self_test17.module3.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="self_test17.module3.showanswer"> self_test17.module3.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="self_test18.module2.problem_check"> self_test18.module2.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="self_test18.module2.showanswer"> self_test18.module2.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="self_test18.module3.problem_check"> self_test18.module3.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="self_test18.module3.showanswer"> self_test18.module3.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="self_test19.module2.problem_check"> self_test19.module2.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="self_test19.module2.showanswer"> self_test19.module2.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="self_test19.module3.problem_check"> self_test19.module3.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="self_test19.module3.showanswer"> self_test19.module3.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="self_test2.module2.problem_check"> self_test2.module2.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="self_test2.module2.showanswer"> self_test2.module2.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="self_test2.module3.problem_check"> self_test2.module3.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="self_test2.module3.showanswer"> self_test2.module3.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="self_test2.module4.problem_check"> self_test2.module4.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="self_test2.module4.showanswer"> self_test2.module4.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="self_test2.module6.problem_check"> self_test2.module6.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="self_test2.module6.showanswer"> self_test2.module6.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="self_test20.module2.problem_check"> self_test20.module2.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="self_test20.module2.showanswer"> self_test20.module2.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="self_test20.module3.problem_check"> self_test20.module3.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="self_test20.module3.showanswer"> self_test20.module3.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="self_test21.module2.problem_check"> self_test21.module2.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="self_test21.module2.showanswer"> self_test21.module2.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="self_test21.module3.problem_check"> self_test21.module3.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="self_test21.module3.showanswer"> self_test21.module3.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="self_test22.module2.problem_check"> self_test22.module2.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="self_test22.module2.showanswer"> self_test22.module2.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="self_test23.module2.problem_check"> self_test23.module2.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="self_test23.module2.showanswer"> self_test23.module2.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="self_test24.module2.problem_check"> self_test24.module2.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="self_test24.module2.showanswer"> self_test24.module2.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="self_test25.module2.problem_check"> self_test25.module2.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="self_test25.module2.showanswer"> self_test25.module2.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="self_test26.module2.problem_check"> self_test26.module2.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="self_test26.module2.showanswer"> self_test26.module2.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="self_test27.module2.problem_check"> self_test27.module2.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="self_test27.module2.showanswer"> self_test27.module2.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="self_test28.module2.problem_check"> self_test28.module2.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="self_test28.module2.showanswer"> self_test28.module2.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="self_test29.module2.problem_check"> self_test29.module2.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="self_test29.module2.showanswer"> self_test29.module2.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="self_test3.module2.problem_check"> self_test3.module2.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="self_test3.module2.showanswer"> self_test3.module2.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="self_test3.module3.problem_check"> self_test3.module3.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="self_test3.module3.showanswer"> self_test3.module3.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="self_test3.module4.problem_check"> self_test3.module4.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="self_test3.module4.showanswer"> self_test3.module4.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="self_test30.module2.problem_check"> self_test30.module2.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="self_test30.module2.showanswer"> self_test30.module2.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="self_test4.module2.problem_check"> self_test4.module2.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="self_test4.module2.showanswer"> self_test4.module2.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="self_test4.module3.problem_check"> self_test4.module3.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="self_test4.module3.showanswer"> self_test4.module3.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="self_test4.module4.problem_check"> self_test4.module4.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="self_test4.module4.showanswer"> self_test4.module4.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="self_test5.module2.problem_check"> self_test5.module2.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="self_test5.module2.showanswer"> self_test5.module2.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="self_test5.module3.problem_check"> self_test5.module3.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="self_test5.module3.showanswer"> self_test5.module3.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="self_test6.module2.problem_check"> self_test6.module2.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="self_test6.module2.showanswer"> self_test6.module2.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="self_test6.module3.problem_check"> self_test6.module3.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="self_test6.module3.showanswer"> self_test6.module3.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="self_test7.module2.problem_check"> self_test7.module2.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="self_test7.module2.showanswer"> self_test7.module2.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="self_test7.module3.problem_check"> self_test7.module3.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="self_test7.module3.showanswer"> self_test7.module3.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="self_test8.module2.problem_check"> self_test8.module2.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="self_test8.module2.showanswer"> self_test8.module2.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="self_test8.module3.problem_check"> self_test8.module3.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="self_test8.module3.showanswer"> self_test8.module3.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="self_test9.module2.problem_check"> self_test9.module2.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="self_test9.module2.showanswer"> self_test9.module2.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="self_test9.module3.problem_check"> self_test9.module3.problem_check</li>
+                  <li><input type="checkbox" name="aca" value="self_test9.module3.showanswer"> self_test9.module3.showanswer</li>
+                  <li><input type="checkbox" name="aca" value="video1.module0.pause_video"> video1.module0.pause_video</li>
+                  <li><input type="checkbox" name="aca" value="video1.module0.play_video"> video1.module0.play_video</li>
+                  <li><input type="checkbox" name="aca" value="video1.module0.seek_video"> video1.module0.seek_video</li>
+                  <li><input type="checkbox" name="aca" value="video1.module1.pause_video"> video1.module1.pause_video</li>
+                  <li><input type="checkbox" name="aca" value="video1.module1.play_video"> video1.module1.play_video</li>
+                  <li><input type="checkbox" name="aca" value="video1.module1.seek_video"> video1.module1.seek_video</li>
+                  <li><input type="checkbox" name="aca" value="video1.module2.pause_video"> video1.module2.pause_video</li>
+                  <li><input type="checkbox" name="aca" value="video1.module2.play_video"> video1.module2.play_video</li>
+                  <li><input type="checkbox" name="aca" value="video1.module2.seek_video"> video1.module2.seek_video</li>
+                  <li><input type="checkbox" name="aca" value="video1.module3.pause_video"> video1.module3.pause_video</li>
+                  <li><input type="checkbox" name="aca" value="video1.module3.play_video"> video1.module3.play_video</li>
+                  <li><input type="checkbox" name="aca" value="video1.module3.seek_video"> video1.module3.seek_video</li>
+                  <li><input type="checkbox" name="aca" value="video1.module4.pause_video"> video1.module4.pause_video</li>
+                  <li><input type="checkbox" name="aca" value="video1.module4.play_video"> video1.module4.play_video</li>
+                  <li><input type="checkbox" name="aca" value="video1.module4.seek_video"> video1.module4.seek_video</li>
+                  <li><input type="checkbox" name="aca" value="video1.module5.pause_video"> video1.module5.pause_video</li>
+                  <li><input type="checkbox" name="aca" value="video1.module5.play_video"> video1.module5.play_video</li>
+                  <li><input type="checkbox" name="aca" value="video1.module5.seek_video"> video1.module5.seek_video</li>
+                  <li><input type="checkbox" name="aca" value="video1.module6.pause_video"> video1.module6.pause_video</li>
+                  <li><input type="checkbox" name="aca" value="video1.module6.play_video"> video1.module6.play_video</li>
+                  <li><input type="checkbox" name="aca" value="video1.module6.seek_video"> video1.module6.seek_video</li>
+                  <li><input type="checkbox" name="aca" value="video10.module2.pause_video"> video10.module2.pause_video</li>
+                  <li><input type="checkbox" name="aca" value="video10.module2.play_video"> video10.module2.play_video</li>
+                  <li><input type="checkbox" name="aca" value="video10.module3.pause_video"> video10.module3.pause_video</li>
+                  <li><input type="checkbox" name="aca" value="video10.module3.play_video"> video10.module3.play_video</li>
+                  <li><input type="checkbox" name="aca" value="video10.module3.seek_video"> video10.module3.seek_video</li>
+                  <li><input type="checkbox" name="aca" value="video11.module2.pause_video"> video11.module2.pause_video</li>
+                  <li><input type="checkbox" name="aca" value="video11.module2.play_video"> video11.module2.play_video</li>
+                  <li><input type="checkbox" name="aca" value="video11.module2.seek_video"> video11.module2.seek_video</li>
+                  <li><input type="checkbox" name="aca" value="video11.module3.pause_video"> video11.module3.pause_video</li>
+                  <li><input type="checkbox" name="aca" value="video11.module3.play_video"> video11.module3.play_video</li>
+                  <li><input type="checkbox" name="aca" value="video11.module3.seek_video"> video11.module3.seek_video</li>
+                  <li><input type="checkbox" name="aca" value="video12.module2.pause_video"> video12.module2.pause_video</li>
+                  <li><input type="checkbox" name="aca" value="video12.module2.play_video"> video12.module2.play_video</li>
+                  <li><input type="checkbox" name="aca" value="video12.module2.seek_video"> video12.module2.seek_video</li>
+                  <li><input type="checkbox" name="aca" value="video12.module3.pause_video"> video12.module3.pause_video</li>
+                  <li><input type="checkbox" name="aca" value="video12.module3.play_video"> video12.module3.play_video</li>
+                  <li><input type="checkbox" name="aca" value="video12.module3.seek_video"> video12.module3.seek_video</li>
+                  <li><input type="checkbox" name="aca" value="video13.module2.pause_video"> video13.module2.pause_video</li>
+                  <li><input type="checkbox" name="aca" value="video13.module2.play_video"> video13.module2.play_video</li>
+                  <li><input type="checkbox" name="aca" value="video13.module2.seek_video"> video13.module2.seek_video</li>
+                  <li><input type="checkbox" name="aca" value="video13.module3.pause_video"> video13.module3.pause_video</li>
+                  <li><input type="checkbox" name="aca" value="video13.module3.play_video"> video13.module3.play_video</li>
+                  <li><input type="checkbox" name="aca" value="video13.module3.seek_video"> video13.module3.seek_video</li>
+                  <li><input type="checkbox" name="aca" value="video14.module2.pause_video"> video14.module2.pause_video</li>
+                  <li><input type="checkbox" name="aca" value="video14.module2.play_video"> video14.module2.play_video</li>
+                  <li><input type="checkbox" name="aca" value="video14.module2.seek_video"> video14.module2.seek_video</li>
+                  <li><input type="checkbox" name="aca" value="video14.module3.pause_video"> video14.module3.pause_video</li>
+                  <li><input type="checkbox" name="aca" value="video14.module3.play_video"> video14.module3.play_video</li>
+                  <li><input type="checkbox" name="aca" value="video14.module3.seek_video"> video14.module3.seek_video</li>
+                  <li><input type="checkbox" name="aca" value="video15.module2.pause_video"> video15.module2.pause_video</li>
+                  <li><input type="checkbox" name="aca" value="video15.module2.play_video"> video15.module2.play_video</li>
+                  <li><input type="checkbox" name="aca" value="video15.module2.seek_video"> video15.module2.seek_video</li>
+                  <li><input type="checkbox" name="aca" value="video15.module3.pause_video"> video15.module3.pause_video</li>
+                  <li><input type="checkbox" name="aca" value="video15.module3.play_video"> video15.module3.play_video</li>
+                  <li><input type="checkbox" name="aca" value="video15.module3.seek_video"> video15.module3.seek_video</li>
+                  <li><input type="checkbox" name="aca" value="video16.module2.pause_video"> video16.module2.pause_video</li>
+                  <li><input type="checkbox" name="aca" value="video16.module2.play_video"> video16.module2.play_video</li>
+                  <li><input type="checkbox" name="aca" value="video16.module2.seek_video"> video16.module2.seek_video</li>
+                  <li><input type="checkbox" name="aca" value="video16.module3.pause_video"> video16.module3.pause_video</li>
+                  <li><input type="checkbox" name="aca" value="video16.module3.play_video"> video16.module3.play_video</li>
+                  <li><input type="checkbox" name="aca" value="video16.module3.seek_video"> video16.module3.seek_video</li>
+                  <li><input type="checkbox" name="aca" value="video17.module2.pause_video"> video17.module2.pause_video</li>
+                  <li><input type="checkbox" name="aca" value="video17.module2.play_video"> video17.module2.play_video</li>
+                  <li><input type="checkbox" name="aca" value="video17.module2.seek_video"> video17.module2.seek_video</li>
+                  <li><input type="checkbox" name="aca" value="video18.module2.pause_video"> video18.module2.pause_video</li>
+                  <li><input type="checkbox" name="aca" value="video18.module2.play_video"> video18.module2.play_video</li>
+                  <li><input type="checkbox" name="aca" value="video18.module2.seek_video"> video18.module2.seek_video</li>
+                  <li><input type="checkbox" name="aca" value="video19.module2.pause_video"> video19.module2.pause_video</li>
+                  <li><input type="checkbox" name="aca" value="video19.module2.play_video"> video19.module2.play_video</li>
+                  <li><input type="checkbox" name="aca" value="video19.module2.seek_video"> video19.module2.seek_video</li>
+                  <li><input type="checkbox" name="aca" value="video2.module1.pause_video"> video2.module1.pause_video</li>
+                  <li><input type="checkbox" name="aca" value="video2.module1.play_video"> video2.module1.play_video</li>
+                  <li><input type="checkbox" name="aca" value="video2.module1.seek_video"> video2.module1.seek_video</li>
+                  <li><input type="checkbox" name="aca" value="video2.module2.pause_video"> video2.module2.pause_video</li>
+                  <li><input type="checkbox" name="aca" value="video2.module2.play_video"> video2.module2.play_video</li>
+                  <li><input type="checkbox" name="aca" value="video2.module2.seek_video"> video2.module2.seek_video</li>
+                  <li><input type="checkbox" name="aca" value="video2.module3.pause_video"> video2.module3.pause_video</li>
+                  <li><input type="checkbox" name="aca" value="video2.module3.play_video"> video2.module3.play_video</li>
+                  <li><input type="checkbox" name="aca" value="video2.module3.seek_video"> video2.module3.seek_video</li>
+                  <li><input type="checkbox" name="aca" value="video2.module4.pause_video"> video2.module4.pause_video</li>
+                  <li><input type="checkbox" name="aca" value="video2.module4.play_video"> video2.module4.play_video</li>
+                  <li><input type="checkbox" name="aca" value="video2.module4.seek_video"> video2.module4.seek_video</li>
+                  <li><input type="checkbox" name="aca" value="video2.module5.pause_video"> video2.module5.pause_video</li>
+                  <li><input type="checkbox" name="aca" value="video2.module5.play_video"> video2.module5.play_video</li>
+                  <li><input type="checkbox" name="aca" value="video2.module5.seek_video"> video2.module5.seek_video</li>
+                  <li><input type="checkbox" name="aca" value="video2.module6.pause_video"> video2.module6.pause_video</li>
+                  <li><input type="checkbox" name="aca" value="video2.module6.play_video"> video2.module6.play_video</li>
+                  <li><input type="checkbox" name="aca" value="video2.module6.seek_video"> video2.module6.seek_video</li>
+                  <li><input type="checkbox" name="aca" value="video20.module2.pause_video"> video20.module2.pause_video</li>
+                  <li><input type="checkbox" name="aca" value="video20.module2.play_video"> video20.module2.play_video</li>
+                  <li><input type="checkbox" name="aca" value="video20.module2.seek_video"> video20.module2.seek_video</li>
+                  <li><input type="checkbox" name="aca" value="video3.module1.pause_video"> video3.module1.pause_video</li>
+                  <li><input type="checkbox" name="aca" value="video3.module1.play_video"> video3.module1.play_video</li>
+                  <li><input type="checkbox" name="aca" value="video3.module1.seek_video"> video3.module1.seek_video</li>
+                  <li><input type="checkbox" name="aca" value="video3.module2.pause_video"> video3.module2.pause_video</li>
+                  <li><input type="checkbox" name="aca" value="video3.module2.play_video"> video3.module2.play_video</li>
+                  <li><input type="checkbox" name="aca" value="video3.module2.seek_video"> video3.module2.seek_video</li>
+                  <li><input type="checkbox" name="aca" value="video3.module3.pause_video"> video3.module3.pause_video</li>
+                  <li><input type="checkbox" name="aca" value="video3.module3.play_video"> video3.module3.play_video</li>
+                  <li><input type="checkbox" name="aca" value="video3.module3.seek_video"> video3.module3.seek_video</li>
+                  <li><input type="checkbox" name="aca" value="video3.module4.pause_video"> video3.module4.pause_video</li>
+                  <li><input type="checkbox" name="aca" value="video3.module4.play_video"> video3.module4.play_video</li>
+                  <li><input type="checkbox" name="aca" value="video3.module4.seek_video"> video3.module4.seek_video</li>
+                  <li><input type="checkbox" name="aca" value="video3.module5.pause_video"> video3.module5.pause_video</li>
+                  <li><input type="checkbox" name="aca" value="video3.module5.play_video"> video3.module5.play_video</li>
+                  <li><input type="checkbox" name="aca" value="video3.module5.seek_video"> video3.module5.seek_video</li>
+                  <li><input type="checkbox" name="aca" value="video3.module6.pause_video"> video3.module6.pause_video</li>
+                  <li><input type="checkbox" name="aca" value="video3.module6.play_video"> video3.module6.play_video</li>
+                  <li><input type="checkbox" name="aca" value="video3.module6.seek_video"> video3.module6.seek_video</li>
+                  <li><input type="checkbox" name="aca" value="video4.module2.pause_video"> video4.module2.pause_video</li>
+                  <li><input type="checkbox" name="aca" value="video4.module2.play_video"> video4.module2.play_video</li>
+                  <li><input type="checkbox" name="aca" value="video4.module2.seek_video"> video4.module2.seek_video</li>
+                  <li><input type="checkbox" name="aca" value="video4.module3.pause_video"> video4.module3.pause_video</li>
+                  <li><input type="checkbox" name="aca" value="video4.module3.play_video"> video4.module3.play_video</li>
+                  <li><input type="checkbox" name="aca" value="video4.module3.seek_video"> video4.module3.seek_video</li>
+                  <li><input type="checkbox" name="aca" value="video4.module4.pause_video"> video4.module4.pause_video</li>
+                  <li><input type="checkbox" name="aca" value="video4.module4.play_video"> video4.module4.play_video</li>
+                  <li><input type="checkbox" name="aca" value="video4.module4.seek_video"> video4.module4.seek_video</li>
+                  <li><input type="checkbox" name="aca" value="video4.module5.pause_video"> video4.module5.pause_video</li>
+                  <li><input type="checkbox" name="aca" value="video4.module5.play_video"> video4.module5.play_video</li>
+                  <li><input type="checkbox" name="aca" value="video4.module5.seek_video"> video4.module5.seek_video</li>
+                  <li><input type="checkbox" name="aca" value="video4.module6.pause_video"> video4.module6.pause_video</li>
+                  <li><input type="checkbox" name="aca" value="video4.module6.play_video"> video4.module6.play_video</li>
+                  <li><input type="checkbox" name="aca" value="video4.module6.seek_video"> video4.module6.seek_video</li>
+                  <li><input type="checkbox" name="aca" value="video5.module2.pause_video"> video5.module2.pause_video</li>
+                  <li><input type="checkbox" name="aca" value="video5.module2.play_video"> video5.module2.play_video</li>
+                  <li><input type="checkbox" name="aca" value="video5.module2.seek_video"> video5.module2.seek_video</li>
+                  <li><input type="checkbox" name="aca" value="video5.module3.pause_video"> video5.module3.pause_video</li>
+                  <li><input type="checkbox" name="aca" value="video5.module3.play_video"> video5.module3.play_video</li>
+                  <li><input type="checkbox" name="aca" value="video5.module3.seek_video"> video5.module3.seek_video</li>
+                  <li><input type="checkbox" name="aca" value="video5.module4.pause_video"> video5.module4.pause_video</li>
+                  <li><input type="checkbox" name="aca" value="video5.module4.play_video"> video5.module4.play_video</li>
+                  <li><input type="checkbox" name="aca" value="video5.module4.seek_video"> video5.module4.seek_video</li>
+                  <li><input type="checkbox" name="aca" value="video6.module2.pause_video"> video6.module2.pause_video</li>
+                  <li><input type="checkbox" name="aca" value="video6.module2.play_video"> video6.module2.play_video</li>
+                  <li><input type="checkbox" name="aca" value="video6.module2.seek_video"> video6.module2.seek_video</li>
+                  <li><input type="checkbox" name="aca" value="video6.module3.pause_video"> video6.module3.pause_video</li>
+                  <li><input type="checkbox" name="aca" value="video6.module3.play_video"> video6.module3.play_video</li>
+                  <li><input type="checkbox" name="aca" value="video6.module3.seek_video"> video6.module3.seek_video</li>
+                  <li><input type="checkbox" name="aca" value="video6.module4.pause_video"> video6.module4.pause_video</li>
+                  <li><input type="checkbox" name="aca" value="video6.module4.play_video"> video6.module4.play_video</li>
+                  <li><input type="checkbox" name="aca" value="video6.module4.seek_video"> video6.module4.seek_video</li>
+                  <li><input type="checkbox" name="aca" value="video7.module2.pause_video"> video7.module2.pause_video</li>
+                  <li><input type="checkbox" name="aca" value="video7.module2.play_video"> video7.module2.play_video</li>
+                  <li><input type="checkbox" name="aca" value="video7.module2.seek_video"> video7.module2.seek_video</li>
+                  <li><input type="checkbox" name="aca" value="video7.module3.pause_video"> video7.module3.pause_video</li>
+                  <li><input type="checkbox" name="aca" value="video7.module3.play_video"> video7.module3.play_video</li>
+                  <li><input type="checkbox" name="aca" value="video7.module3.seek_video"> video7.module3.seek_video</li>
+                  <li><input type="checkbox" name="aca" value="video7.module4.pause_video"> video7.module4.pause_video</li>
+                  <li><input type="checkbox" name="aca" value="video7.module4.play_video"> video7.module4.play_video</li>
+                  <li><input type="checkbox" name="aca" value="video7.module4.seek_video"> video7.module4.seek_video</li>
+                  <li><input type="checkbox" name="aca" value="video8.module2.pause_video"> video8.module2.pause_video</li>
+                  <li><input type="checkbox" name="aca" value="video8.module2.play_video"> video8.module2.play_video</li>
+                  <li><input type="checkbox" name="aca" value="video8.module2.seek_video"> video8.module2.seek_video</li>
+                  <li><input type="checkbox" name="aca" value="video8.module3.pause_video"> video8.module3.pause_video</li>
+                  <li><input type="checkbox" name="aca" value="video8.module3.play_video"> video8.module3.play_video</li>
+                  <li><input type="checkbox" name="aca" value="video8.module3.seek_video"> video8.module3.seek_video</li>
+                  <li><input type="checkbox" name="aca" value="video9.module2.pause_video"> video9.module2.pause_video</li>
+                  <li><input type="checkbox" name="aca" value="video9.module2.play_video"> video9.module2.play_video</li>
+                  <li><input type="checkbox" name="aca" value="video9.module2.seek_video"> video9.module2.seek_video</li>
+                  <li><input type="checkbox" name="aca" value="video9.module3.pause_video"> video9.module3.pause_video</li>
+                  <li><input type="checkbox" name="aca" value="video9.module3.play_video"> video9.module3.play_video</li>
+                  <li><input type="checkbox" name="aca" value="video9.module3.seek_video"> video9.module3.seek_video</li>
+                </ul>
+              </li>
+              <li>Merged Events
+                <ul id="merged_list">
+                  <li><input type="checkbox" name="aca" value="All user testing actions"> All user testing actions
+                    <ul class="no_collapse">
+                      <li class="All user testing actions_mergedActionList">user.blackProbe.drag</li>
+                      <li class="All user testing actions_mergedActionList">user.blackProbe.endDrag</li>
+                      <li class="All user testing actions_mergedActionList">user.blackProbe.startDrag</li>
+                      <li class="All user testing actions_mergedActionList">user.nonContactAmmeter.drag</li>
+                      <li class="All user testing actions_mergedActionList">user.nonContactAmmeter.endDrag</li>
+                      <li class="All user testing actions_mergedActionList">user.nonContactAmmeter.startDrag</li>
+                      <li class="All user testing actions_mergedActionList">user.redProbe.drag</li>
+                      <li class="All user testing actions_mergedActionList">user.redProbe.endDrag</li>
+                      <li class="All user testing actions_mergedActionList">user.redProbe.startDrag</li>
+                      <li class="All user testing actions_mergedActionList">user.seriesAmmeter.addedComponent</li>
+                    </ul>
+                  </li>
+<!--                   <li><input type="checkbox" name="aca" value="All Testing"> All Testing
+                    <ul class="no_collapse">
+                      <li class="All Testing_mergedActionList">model.nonContactAmmeterModel.connectionBroken</li>
+                      <li class="All Testing_mergedActionList">model.nonContactAmmeterModel.connectionFormed</li>
+                      <li class="All Testing_mergedActionList">model.nonContactAmmeterModel.measuredCurrentChanged</li>
+                      <li class="All Testing_mergedActionList">model.seriesAmmeter.fireEnded</li>
+                      <li class="All Testing_mergedActionList">model.seriesAmmeter.fireStarted</li>
+                      <li class="All Testing_mergedActionList">model.seriesAmmeter.measuredCurrentChanged</li>
+                      <li class="All Testing_mergedActionList">model.voltmeterBlackLeadModel.connectionBroken</li>
+                      <li class="All Testing_mergedActionList">model.voltmeterBlackLeadModel.connectionFormed</li>
+                      <li class="All Testing_mergedActionList">model.voltmeterModel.measuredVoltageChanged</li>
+                      <li class="All Testing_mergedActionList">model.voltmeterRedLeadModel.connectionBroken</li>
+                      <li class="All Testing_mergedActionList">model.voltmeterRedLeadModel.connectionFormed</li>
+                      <li class="All Testing_mergedActionList">user.blackProbe.drag</li>
+                      <li class="All Testing_mergedActionList">user.blackProbe.endDrag</li>
+                      <li class="All Testing_mergedActionList">user.blackProbe.startDrag</li>
+                      <li class="All Testing_mergedActionList">user.nonContactAmmeter.drag</li>
+                      <li class="All Testing_mergedActionList">user.nonContactAmmeter.endDrag</li>
+                      <li class="All Testing_mergedActionList">user.nonContactAmmeter.startDrag</li>
+                      <li class="All Testing_mergedActionList">user.nonContactAmmeterCheckBox.pressed</li>
+                      <li class="All Testing_mergedActionList">user.redProbe.drag</li>
+                      <li class="All Testing_mergedActionList">user.redProbe.endDrag</li>
+                      <li class="All Testing_mergedActionList">user.redProbe.startDrag</li>
+                      <li class="All Testing_mergedActionList">user.seriesAmmeter.addedComponent</li>
+                      <li class="All Testing_mergedActionList">user.seriesAmmeter.movedComponent</li>
+                      <li class="All Testing_mergedActionList">user.seriesAmmeter.removedComponent</li>
+                      <li class="All Testing_mergedActionList">user.seriesAmmeterCheckBox.pressed</li>
+                      <li class="All Testing_mergedActionList">user.voltmeterCheckBox.pressed</li>
+                    </ul>
+                  </li> -->
+<!--                   <li><input type="checkbox" name="aca" value="Voltmeter Testing"> Voltmeter Testing
+                    <ul class="no_collapse">
+                      <li class="Voltmeter Testing_mergedActionList">model.voltmeterBlackLeadModel.connectionBroken</li>
+                      <li class="Voltmeter Testing_mergedActionList">model.voltmeterBlackLeadModel.connectionFormed</li>
+                      <li class="Voltmeter Testing_mergedActionList">model.voltmeterModel.measuredVoltageChanged</li>
+                      <li class="Voltmeter Testing_mergedActionList">model.voltmeterRedLeadModel.connectionBroken</li>
+                      <li class="Voltmeter Testing_mergedActionList">model.voltmeterRedLeadModel.connectionFormed</li>
+                      <li class="Voltmeter Testing_mergedActionList">user.blackProbe.drag</li>
+                      <li class="Voltmeter Testing_mergedActionList">user.blackProbe.endDrag</li>
+                      <li class="Voltmeter Testing_mergedActionList">user.blackProbe.startDrag</li>
+                      <li class="Voltmeter Testing_mergedActionList">user.redProbe.drag</li>
+                      <li class="Voltmeter Testing_mergedActionList">user.redProbe.endDrag</li>
+                      <li class="Voltmeter Testing_mergedActionList">user.redProbe.startDrag</li>
+                      <li class="Voltmeter Testing_mergedActionList">user.voltmeterCheckBox.pressed</li>
+                    </ul>
+                  </li>  -->
+                  <li><input type="checkbox" name="aca" value="User dragging voltmeter probes"> User dragging voltmeter probes
+                    <ul class="no_collapse">
+                      <li class="User dragging voltmeter probes_mergedActionList">user.blackProbe.drag</li>
+                      <li class="User dragging voltmeter probes_mergedActionList">user.blackProbe.startDrag</li>
+                      <li class="User dragging voltmeter probes_mergedActionList">user.blackProbe.endDrag</li>
+                      <li class="User dragging voltmeter probes_mergedActionList">user.redProbe.drag</li>
+                      <li class="User dragging voltmeter probes_mergedActionList">user.redProbe.startDrag</li>
+                      <li class="User dragging voltmeter probes_mergedActionList">user.redProbe.endDrag</li>
+                    </ul>
+                  </li>  
+                  <li><input type="checkbox" name="aca" value="User dragging nonContactAmmeter probes"> User dragging nonContactAmmeter probes
+                    <ul class="no_collapse">
+                      <li class="User dragging nonContactAmmeter probes_mergedActionList">user.nonContactAmmeter.drag</li>
+                      <li class="User dragging nonContactAmmeter probes_mergedActionList">user.nonContactAmmeter.startDrag</li>
+                      <li class="User dragging nonContactAmmeter probes_mergedActionList">user.nonContactAmmeter.endDrag</li>
+                    </ul>
+                  </li>  
+                  <li><input type="checkbox" name="aca" value="User adding series Ammeter"> User adding series Ammeter
+                    <ul class="no_collapse">
+                      <li class="User adding series Ammeter_mergedActionList">user.seriesAmmeter.addedComponent</li>
+                    </ul>
+                  </li>                   
+                  <li><input type="checkbox" name="aca" value="Instruments detect change"> Instruments detect change
+                    <ul class="no_collapse">
+                      <li class="Instruments detect change_mergedActionList">model.nonContactAmmeterModel.measuredCurrentChanged</li>
+                      <li class="Instruments detect change_mergedActionList">model.seriesAmmeter.measuredCurrentChanged</li>
+                      <li class="Instruments detect change_mergedActionList">model.voltmeterModel.measuredVoltageChanged</li>
+                    </ul>
+                  </li>  
+                  <li><input type="checkbox" name="aca" value="All resistor editor changes"> All resistor editor changes
+                    <ul class="no_collapse">
+                      <li class="All resistor editor changes_mergedActionList">user.resistorEditor.startDrag</li>
+                      <li class="All resistor editor changes_mergedActionList">user.resistorEditor.endDrag</li>
+                      <li class="All resistor editor changes_mergedActionList">user.resistorEditor.changed</li>
+                    </ul>
+                  </li>    
+                  <li><input type="checkbox" name="aca" value="Resistor editor dragging"> Resistor editor dragging
+                    <ul class="no_collapse">
+                      <li class="Resistor editor dragging_mergedActionList">user.resistorEditor.startDrag</li>
+                      <li class="Resistor editor dragging_mergedActionList">user.resistorEditor.endDrag</li>
+                    </ul>
+                  </li>    
+<!--                   <li><input type="checkbox" name="aca" value="Ammeter Testing"> Ammeter Testing
+                    <ul class="no_collapse">
+                      <li class="Ammeter Testing_mergedActionList">model.nonContactAmmeterModel.connectionBroken</li>
+                      <li class="Ammeter Testing_mergedActionList">model.nonContactAmmeterModel.connectionFormed</li>
+                      <li class="Ammeter Testing_mergedActionList">model.nonContactAmmeterModel.measuredCurrentChanged</li>
+                      <li class="Ammeter Testing_mergedActionList">model.seriesAmmeter.fireEnded</li>
+                      <li class="Ammeter Testing_mergedActionList">model.seriesAmmeter.fireStarted</li>
+                      <li class="Ammeter Testing_mergedActionList">model.seriesAmmeter.measuredCurrentChanged</li>
+                      <li class="Ammeter Testing_mergedActionList">user.nonContactAmmeter.drag</li>
+                      <li class="Ammeter Testing_mergedActionList">user.nonContactAmmeter.endDrag</li>
+                      <li class="Ammeter Testing_mergedActionList">user.nonContactAmmeter.startDrag</li>
+                      <li class="Ammeter Testing_mergedActionList">user.nonContactAmmeterCheckBox.pressed</li>
+                      <li class="Ammeter Testing_mergedActionList">user.seriesAmmeter.addedComponent</li>
+                      <li class="Ammeter Testing_mergedActionList">user.seriesAmmeter.movedComponent</li>
+                      <li class="Ammeter Testing_mergedActionList">user.seriesAmmeter.removedComponent</li>
+                      <li class="Ammeter Testing_mergedActionList">user.seriesAmmeterCheckBox.pressed</li>
+                    </ul>
+                  </li> -->
+                  <li><input type="checkbox" name="aca" value="Basic Building - Adding Components"> Basic Building - Adding Components
+                    <ul class="no_collapse">
+                      <li class="Basic Building - Adding Components_mergedActionList">user.battery.addedComponent</li>
+                      <li class="Basic Building - Adding Components_mergedActionList">user.circuitSwitch.addedComponent</li>
+                      <li class="Basic Building - Adding Components_mergedActionList">user.grabBagResistor.addedComponent</li>
+                      <li class="Basic Building - Adding Components_mergedActionList">user.lightBulb.addedComponent</li>
+                      <li class="Basic Building - Adding Components_mergedActionList">user.resistor.addedComponent</li>
+<!--                       <li class="Basic Building - Adding Components_mergedActionList">user.seriesAmmeter.addedComponent</li> -->
+                      <li class="Basic Building - Adding Components_mergedActionList">user.wire.addedComponent</li>
+                    </ul>
+                </ul>
+              </li>
+            </ul>
+          </div>
+          <div class="container2" id="horizon_plots_container">
+            
+          </div>
+          
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="js/js.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/docs.min.js"></script>
+    <script src="js/jquery.dataTables.min.js"></script>
+    <script src="js/dataTables.bootstrap.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="js/ie10-viewport-bug-workaround.js"></script>
+    <script>
+        $(function(){
+
+    $('#merge_button').click(function(){
+        
+        
+        var merged_name = document.getElementById('merge_name').value;
+        document.getElementById('merge_name').value = "";
+
+        var merged_items = $("input:checkbox[name=aca]:checked").map(function(){return $(this).val()}).get();
+
+        //create new list item
+        var merged_list = document.getElementById('merged_list');
+
+        var entry = document.createElement('li');
+
+        var input = document.createElement('input');
+        input.setAttribute("type", "checkbox");
+        input.setAttribute("value", merged_name);
+        input.setAttribute("label", merged_name);
+        input.setAttribute("name", "aca");
+        entry.appendChild(input)
+        entry.appendChild(document.createTextNode(" " + merged_name));
+      
+        var sublist = document.createElement('ul');
+        entry.appendChild(sublist);
+
+        for (var i=0; i < merged_items.length; i++){
+          var subentry = document.createElement('li');
+          subentry.appendChild(document.createTextNode(merged_items[i]));
+          subentry.setAttribute("class", merged_name + "_mergedActionList");
+          sublist.appendChild(subentry);
+        }
+        
+        merged_list.appendChild(entry);
+        mergeData(merged_name, merged_items)
+
+        //uncheck all boxes
+          var cbarray = document.getElementsByName("aca");
+          for(var i = 0; i < cbarray.length; i++){
+            cbarray[i].checked = false;
+          };
+    
+    });
+    
+     $('#popupclose').click(function(){
+        
+        
+        $('#popup').hide("slow");
+    
+    });
+
+});
+
+        function showHorizon() {
+          var to_display = $("input:checkbox[name=aca]:checked").map(function(){return $(this).val()}).get();
+
+          //uncheck all boxes
+          var cbarray = document.getElementsByName("aca");
+          for(var i = 0; i < cbarray.length; i++){
+            cbarray[i].checked = false;
+          };
+
+          //create divs where horizon plots will go
+          var horizon_plots_container = document.getElementById('horizon_plots_container');
+
+          // remove all current children
+          horizon_plots_container.innerHTML = '';
+
+          for (var i in to_display) {
+            var merged_action_list = [for (e of document.getElementsByClassName(to_display[i] + "_mergedActionList")) e.textContent];
+            var horizon_plot_title = document.createElement('p');
+            if (merged_action_list.length === 0) {
+              var bold_element = document.createElement("b");
+              bold_element.appendChild(document.createTextNode(to_display[i]));
+              horizon_plot_title.appendChild(bold_element);
+            } else {
+              var bold_element = document.createElement("b");
+              bold_element.appendChild(document.createTextNode(to_display[i] + ": "));
+              horizon_plot_title.appendChild(bold_element);
+              
+              horizon_plot_title.appendChild(document.createElement("br"));
+              
+              var merged_action_list_node = document.createTextNode(merged_action_list.join(" + "));
+              var span = document.createElement('span');
+              span.style.fontSize = "11px";
+              span.style.display="block";
+              span.style.lineHeight = "1.2";
+              span.appendChild(merged_action_list_node);
+              horizon_plot_title.appendChild(span);
+            }
+
+            horizon_plots_container.appendChild(horizon_plot_title);
+
+            var horizon_plot_chart = document.createElement('div');
+            horizon_plot_chart.setAttribute("id", "chart_" + to_display[i].split(".").join("_").split(" ").join("_"));
+            horizon_plot_chart.setAttribute("class", "stacked_charts");
+
+            horizon_plots_container.appendChild(horizon_plot_chart);
+
+            //create_graph(to_display[i], merged_action_list);
+            create_quartile_graph(to_display[i], merged_action_list);
+          }
+}
+
+        
+        </script>
+        <script type="text/javascript">
+        //to filter the raw list of events
+        $('#filter_raw_list').keyup(function(){
+           var valThis = $(this).val().toLowerCase();
+            if(valThis == ""){
+                $('.filterable_list > li').show();           
+            } else {
+                $('.filterable_list > li').each(function(){
+                    var text = $(this).text().toLowerCase();
+                    (text.indexOf(valThis) >= 0) ? $(this).show() : $(this).hide();
+                });
+           };
+        });
+
+var margin = { top: 50, right: 10, bottom: 50, left: 400 },
+  cellSize=12;
+  col_number=60;
+  row_number=50;
+  width = cellSize*col_number, // - margin.left - margin.right,
+  height = cellSize*row_number , // - margin.top - margin.bottom,
+  //gridSize = Math.floor(width / 24),
+  legendElementWidth = cellSize*4,
+  colorBuckets = 15,
+  colors = ['#91003F','#A63467','#BB6990','#D19EB9','#DBB9CD','#E6D3E1','#F1EEF6','#FFFFFF','#EDF8FB','#D2E6E3','#B8D4CB','#9EC2B3','#699F83','#347B53','#005824'];
+  hcrow = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50], // change to gene name or probe id
+  hccol = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60], // change to gene name or probe id
+  rowLabel = ["user.showReadoutCheckBox.pressed","user.batteryResistanceEditor.changed","user.mediumRadioButton.pressed","user.voltageEditor.endDrag","model.resistor.fireStarted","user.grabBagItemButton.pressed","user.resetAllConfirmationDialogYesButton.pressed","user.smallRadioButton.pressed","user.bulbResistorEditor.activated","user.redProbe.startDrag","user.redProbe.drag","user.resetAllConfirmationDialogNoButton.pressed","user.voltageEditor.windowClosing","user.lightBulb.removedComponent","parser.break.merge","user.grabBagResistor.movedComponent","user.lightBulb.movedComponent","model.nonContactAmmeterModel.measuredCurrentChanged","user.resistor.addedComponent","model.junction.junctionFormed","user.hideElectronsCheckBox.pressed","model.voltmeterBlackLeadModel.connectionFormed","model.nonContactAmmeterModel.connectionFormed","user.fileMenu.pressed","user.resistivitySlider.startDrag","user.showAdvancedControlsButton.pressed","user.bulbResistorEditor.startDrag","user.lightBulb.addedComponent","user.bulbResistorEditor.windowClosing","model.seriesAmmeter.measuredCurrentChanged","user.nonContactAmmeter.startDrag","user.hideAdvancedControlsButton.pressed","model.seriesAmmeter.fireEnded","user.resistorEditor.deactivated","user.hideHelpButton.pressed","user.junction.movedJunction","user.circuitSwitch.switchClosed","model.voltmeterRedLeadModel.connectionBroken","user.batteryResistanceEditor.endDrag","model.battery.fireEnded","user.grabBagResistor.addedComponent","user.nonContactAmmeterCheckBox.pressed","model.nonContactAmmeterModel.connectionBroken","model.wire.fireEnded","model.wire.fireStarted","user.voltageEditor.deactivated","user.bulbResistorEditor.changed","user.batteryResistanceEditor.deactivated","user.helpMenu.pressed","user.playPauseButton.pressed"], // change to gene name or probe id
+  colLabel = ['1.67%','3.33%','5.00%','6.67%','8.33%','10.00%','11.67%','13.33%','15.00%','16.67%','18.33%','20.00%','21.67%','23.33%','25.00%','26.67%','28.33%','30.00%','31.67%','33.33%','35.00%','36.67%','38.33%','40.00%','41.67%','43.33%','45.00%','46.67%','48.33%','50.00%','51.67%','53.33%','55.00%','56.67%','58.33%','60.00%','61.67%','63.33%','65.00%','66.67%','68.33%','70.00%','71.67%','73.33%','75.00%','76.67%','78.33%','80.00%','81.67%','83.33%','85.00%','86.67%','88.33%','90.00%','91.67%','93.33%','95.00%','96.67%','98.33%','100.00%']; // change to contrast name
+
+/// NEED TO CHANGE LINE BELOW
+d3.tsv("https://dl.dropboxusercontent.com/u/21370289/data_heatmap.tsv",
+function(d) {
+  return {
+    row:   +d.row_idx,
+    col:   +d.col_idx,
+    value: +d.log2ratio
+  };
+},
+function(error, data) {
+  var colorScale = d3.scale.quantile()
+      .domain([ -.07 , 0, .07])
+      .range(colors);
+  
+  var svg = d3.select("#chart").append("svg")
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
+      .append("g")
+      .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+      ;
+  var rowSortOrder=false;
+  var colSortOrder=false;
+  var rowLabels = svg.append("g")
+      .selectAll(".rowLabelg")
+      .data(rowLabel)
+      .enter()
+      .append("text")
+      .text(function (d) { return d; })
+      .attr("x", 0)
+      .attr("y", function (d, i) { return hcrow.indexOf(i+1) * cellSize; })
+      .style("text-anchor", "end")
+      .attr("transform", "translate(-6," + cellSize / 1.5 + ")")
+      .attr("class", function (d,i) { return "rowLabel mono r"+i;} ) 
+      .on("mouseover", function(d) {d3.select(this).classed("text-hover",true);})
+      .on("mouseout" , function(d) {d3.select(this).classed("text-hover",false);})
+      .on("click", function(d,i) {rowSortOrder=!rowSortOrder; sortbylabel("r",i,rowSortOrder);d3.select("#order").property("selectedIndex", 4).node().focus();;})
+      ;
+
+  var colLabels = svg.append("g")
+      .selectAll(".colLabelg")
+      .data(colLabel)
+      .enter()
+      .append("text")
+      .text(function (d) { return d; })
+      .attr("x", 0)
+      .attr("y", function (d, i) { return hccol.indexOf(i+1) * cellSize; })
+      .style("text-anchor", "left")
+      .attr("transform", "translate("+cellSize/2 + ",-6) rotate (-90)")
+      .attr("class",  function (d,i) { return "colLabel mono c"+i;} )
+      .on("mouseover", function(d) {d3.select(this).classed("text-hover",true);})
+      .on("mouseout" , function(d) {d3.select(this).classed("text-hover",false);})
+      .on("click", function(d,i) {colSortOrder=!colSortOrder;  sortbylabel("c",i,colSortOrder);d3.select("#order").property("selectedIndex", 4).node().focus();;})
+      ;
+
+  var heatMap = svg.append("g").attr("class","g3")
+        .selectAll(".cellg")
+        .data(data,function(d){return d.row+":"+d.col;})
+        .enter()
+        .append("rect")
+        .attr("x", function(d) { return hccol.indexOf(d.col) * cellSize; })
+        .attr("y", function(d) { return hcrow.indexOf(d.row) * cellSize; })
+        .attr("class", function(d){return "cell cell-border cr"+(d.row-1)+" cc"+(d.col-1);})
+        .attr("width", cellSize)
+        .attr("height", cellSize)
+        .style("fill", function(d) { return colorScale(d.value); })
+        .on("mouseover", function(d){
+               //highlight text
+               d3.select(this).classed("cell-hover",true);
+               d3.selectAll(".rowLabel").classed("text-highlight",function(r,ri){ return ri==(d.row-1);});
+               d3.selectAll(".colLabel").classed("text-highlight",function(c,ci){ return ci==(d.col-1);});
+        
+               //Update the tooltip position and value
+               d3.select("#tooltip")
+                 .style("left", (d3.event.pageX+10) + "px")
+                 .style("top", (d3.event.pageY-10) + "px")
+                 .select("#value")
+                 .text("lables:"+rowLabel[d.row-1]+","+colLabel[d.col-1]+"\ndata:"+d.value);  
+               //Show the tooltip
+               d3.select("#tooltip").classed("hidden", false);
+        })
+        .on("mouseout", function(){
+               d3.select(this).classed("cell-hover",false);
+               d3.selectAll(".rowLabel").classed("text-highlight",false);
+               d3.selectAll(".colLabel").classed("text-highlight",false);
+               d3.select("#tooltip").classed("hidden", true);
+        })
+        ;
+
+  var legend = svg.selectAll(".legend")
+      .data([-.07,-.06,-.05,-.04,-.03,-.02,-.01,0.00,.01,.02,.03,.04,.05,.06,.07])
+      .enter().append("g")
+      .attr("class", "legend");
+ 
+  legend.append("rect")
+    .attr("x", function(d, i) { return legendElementWidth * i; })
+    .attr("y", height+(cellSize*2))
+    .attr("width", legendElementWidth)
+    .attr("height", cellSize)
+    .style("fill", function(d, i) { return colors[i]; });
+ 
+  legend.append("text")
+    .attr("class", "mono")
+    .text(function(d) { return d; })
+    .attr("width", legendElementWidth)
+    .attr("x", function(d, i) { return legendElementWidth * i; })
+    .attr("y", height + (cellSize*4));
+
+// Change ordering of cells
+
+  function sortbylabel(rORc,i,sortOrder){
+       var t = svg.transition().duration(3000);
+       var log2r=[];
+       var sorted; // sorted is zero-based index
+       d3.selectAll(".c"+rORc+i) 
+         .filter(function(ce){
+            log2r.push(ce.value);
+          })
+       ;
+       if(rORc=="r"){ // sort log2ratio of a gene
+         sorted=d3.range(col_number).sort(function(a,b){ if(sortOrder){ return log2r[b]-log2r[a];}else{ return log2r[a]-log2r[b];}});
+         t.selectAll(".cell")
+           .attr("x", function(d) { return sorted.indexOf(d.col-1) * cellSize; })
+           ;
+         t.selectAll(".colLabel")
+          .attr("y", function (d, i) { return sorted.indexOf(i) * cellSize; })
+         ;
+       }else{ // sort log2ratio of a contrast
+         sorted=d3.range(row_number).sort(function(a,b){if(sortOrder){ return log2r[b]-log2r[a];}else{ return log2r[a]-log2r[b];}});
+         t.selectAll(".cell")
+           .attr("y", function(d) { return sorted.indexOf(d.row-1) * cellSize; })
+           ;
+         t.selectAll(".rowLabel")
+          .attr("y", function (d, i) { return sorted.indexOf(i) * cellSize; })
+         ;
+       }
+  }
+
+  d3.select("#order").on("change",function(){
+    order(this.value);
+  });
+  
+  function order(value){
+   if(value=="hclust"){
+    var t = svg.transition().duration(3000);
+    t.selectAll(".cell")
+      .attr("x", function(d) { return hccol.indexOf(d.col) * cellSize; })
+      .attr("y", function(d) { return hcrow.indexOf(d.row) * cellSize; })
+      ;
+
+    t.selectAll(".rowLabel")
+      .attr("y", function (d, i) { return hcrow.indexOf(i+1) * cellSize; })
+      ;
+
+    t.selectAll(".colLabel")
+      .attr("y", function (d, i) { return hccol.indexOf(i+1) * cellSize; })
+      ;
+
+   }else if (value=="probecontrast"){
+    var t = svg.transition().duration(3000);
+    t.selectAll(".cell")
+      .attr("x", function(d) { return (d.col - 1) * cellSize; })
+      .attr("y", function(d) { return (d.row - 1) * cellSize; })
+      ;
+
+    t.selectAll(".rowLabel")
+      .attr("y", function (d, i) { return i * cellSize; })
+      ;
+
+    t.selectAll(".colLabel")
+      .attr("y", function (d, i) { return i * cellSize; })
+      ;
+
+   }else if (value=="probe"){
+    var t = svg.transition().duration(3000);
+    t.selectAll(".cell")
+      .attr("y", function(d) { return (d.row - 1) * cellSize; })
+      ;
+
+    t.selectAll(".rowLabel")
+      .attr("y", function (d, i) { return i * cellSize; })
+      ;
+   }else if (value=="contrast"){
+    var t = svg.transition().duration(3000);
+    t.selectAll(".cell")
+      .attr("x", function(d) { return (d.col - 1) * cellSize; })
+      ;
+    t.selectAll(".colLabel")
+      .attr("y", function (d, i) { return i * cellSize; })
+      ;
+   }
+  }
+  // 
+  var sa=d3.select(".g3")
+      .on("mousedown", function() {
+          if( !d3.event.altKey) {
+             d3.selectAll(".cell-selected").classed("cell-selected",false);
+             d3.selectAll(".rowLabel").classed("text-selected",false);
+             d3.selectAll(".colLabel").classed("text-selected",false);
+          }
+         var p = d3.mouse(this);
+         sa.append("rect")
+         .attr({
+             rx      : 0,
+             ry      : 0,
+             class   : "selection",
+             x       : p[0],
+             y       : p[1],
+             width   : 1,
+             height  : 1
+         })
+      })
+      .on("mousemove", function() {
+         var s = sa.select("rect.selection");
+      
+         if(!s.empty()) {
+             var p = d3.mouse(this),
+                 d = {
+                     x       : parseInt(s.attr("x"), 10),
+                     y       : parseInt(s.attr("y"), 10),
+                     width   : parseInt(s.attr("width"), 10),
+                     height  : parseInt(s.attr("height"), 10)
+                 },
+                 move = {
+                     x : p[0] - d.x,
+                     y : p[1] - d.y
+                 }
+             ;
+      
+             if(move.x < 1 || (move.x*2<d.width)) {
+                 d.x = p[0];
+                 d.width -= move.x;
+             } else {
+                 d.width = move.x;       
+             }
+      
+             if(move.y < 1 || (move.y*2<d.height)) {
+                 d.y = p[1];
+                 d.height -= move.y;
+             } else {
+                 d.height = move.y;       
+             }
+             s.attr(d);
+      
+                 // deselect all temporary selected state objects
+             d3.selectAll('.cell-selection.cell-selected').classed("cell-selected", false);
+             d3.selectAll(".text-selection.text-selected").classed("text-selected",false);
+
+             d3.selectAll('.cell').filter(function(cell_d, i) {
+                 if(
+                     !d3.select(this).classed("cell-selected") && 
+                         // inner circle inside selection frame
+                     (this.x.baseVal.value)+cellSize >= d.x && (this.x.baseVal.value)<=d.x+d.width && 
+                     (this.y.baseVal.value)+cellSize >= d.y && (this.y.baseVal.value)<=d.y+d.height
+                 ) {
+      
+                     d3.select(this)
+                     .classed("cell-selection", true)
+                     .classed("cell-selected", true);
+
+                     d3.select(".r"+(cell_d.row-1))
+                     .classed("text-selection",true)
+                     .classed("text-selected",true);
+
+                     d3.select(".c"+(cell_d.col-1))
+                     .classed("text-selection",true)
+                     .classed("text-selected",true);
+                 }
+             });
+         }
+      })
+      .on("mouseup", function() {
+            // remove selection frame
+         sa.selectAll("rect.selection").remove();
+      
+             // remove temporary selection marker class
+         d3.selectAll('.cell-selection').classed("cell-selection", false);
+         d3.selectAll(".text-selection").classed("text-selection",false);
+      })
+      .on("mouseout", function() {
+         if(d3.event.relatedTarget.tagName=='html') {
+                 // remove selection frame
+             sa.selectAll("rect.selection").remove();
+                 // remove temporary selection marker class
+             d3.selectAll('.cell-selection').classed("cell-selection", false);
+             d3.selectAll(".rowLabel").classed("text-selected",false);
+             d3.selectAll(".colLabel").classed("text-selected",false);
+         }
+      })
+      ;
+});
+</script>
+  </body>
+</html>
