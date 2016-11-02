@@ -7,7 +7,7 @@ NUM_SPLITS = 5
 THREEPLACES = Decimal(10) ** -2
 
 
-f_low = open("events_A_formatted.csv")
+f_low = open("events_LL_formatted.csv")
 
 lines = f_low.readlines()
 
@@ -17,7 +17,7 @@ for line in lines:
     all_types.append(val)
 f_low.close()
 
-f_high = open("events_B_formatted.csv")
+f_high = open("events_HL_formatted.csv")
 lines = f_high.readlines()
 for line in lines:
     val = line.replace("\n", "")
@@ -52,7 +52,7 @@ def split_list(l):
 d = {"High": {}, "Low": {}}
 #read in, save to dict of dict:"high":user:actions
 
-f_low = open("events_B_formatted.csv")
+f_low = open("events_LL_formatted.csv")
 
 lines = f_low.readlines()
 user = 0
@@ -65,7 +65,7 @@ for line in lines:
         d["High"][user].append(val)
 f_low.close()
 
-f_high = open("events_A_formatted.csv")
+f_high = open("events_HL_formatted.csv")
 lines = f_high.readlines()
 user = 0
 for line in lines:

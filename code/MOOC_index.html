@@ -22,7 +22,7 @@
     <script src="http://d3js.org/d3.v4.min.js"></script>
     <script src="js/horizon.js"></script>
     <script src="js/create_graph.js"></script>
-    <script src="js/create_quartile_graph.js"></script>
+    <script src="js/MOOC_create_quartile_graph.js"></script>
     <script src="js/math.js"></script>
 
     <style> 
@@ -209,7 +209,7 @@
 
         <div class="main">
 
-          <!-- <a name="temporal-heatmap"> -->
+          <!-- <a name="temporal-heatmap">-->
           <h2 class="sub-header">Temporal Log Event Freqencies - Overview</h2>
 
           <div class="container3">
@@ -221,7 +221,7 @@
             <div id="chart" style='overflow:auto; width:2000px; height:700px;'></div>
           </div>
 
-          <!-- <a name="temporal-horizon"> -->
+          <!-- <a name="temporal-horizon">-->
           <h2 class="sub-header">Temporal Log Event Freqencies - Up Close</h2>
           <div class="buttons">
               <div id="merge">
@@ -263,41 +263,41 @@
                   <li><input type="checkbox" name="aca" value="graded_problem1.module7.showanswer"> graded_problem1.module7.showanswer</li>
                   <li><input type="checkbox" name="aca" value="graded_problem1.module8.problem_check"> graded_problem1.module8.problem_check</li>
                   <li><input type="checkbox" name="aca" value="graded_problem1.module8.showanswer"> graded_problem1.module8.showanswer</li>
-                  <li><input type="checkbox" name="aca" value="graded_problem10.module2.problem_check"> </li>graded_problem10.module2.problem_check
+                  <li><input type="checkbox" name="aca" value="graded_problem10.module2.problem_check">graded_problem10.module2.problem_check
                   <li><input type="checkbox" name="aca" value="graded_problem10.module2.showanswer"> graded_problem10.module2.showanswer</li>
-                  <li><input type="checkbox" name="aca" value="graded_problem10.module3.problem_check"> </li>graded_problem10.module3.problem_check
+                  <li><input type="checkbox" name="aca" value="graded_problem10.module3.problem_check">graded_problem10.module3.problem_check
                   <li><input type="checkbox" name="aca" value="graded_problem10.module3.showanswer"> graded_problem10.module3.showanswer</li>
-                  <li><input type="checkbox" name="aca" value="graded_problem10.module4.problem_check"> </li>graded_problem10.module4.problem_check
+                  <li><input type="checkbox" name="aca" value="graded_problem10.module4.problem_check">graded_problem10.module4.problem_check
                   <li><input type="checkbox" name="aca" value="graded_problem10.module4.showanswer"> graded_problem10.module4.showanswer</li>
-                  <li><input type="checkbox" name="aca" value="graded_problem10.module5.problem_check"> </li>graded_problem10.module5.problem_check
+                  <li><input type="checkbox" name="aca" value="graded_problem10.module5.problem_check">graded_problem10.module5.problem_check
                   <li><input type="checkbox" name="aca" value="graded_problem10.module5.showanswer"> graded_problem10.module5.showanswer</li>
-                  <li><input type="checkbox" name="aca" value="graded_problem10.module6.problem_check"> </li>graded_problem10.module6.problem_check
+                  <li><input type="checkbox" name="aca" value="graded_problem10.module6.problem_check">graded_problem10.module6.problem_check
                   <li><input type="checkbox" name="aca" value="graded_problem10.module6.showanswer"> graded_problem10.module6.showanswer</li>
-                  <li><input type="checkbox" name="aca" value="graded_problem10.module7.problem_check"> </li>graded_problem10.module7.problem_check
+                  <li><input type="checkbox" name="aca" value="graded_problem10.module7.problem_check">graded_problem10.module7.problem_check
                   <li><input type="checkbox" name="aca" value="graded_problem10.module7.showanswer"> graded_problem10.module7.showanswer</li>
-                  <li><input type="checkbox" name="aca" value="graded_problem11.module2.problem_check"> </li>graded_problem11.module2.problem_check
+                  <li><input type="checkbox" name="aca" value="graded_problem11.module2.problem_check">graded_problem11.module2.problem_check
                   <li><input type="checkbox" name="aca" value="graded_problem11.module2.showanswer"> graded_problem11.module2.showanswer</li>
-                  <li><input type="checkbox" name="aca" value="graded_problem11.module5.problem_check"> </li>graded_problem11.module5.problem_check
+                  <li><input type="checkbox" name="aca" value="graded_problem11.module5.problem_check">graded_problem11.module5.problem_check
                   <li><input type="checkbox" name="aca" value="graded_problem11.module5.showanswer"> graded_problem11.module5.showanswer</li>
-                  <li><input type="checkbox" name="aca" value="graded_problem11.module7.problem_check"> </li>graded_problem11.module7.problem_check
+                  <li><input type="checkbox" name="aca" value="graded_problem11.module7.problem_check">graded_problem11.module7.problem_check
                   <li><input type="checkbox" name="aca" value="graded_problem11.module7.showanswer"> graded_problem11.module7.showanswer</li>
-                  <li><input type="checkbox" name="aca" value="graded_problem12.module2.problem_check"> </li>graded_problem12.module2.problem_check
+                  <li><input type="checkbox" name="aca" value="graded_problem12.module2.problem_check">graded_problem12.module2.problem_check
                   <li><input type="checkbox" name="aca" value="graded_problem12.module2.showanswer"> graded_problem12.module2.showanswer</li>
-                  <li><input type="checkbox" name="aca" value="graded_problem12.module7.problem_check"> </li>graded_problem12.module7.problem_check
+                  <li><input type="checkbox" name="aca" value="graded_problem12.module7.problem_check">graded_problem12.module7.problem_check
                   <li><input type="checkbox" name="aca" value="graded_problem12.module7.showanswer"> graded_problem12.module7.showanswer</li>
-                  <li><input type="checkbox" name="aca" value="graded_problem13.module7.problem_check"> </li>graded_problem13.module7.problem_check
+                  <li><input type="checkbox" name="aca" value="graded_problem13.module7.problem_check">graded_problem13.module7.problem_check
                   <li><input type="checkbox" name="aca" value="graded_problem13.module7.showanswer"> graded_problem13.module7.showanswer</li>
-                  <li><input type="checkbox" name="aca" value="graded_problem14.module7.problem_check"> </li>graded_problem14.module7.problem_check
+                  <li><input type="checkbox" name="aca" value="graded_problem14.module7.problem_check">graded_problem14.module7.problem_check
                   <li><input type="checkbox" name="aca" value="graded_problem14.module7.showanswer"> graded_problem14.module7.showanswer</li>
-                  <li><input type="checkbox" name="aca" value="graded_problem15.module7.problem_check"> </li>graded_problem15.module7.problem_check
+                  <li><input type="checkbox" name="aca" value="graded_problem15.module7.problem_check">graded_problem15.module7.problem_check
                   <li><input type="checkbox" name="aca" value="graded_problem15.module7.showanswer"> graded_problem15.module7.showanswer</li>
-                  <li><input type="checkbox" name="aca" value="graded_problem16.module7.problem_check"> </li>graded_problem16.module7.problem_check
+                  <li><input type="checkbox" name="aca" value="graded_problem16.module7.problem_check">graded_problem16.module7.problem_check
                   <li><input type="checkbox" name="aca" value="graded_problem16.module7.showanswer"> graded_problem16.module7.showanswer</li>
-                  <li><input type="checkbox" name="aca" value="graded_problem17.module7.problem_check"> </li>graded_problem17.module7.problem_check
+                  <li><input type="checkbox" name="aca" value="graded_problem17.module7.problem_check">graded_problem17.module7.problem_check
                   <li><input type="checkbox" name="aca" value="graded_problem17.module7.showanswer"> graded_problem17.module7.showanswer</li>
-                  <li><input type="checkbox" name="aca" value="graded_problem18.module7.problem_check"> </li>graded_problem18.module7.problem_check
+                  <li><input type="checkbox" name="aca" value="graded_problem18.module7.problem_check">graded_problem18.module7.problem_check
                   <li><input type="checkbox" name="aca" value="graded_problem18.module7.showanswer"> graded_problem18.module7.showanswer</li>
-                  <li><input type="checkbox" name="aca" value="graded_problem19.module7.problem_check"> </li>graded_problem19.module7.problem_check
+                  <li><input type="checkbox" name="aca" value="graded_problem19.module7.problem_check">graded_problem19.module7.problem_check
                   <li><input type="checkbox" name="aca" value="graded_problem19.module7.showanswer"> graded_problem19.module7.showanswer</li>
                   <li><input type="checkbox" name="aca" value="graded_problem2.module0.problem_check"> graded_problem2.module0.problem_check</li>
                   <li><input type="checkbox" name="aca" value="graded_problem2.module0.showanswer"> graded_problem2.module0.showanswer</li>
@@ -317,7 +317,7 @@
                   <li><input type="checkbox" name="aca" value="graded_problem2.module7.showanswer"> graded_problem2.module7.showanswer</li>
                   <li><input type="checkbox" name="aca" value="graded_problem2.module8.problem_check"> graded_problem2.module8.problem_check</li>
                   <li><input type="checkbox" name="aca" value="graded_problem2.module8.showanswer"> graded_problem2.module8.showanswer</li>
-                  <li><input type="checkbox" name="aca" value="graded_problem20.module7.problem_check"> </li>graded_problem20.module7.problem_check
+                  <li><input type="checkbox" name="aca" value="graded_problem20.module7.problem_check">graded_problem20.module7.problem_check
                   <li><input type="checkbox" name="aca" value="graded_problem20.module7.showanswer"> graded_problem20.module7.showanswer</li>
                   <li><input type="checkbox" name="aca" value="graded_problem3.module1.problem_check"> graded_problem3.module1.problem_check</li>
                   <li><input type="checkbox" name="aca" value="graded_problem3.module1.showanswer"> graded_problem3.module1.showanswer</li>
@@ -703,136 +703,973 @@
               </li>
               <li>Merged Events
                 <ul id="merged_list">
-                  <li><input type="checkbox" name="aca" value="All user testing actions"> All user testing actions
+                  <li><input type="checkbox" name="aca" value="Forum events"> Forum events  
                     <ul class="no_collapse">
-                      <li class="All user testing actions_mergedActionList">user.blackProbe.drag</li>
-                      <li class="All user testing actions_mergedActionList">user.blackProbe.endDrag</li>
-                      <li class="All user testing actions_mergedActionList">user.blackProbe.startDrag</li>
-                      <li class="All user testing actions_mergedActionList">user.nonContactAmmeter.drag</li>
-                      <li class="All user testing actions_mergedActionList">user.nonContactAmmeter.endDrag</li>
-                      <li class="All user testing actions_mergedActionList">user.nonContactAmmeter.startDrag</li>
-                      <li class="All user testing actions_mergedActionList">user.redProbe.drag</li>
-                      <li class="All user testing actions_mergedActionList">user.redProbe.endDrag</li>
-                      <li class="All user testing actions_mergedActionList">user.redProbe.startDrag</li>
-                      <li class="All user testing actions_mergedActionList">user.seriesAmmeter.addedComponent</li>
+                      <li class="Forum events_mergedActionList">forum.created_comment</li>
+                      <li class="Forum events_mergedActionList">forum.created_response</li>
+                      <li class="Forum events_mergedActionList">forum.created_thread</li>
+                      <li class="Forum events_mergedActionList">forum.problem_check</li>
+                      <li class="Forum events_mergedActionList">forum.read</li>
+                      <li class="Forum events_mergedActionList">forum.read_inline</li>
+                      <li class="Forum events_mergedActionList">forum.showanswer</li>
+                    </ul>
+                  </li>   
+                  <li><input type="checkbox" name="aca" value="Module 0 events"> Module 0 events
+                    <ul class="no_collapse">
+                      <li class="Module 0 events_mergedActionList">graded_problem1.module0.problem_check</li>
+                      <li class="Module 0 events_mergedActionList">graded_problem1.module0.showanswer</li>
+                      <li class="Module 0 events_mergedActionList">graded_problem2.module0.problem_check</li>
+                      <li class="Module 0 events_mergedActionList">graded_problem2.module0.showanswer</li>
+                      <li class="Module 0 events_mergedActionList">video1.module0.pause_video</li>
+                      <li class="Module 0 events_mergedActionList">video1.module0.play_video</li>
+                      <li class="Module 0 events_mergedActionList">video1.module0.seek_video</li>
+                    </ul>
+                  </li>    
+                  <li><input type="checkbox" name="aca" value="Module 1 events"> Module 1 events
+                    <ul class="no_collapse">
+                      <li class="Module 1 events_mergedActionList">graded_problem1.module1.problem_check</li>
+                      <li class="Module 1 events_mergedActionList">graded_problem1.module1.showanswer</li>
+                      <li class="Module 1 events_mergedActionList">graded_problem2.module1.problem_check</li>
+                      <li class="Module 1 events_mergedActionList">graded_problem2.module1.showanswer</li>
+                      <li class="Module 1 events_mergedActionList">graded_problem3.module1.problem_check</li>
+                      <li class="Module 1 events_mergedActionList">graded_problem3.module1.showanswer</li>
+                      <li class="Module 1 events_mergedActionList">graded_problem4.module1.problem_check</li>
+                      <li class="Module 1 events_mergedActionList">graded_problem4.module1.showanswer</li>
+                      <li class="Module 1 events_mergedActionList">graded_problem5.module1.problem_check</li>
+                      <li class="Module 1 events_mergedActionList">graded_problem5.module1.showanswer</li>
+                      <li class="Module 1 events_mergedActionList">graded_problem6.module1.problem_check</li>
+                      <li class="Module 1 events_mergedActionList">graded_problem6.module1.showanswer</li>
+                      <li class="Module 1 events_mergedActionList">graded_problem7.module1.problem_check</li>
+                      <li class="Module 1 events_mergedActionList">graded_problem7.module1.showanswer</li>
+                      <li class="Module 1 events_mergedActionList">graded_problem8.module1.problem_check</li>
+                      <li class="Module 1 events_mergedActionList">graded_problem8.module1.showanswer</li>
+                      <li class="Module 1 events_mergedActionList">graded_problem9.module1.problem_check</li>
+                      <li class="Module 1 events_mergedActionList">graded_problem9.module1.showanswer</li>
+                      <li class="Module 1 events_mergedActionList">self_test1.module1.problem_check</li>
+                      <li class="Module 1 events_mergedActionList">self_test1.module1.showanswer</li>
+                      <li class="Module 1 events_mergedActionList">video1.module1.pause_video</li>
+                      <li class="Module 1 events_mergedActionList">video1.module1.play_video</li>
+                      <li class="Module 1 events_mergedActionList">video1.module1.seek_video</li>
+                      <li class="Module 1 events_mergedActionList">video2.module1.pause_video</li>
+                      <li class="Module 1 events_mergedActionList">video2.module1.play_video</li>
+                      <li class="Module 1 events_mergedActionList">video2.module1.seek_video</li>
+                      <li class="Module 1 events_mergedActionList">video3.module1.pause_video</li>
+                      <li class="Module 1 events_mergedActionList">video3.module1.play_video</li>
+                      <li class="Module 1 events_mergedActionList">video3.module1.seek_video</li>
+                    </ul>
+                  </li>    
+                  <li><input type="checkbox" name="aca" value="Module 2 events"> Module 2 events
+                    <ul class="no_collapse">
+                      <li class="Module 2 events_mergedActionList">graded_problem1.module2.problem_check</li>
+                      <li class="Module 2 events_mergedActionList">graded_problem1.module2.showanswer</li>
+                      <li class="Module 2 events_mergedActionList">graded_problem10.module2.problem_check</li>
+                      <li class="Module 2 events_mergedActionList">graded_problem10.module2.showanswer</li>
+                      <li class="Module 2 events_mergedActionList">graded_problem11.module2.problem_check</li>
+                      <li class="Module 2 events_mergedActionList">graded_problem11.module2.showanswer</li>
+                      <li class="Module 2 events_mergedActionList">graded_problem12.module2.problem_check</li>
+                      <li class="Module 2 events_mergedActionList">graded_problem12.module2.showanswer</li>
+                      <li class="Module 2 events_mergedActionList">graded_problem2.module2.problem_check</li>
+                      <li class="Module 2 events_mergedActionList">graded_problem2.module2.showanswer</li>
+                      <li class="Module 2 events_mergedActionList">graded_problem3.module2.problem_check</li>
+                      <li class="Module 2 events_mergedActionList">graded_problem3.module2.showanswer</li>
+                      <li class="Module 2 events_mergedActionList">graded_problem4.module2.problem_check</li>
+                      <li class="Module 2 events_mergedActionList">graded_problem4.module2.showanswer</li>
+                      <li class="Module 2 events_mergedActionList">graded_problem5.module2.problem_check</li>
+                      <li class="Module 2 events_mergedActionList">graded_problem5.module2.showanswer</li>
+                      <li class="Module 2 events_mergedActionList">graded_problem6.module2.problem_check</li>
+                      <li class="Module 2 events_mergedActionList">graded_problem6.module2.showanswer</li>
+                      <li class="Module 2 events_mergedActionList">graded_problem7.module2.problem_check</li>
+                      <li class="Module 2 events_mergedActionList">graded_problem7.module2.showanswer</li>
+                      <li class="Module 2 events_mergedActionList">graded_problem8.module2.problem_check</li>
+                      <li class="Module 2 events_mergedActionList">graded_problem8.module2.showanswer</li>
+                      <li class="Module 2 events_mergedActionList">graded_problem9.module2.problem_check</li>
+                      <li class="Module 2 events_mergedActionList">graded_problem9.module2.showanswer</li>
+                      <li class="Module 2 events_mergedActionList">self_test1.module2.problem_check</li>
+                      <li class="Module 2 events_mergedActionList">self_test1.module2.showanswer</li>
+                      <li class="Module 2 events_mergedActionList">self_test10.module2.problem_check</li>
+                      <li class="Module 2 events_mergedActionList">self_test10.module2.showanswer</li>
+                      <li class="Module 2 events_mergedActionList">self_test11.module2.problem_check</li>
+                      <li class="Module 2 events_mergedActionList">self_test11.module2.showanswer</li>
+                      <li class="Module 2 events_mergedActionList">self_test12.module2.problem_check</li>
+                      <li class="Module 2 events_mergedActionList">self_test12.module2.showanswer</li>
+                      <li class="Module 2 events_mergedActionList">self_test13.module2.problem_check</li>
+                      <li class="Module 2 events_mergedActionList">self_test13.module2.showanswer</li>
+                      <li class="Module 2 events_mergedActionList">self_test14.module2.problem_check</li>
+                      <li class="Module 2 events_mergedActionList">self_test14.module2.showanswer</li>
+                      <li class="Module 2 events_mergedActionList">self_test15.module2.problem_check</li>
+                      <li class="Module 2 events_mergedActionList">self_test15.module2.showanswer</li>
+                      <li class="Module 2 events_mergedActionList">self_test16.module2.problem_check</li>
+                      <li class="Module 2 events_mergedActionList">self_test16.module2.showanswer</li>
+                      <li class="Module 2 events_mergedActionList">self_test17.module2.problem_check</li>
+                      <li class="Module 2 events_mergedActionList">self_test17.module2.showanswer</li>
+                      <li class="Module 2 events_mergedActionList">self_test18.module2.problem_check</li>
+                      <li class="Module 2 events_mergedActionList">self_test18.module2.showanswer</li>
+                      <li class="Module 2 events_mergedActionList">self_test19.module2.problem_check</li>
+                      <li class="Module 2 events_mergedActionList">self_test19.module2.showanswer</li>
+                      <li class="Module 2 events_mergedActionList">self_test2.module2.problem_check</li>
+                      <li class="Module 2 events_mergedActionList">self_test2.module2.showanswer</li>
+                      <li class="Module 2 events_mergedActionList">self_test20.module2.problem_check</li>
+                      <li class="Module 2 events_mergedActionList">self_test20.module2.showanswer</li>
+                      <li class="Module 2 events_mergedActionList">self_test21.module2.problem_check</li>
+                      <li class="Module 2 events_mergedActionList">self_test21.module2.showanswer</li>
+                      <li class="Module 2 events_mergedActionList">self_test22.module2.problem_check</li>
+                      <li class="Module 2 events_mergedActionList">self_test22.module2.showanswer</li>
+                      <li class="Module 2 events_mergedActionList">self_test23.module2.problem_check</li>
+                      <li class="Module 2 events_mergedActionList">self_test23.module2.showanswer</li>
+                      <li class="Module 2 events_mergedActionList">self_test24.module2.problem_check</li>
+                      <li class="Module 2 events_mergedActionList">self_test24.module2.showanswer</li>
+                      <li class="Module 2 events_mergedActionList">self_test25.module2.problem_check</li>
+                      <li class="Module 2 events_mergedActionList">self_test25.module2.showanswer</li>
+                      <li class="Module 2 events_mergedActionList">self_test26.module2.problem_check</li>
+                      <li class="Module 2 events_mergedActionList">self_test26.module2.showanswer</li>
+                      <li class="Module 2 events_mergedActionList">self_test27.module2.problem_check</li>
+                      <li class="Module 2 events_mergedActionList">self_test27.module2.showanswer</li>
+                      <li class="Module 2 events_mergedActionList">self_test28.module2.problem_check</li>
+                      <li class="Module 2 events_mergedActionList">self_test28.module2.showanswer</li>
+                      <li class="Module 2 events_mergedActionList">self_test29.module2.problem_check</li>
+                      <li class="Module 2 events_mergedActionList">self_test29.module2.showanswer</li>
+                      <li class="Module 2 events_mergedActionList">self_test3.module2.problem_check</li>
+                      <li class="Module 2 events_mergedActionList">self_test3.module2.showanswer</li>
+                      <li class="Module 2 events_mergedActionList">self_test30.module2.problem_check</li>
+                      <li class="Module 2 events_mergedActionList">self_test30.module2.showanswer</li>
+                      <li class="Module 2 events_mergedActionList">self_test4.module2.problem_check</li>
+                      <li class="Module 2 events_mergedActionList">self_test4.module2.showanswer</li>
+                      <li class="Module 2 events_mergedActionList">self_test5.module2.problem_check</li>
+                      <li class="Module 2 events_mergedActionList">self_test5.module2.showanswer</li>
+                      <li class="Module 2 events_mergedActionList">self_test6.module2.problem_check</li>
+                      <li class="Module 2 events_mergedActionList">self_test6.module2.showanswer</li>
+                      <li class="Module 2 events_mergedActionList">self_test7.module2.problem_check</li>
+                      <li class="Module 2 events_mergedActionList">self_test7.module2.showanswer</li>
+                      <li class="Module 2 events_mergedActionList">self_test8.module2.problem_check</li>
+                      <li class="Module 2 events_mergedActionList">self_test8.module2.showanswer</li>
+                      <li class="Module 2 events_mergedActionList">self_test9.module2.problem_check</li>
+                      <li class="Module 2 events_mergedActionList">self_test9.module2.showanswer</li>
+                      <li class="Module 2 events_mergedActionList">video1.module2.pause_video</li>
+                      <li class="Module 2 events_mergedActionList">video1.module2.play_video</li>
+                      <li class="Module 2 events_mergedActionList">video1.module2.seek_video</li>
+                      <li class="Module 2 events_mergedActionList">video10.module2.pause_video</li>
+                      <li class="Module 2 events_mergedActionList">video10.module2.play_video</li>
+                      <li class="Module 2 events_mergedActionList">video11.module2.pause_video</li>
+                      <li class="Module 2 events_mergedActionList">video11.module2.play_video</li>
+                      <li class="Module 2 events_mergedActionList">video11.module2.seek_video</li>
+                      <li class="Module 2 events_mergedActionList">video12.module2.pause_video</li>
+                      <li class="Module 2 events_mergedActionList">video12.module2.play_video</li>
+                      <li class="Module 2 events_mergedActionList">video12.module2.seek_video</li>
+                      <li class="Module 2 events_mergedActionList">video13.module2.pause_video</li>
+                      <li class="Module 2 events_mergedActionList">video13.module2.play_video</li>
+                      <li class="Module 2 events_mergedActionList">video13.module2.seek_video</li>
+                      <li class="Module 2 events_mergedActionList">video14.module2.pause_video</li>
+                      <li class="Module 2 events_mergedActionList">video14.module2.play_video</li>
+                      <li class="Module 2 events_mergedActionList">video14.module2.seek_video</li>
+                      <li class="Module 2 events_mergedActionList">video15.module2.pause_video</li>
+                      <li class="Module 2 events_mergedActionList">video15.module2.play_video</li>
+                      <li class="Module 2 events_mergedActionList">video15.module2.seek_video</li>
+                      <li class="Module 2 events_mergedActionList">video16.module2.pause_video</li>
+                      <li class="Module 2 events_mergedActionList">video16.module2.play_video</li>
+                      <li class="Module 2 events_mergedActionList">video16.module2.seek_video</li>
+                      <li class="Module 2 events_mergedActionList">video17.module2.pause_video</li>
+                      <li class="Module 2 events_mergedActionList">video17.module2.play_video</li>
+                      <li class="Module 2 events_mergedActionList">video17.module2.seek_video</li>
+                      <li class="Module 2 events_mergedActionList">video18.module2.pause_video</li>
+                      <li class="Module 2 events_mergedActionList">video18.module2.play_video</li>
+                      <li class="Module 2 events_mergedActionList">video18.module2.seek_video</li>
+                      <li class="Module 2 events_mergedActionList">video19.module2.pause_video</li>
+                      <li class="Module 2 events_mergedActionList">video19.module2.play_video</li>
+                      <li class="Module 2 events_mergedActionList">video19.module2.seek_video</li>
+                      <li class="Module 2 events_mergedActionList">video2.module2.pause_video</li>
+                      <li class="Module 2 events_mergedActionList">video2.module2.play_video</li>
+                      <li class="Module 2 events_mergedActionList">video2.module2.seek_video</li>
+                      <li class="Module 2 events_mergedActionList">video20.module2.pause_video</li>
+                      <li class="Module 2 events_mergedActionList">video20.module2.play_video</li>
+                      <li class="Module 2 events_mergedActionList">video20.module2.seek_video</li>
+                      <li class="Module 2 events_mergedActionList">video3.module2.pause_video</li>
+                      <li class="Module 2 events_mergedActionList">video3.module2.play_video</li>
+                      <li class="Module 2 events_mergedActionList">video3.module2.seek_video</li>
+                      <li class="Module 2 events_mergedActionList">video4.module2.pause_video</li>
+                      <li class="Module 2 events_mergedActionList">video4.module2.play_video</li>
+                      <li class="Module 2 events_mergedActionList">video4.module2.seek_video</li>
+                      <li class="Module 2 events_mergedActionList">video5.module2.pause_video</li>
+                      <li class="Module 2 events_mergedActionList">video5.module2.play_video</li>
+                      <li class="Module 2 events_mergedActionList">video5.module2.seek_video</li>
+                      <li class="Module 2 events_mergedActionList">video6.module2.pause_video</li>
+                      <li class="Module 2 events_mergedActionList">video6.module2.play_video</li>
+                      <li class="Module 2 events_mergedActionList">video6.module2.seek_video</li>
+                      <li class="Module 2 events_mergedActionList">video7.module2.pause_video</li>
+                      <li class="Module 2 events_mergedActionList">video7.module2.play_video</li>
+                      <li class="Module 2 events_mergedActionList">video7.module2.seek_video</li>
+                      <li class="Module 2 events_mergedActionList">video8.module2.pause_video</li>
+                      <li class="Module 2 events_mergedActionList">video8.module2.play_video</li>
+                      <li class="Module 2 events_mergedActionList">video8.module2.seek_video</li>
+                      <li class="Module 2 events_mergedActionList">video9.module2.pause_video</li>
+                      <li class="Module 2 events_mergedActionList">video9.module2.play_video</li>
+                      <li class="Module 2 events_mergedActionList">video9.module2.seek_video</li>
+                    </ul>
+                  </li>    
+                  <li><input type="checkbox" name="aca" value="Module 3 events"> Module 3 events
+                    <ul class="no_collapse">
+                      <li class="Module 3 events_mergedActionList">graded_problem1.module3.problem_check</li>
+                      <li class="Module 3 events_mergedActionList">graded_problem1.module3.showanswer</li>
+                      <li class="Module 3 events_mergedActionList">graded_problem10.module3.problem_check</li>
+                      <li class="Module 3 events_mergedActionList">graded_problem10.module3.showanswer</li>
+                      <li class="Module 3 events_mergedActionList">graded_problem2.module3.problem_check</li>
+                      <li class="Module 3 events_mergedActionList">graded_problem2.module3.showanswer</li>
+                      <li class="Module 3 events_mergedActionList">graded_problem3.module3.problem_check</li>
+                      <li class="Module 3 events_mergedActionList">graded_problem3.module3.showanswer</li>
+                      <li class="Module 3 events_mergedActionList">graded_problem4.module3.problem_check</li>
+                      <li class="Module 3 events_mergedActionList">graded_problem4.module3.showanswer</li>
+                      <li class="Module 3 events_mergedActionList">graded_problem5.module3.problem_check</li>
+                      <li class="Module 3 events_mergedActionList">graded_problem5.module3.showanswer</li>
+                      <li class="Module 3 events_mergedActionList">graded_problem6.module3.problem_check</li>
+                      <li class="Module 3 events_mergedActionList">graded_problem6.module3.showanswer</li>
+                      <li class="Module 3 events_mergedActionList">graded_problem7.module3.problem_check</li>
+                      <li class="Module 3 events_mergedActionList">graded_problem7.module3.showanswer</li>
+                      <li class="Module 3 events_mergedActionList">graded_problem8.module3.problem_check</li>
+                      <li class="Module 3 events_mergedActionList">graded_problem8.module3.showanswer</li>
+                      <li class="Module 3 events_mergedActionList">graded_problem9.module3.problem_check</li>
+                      <li class="Module 3 events_mergedActionList">graded_problem9.module3.showanswer</li>
+                      <li class="Module 3 events_mergedActionList">self_test1.module3.problem_check</li>
+                      <li class="Module 3 events_mergedActionList">self_test1.module3.showanswer</li>
+                      <li class="Module 3 events_mergedActionList">self_test10.module3.problem_check</li>
+                      <li class="Module 3 events_mergedActionList">self_test10.module3.showanswer</li>
+                      <li class="Module 3 events_mergedActionList">self_test11.module3.problem_check</li>
+                      <li class="Module 3 events_mergedActionList">self_test11.module3.showanswer</li>
+                      <li class="Module 3 events_mergedActionList">self_test12.module3.problem_check</li>
+                      <li class="Module 3 events_mergedActionList">self_test12.module3.showanswer</li>
+                      <li class="Module 3 events_mergedActionList">self_test13.module3.problem_check</li>
+                      <li class="Module 3 events_mergedActionList">self_test13.module3.showanswer</li>
+                      <li class="Module 3 events_mergedActionList">self_test14.module3.problem_check</li>
+                      <li class="Module 3 events_mergedActionList">self_test14.module3.showanswer</li>
+                      <li class="Module 3 events_mergedActionList">self_test15.module3.problem_check</li>
+                      <li class="Module 3 events_mergedActionList">self_test15.module3.showanswer</li>
+                      <li class="Module 3 events_mergedActionList">self_test16.module3.problem_check</li>
+                      <li class="Module 3 events_mergedActionList">self_test16.module3.showanswer</li>
+                      <li class="Module 3 events_mergedActionList">self_test17.module3.problem_check</li>
+                      <li class="Module 3 events_mergedActionList">self_test17.module3.showanswer</li>
+                      <li class="Module 3 events_mergedActionList">self_test18.module3.problem_check</li>
+                      <li class="Module 3 events_mergedActionList">self_test18.module3.showanswer</li>
+                      <li class="Module 3 events_mergedActionList">self_test19.module3.problem_check</li>
+                      <li class="Module 3 events_mergedActionList">self_test19.module3.showanswer</li>
+                      <li class="Module 3 events_mergedActionList">self_test2.module3.problem_check</li>
+                      <li class="Module 3 events_mergedActionList">self_test2.module3.showanswer</li>
+                      <li class="Module 3 events_mergedActionList">self_test20.module3.problem_check</li>
+                      <li class="Module 3 events_mergedActionList">self_test20.module3.showanswer</li>
+                      <li class="Module 3 events_mergedActionList">self_test21.module3.problem_check</li>
+                      <li class="Module 3 events_mergedActionList">self_test21.module3.showanswer</li>
+                      <li class="Module 3 events_mergedActionList">self_test3.module3.problem_check</li>
+                      <li class="Module 3 events_mergedActionList">self_test3.module3.showanswer</li>
+                      <li class="Module 3 events_mergedActionList">self_test4.module3.problem_check</li>
+                      <li class="Module 3 events_mergedActionList">self_test4.module3.showanswer</li>
+                      <li class="Module 3 events_mergedActionList">self_test5.module3.problem_check</li>
+                      <li class="Module 3 events_mergedActionList">self_test5.module3.showanswer</li>
+                      <li class="Module 3 events_mergedActionList">self_test6.module3.problem_check</li>
+                      <li class="Module 3 events_mergedActionList">self_test6.module3.showanswer</li>
+                      <li class="Module 3 events_mergedActionList">self_test7.module3.problem_check</li>
+                      <li class="Module 3 events_mergedActionList">self_test7.module3.showanswer</li>
+                      <li class="Module 3 events_mergedActionList">self_test8.module3.problem_check</li>
+                      <li class="Module 3 events_mergedActionList">self_test8.module3.showanswer</li>
+                      <li class="Module 3 events_mergedActionList">self_test9.module3.problem_check</li>
+                      <li class="Module 3 events_mergedActionList">self_test9.module3.showanswer</li>
+                      <li class="Module 3 events_mergedActionList">video1.module3.pause_video</li>
+                      <li class="Module 3 events_mergedActionList">video1.module3.play_video</li>
+                      <li class="Module 3 events_mergedActionList">video1.module3.seek_video</li>
+                      <li class="Module 3 events_mergedActionList">video10.module3.pause_video</li>
+                      <li class="Module 3 events_mergedActionList">video10.module3.play_video</li>
+                      <li class="Module 3 events_mergedActionList">video10.module3.seek_video</li>
+                      <li class="Module 3 events_mergedActionList">video11.module3.pause_video</li>
+                      <li class="Module 3 events_mergedActionList">video11.module3.play_video</li>
+                      <li class="Module 3 events_mergedActionList">video11.module3.seek_video</li>
+                      <li class="Module 3 events_mergedActionList">video12.module3.pause_video</li>
+                      <li class="Module 3 events_mergedActionList">video12.module3.play_video</li>
+                      <li class="Module 3 events_mergedActionList">video12.module3.seek_video</li>
+                      <li class="Module 3 events_mergedActionList">video13.module3.pause_video</li>
+                      <li class="Module 3 events_mergedActionList">video13.module3.play_video</li>
+                      <li class="Module 3 events_mergedActionList">video13.module3.seek_video</li>
+                      <li class="Module 3 events_mergedActionList">video14.module3.pause_video</li>
+                      <li class="Module 3 events_mergedActionList">video14.module3.play_video</li>
+                      <li class="Module 3 events_mergedActionList">video14.module3.seek_video</li>
+                      <li class="Module 3 events_mergedActionList">video15.module3.pause_video</li>
+                      <li class="Module 3 events_mergedActionList">video15.module3.play_video</li>
+                      <li class="Module 3 events_mergedActionList">video15.module3.seek_video</li>
+                      <li class="Module 3 events_mergedActionList">video16.module3.pause_video</li>
+                      <li class="Module 3 events_mergedActionList">video16.module3.play_video</li>
+                      <li class="Module 3 events_mergedActionList">video16.module3.seek_video</li>
+                      <li class="Module 3 events_mergedActionList">video2.module3.pause_video</li>
+                      <li class="Module 3 events_mergedActionList">video2.module3.play_video</li>
+                      <li class="Module 3 events_mergedActionList">video2.module3.seek_video</li>
+                      <li class="Module 3 events_mergedActionList">video3.module3.pause_video</li>
+                      <li class="Module 3 events_mergedActionList">video3.module3.play_video</li>
+                      <li class="Module 3 events_mergedActionList">video3.module3.seek_video</li>
+                      <li class="Module 3 events_mergedActionList">video4.module3.pause_video</li>
+                      <li class="Module 3 events_mergedActionList">video4.module3.play_video</li>
+                      <li class="Module 3 events_mergedActionList">video4.module3.seek_video</li>
+                      <li class="Module 3 events_mergedActionList">video5.module3.pause_video</li>
+                      <li class="Module 3 events_mergedActionList">video5.module3.play_video</li>
+                      <li class="Module 3 events_mergedActionList">video5.module3.seek_video</li>
+                      <li class="Module 3 events_mergedActionList">video6.module3.pause_video</li>
+                      <li class="Module 3 events_mergedActionList">video6.module3.play_video</li>
+                      <li class="Module 3 events_mergedActionList">video6.module3.seek_video</li>
+                      <li class="Module 3 events_mergedActionList">video7.module3.pause_video</li>
+                      <li class="Module 3 events_mergedActionList">video7.module3.play_video</li>
+                      <li class="Module 3 events_mergedActionList">video7.module3.seek_video</li>
+                      <li class="Module 3 events_mergedActionList">video8.module3.pause_video</li>
+                      <li class="Module 3 events_mergedActionList">video8.module3.play_video</li>
+                      <li class="Module 3 events_mergedActionList">video8.module3.seek_video</li>
+                      <li class="Module 3 events_mergedActionList">video9.module3.pause_video</li>
+                      <li class="Module 3 events_mergedActionList">video9.module3.play_video</li>
+                      <li class="Module 3 events_mergedActionList">video9.module3.seek_video</li>
+                    </ul>
+                  </li>    
+                  <li><input type="checkbox" name="aca" value="Module 4 events">Module 4 events
+                    <ul class="no_collapse">
+<!--                       <li class="Module 4 events_mergedActionList">graded_problem1.module4.problem_check</li> -->
+                      <li class="Module 4 events_mergedActionList">graded_problem1.module4.showanswer</li>
+                      <li class="Module 4 events_mergedActionList">graded_problem10.module4.problem_check</li>
+                      <li class="Module 4 events_mergedActionList">graded_problem10.module4.showanswer</li>
+                      <li class="Module 4 events_mergedActionList">graded_problem2.module4.problem_check</li>
+                      <li class="Module 4 events_mergedActionList">graded_problem2.module4.showanswer</li>
+                      <li class="Module 4 events_mergedActionList">graded_problem3.module4.problem_check</li>
+                      <li class="Module 4 events_mergedActionList">graded_problem3.module4.showanswer</li>
+                      <li class="Module 4 events_mergedActionList">graded_problem4.module4.problem_check</li>
+                      <li class="Module 4 events_mergedActionList">graded_problem4.module4.showanswer</li>
+                      <li class="Module 4 events_mergedActionList">graded_problem5.module4.problem_check</li>
+                      <li class="Module 4 events_mergedActionList">graded_problem5.module4.showanswer</li>
+                      <li class="Module 4 events_mergedActionList">graded_problem6.module4.problem_check</li>
+                      <li class="Module 4 events_mergedActionList">graded_problem6.module4.showanswer</li>
+                      <li class="Module 4 events_mergedActionList">graded_problem7.module4.problem_check</li>
+                      <li class="Module 4 events_mergedActionList">graded_problem7.module4.showanswer</li>
+                      <li class="Module 4 events_mergedActionList">graded_problem8.module4.problem_check</li>
+                      <li class="Module 4 events_mergedActionList">graded_problem8.module4.showanswer</li>
+                      <li class="Module 4 events_mergedActionList">graded_problem9.module4.problem_check</li>
+                      <li class="Module 4 events_mergedActionList">graded_problem9.module4.showanswer</li>
+                      <li class="Module 4 events_mergedActionList">self_test1.module4.problem_check</li>
+                      <li class="Module 4 events_mergedActionList">self_test1.module4.showanswer</li>
+                      <li class="Module 4 events_mergedActionList">self_test2.module4.problem_check</li>
+                      <li class="Module 4 events_mergedActionList">self_test2.module4.showanswer</li>
+                      <li class="Module 4 events_mergedActionList">self_test3.module4.problem_check</li>
+                      <li class="Module 4 events_mergedActionList">self_test3.module4.showanswer</li>
+                      <li class="Module 4 events_mergedActionList">self_test4.module4.problem_check</li>
+                      <li class="Module 4 events_mergedActionList">self_test4.module4.showanswer</li>
+                      <li class="Module 4 events_mergedActionList">video1.module4.pause_video</li>
+                      <li class="Module 4 events_mergedActionList">video1.module4.play_video</li>
+                      <li class="Module 4 events_mergedActionList">video1.module4.seek_video</li>
+                      <li class="Module 4 events_mergedActionList">video2.module4.pause_video</li>
+                      <li class="Module 4 events_mergedActionList">video2.module4.play_video</li>
+                      <li class="Module 4 events_mergedActionList">video2.module4.seek_video</li>
+                      <li class="Module 4 events_mergedActionList">video3.module4.pause_video</li>
+                      <li class="Module 4 events_mergedActionList">video3.module4.play_video</li>
+                      <li class="Module 4 events_mergedActionList">video3.module4.seek_video</li>
+                      <li class="Module 4 events_mergedActionList">video4.module4.pause_video</li>
+                      <li class="Module 4 events_mergedActionList">video4.module4.play_video</li>
+                      <li class="Module 4 events_mergedActionList">video4.module4.seek_video</li>
+                      <li class="Module 4 events_mergedActionList">video5.module4.pause_video</li>
+                      <li class="Module 4 events_mergedActionList">video5.module4.play_video</li>
+                      <li class="Module 4 events_mergedActionList">video5.module4.seek_video</li>
+                      <li class="Module 4 events_mergedActionList">video6.module4.pause_video</li>
+                      <li class="Module 4 events_mergedActionList">video6.module4.play_video</li>
+                      <li class="Module 4 events_mergedActionList">video6.module4.seek_video</li>
+                      <li class="Module 4 events_mergedActionList">video7.module4.pause_video</li>
+                      <li class="Module 4 events_mergedActionList">video7.module4.play_video</li>
+                      <li class="Module 4 events_mergedActionList">video7.module4.seek_video</li>
+                    </ul>
+                  </li>    
+                  <li><input type="checkbox" name="aca" value="Module 5 events">Module 5 events
+                    <ul class="no_collapse">
+                      <li class="Module 5 events_mergedActionList">graded_problem1.module5.problem_check</li>
+                      <li class="Module 5 events_mergedActionList">graded_problem1.module5.showanswer</li>
+                      <li class="Module 5 events_mergedActionList">graded_problem10.module5.problem_check</li>
+                      <li class="Module 5 events_mergedActionList">graded_problem10.module5.showanswer</li>
+                      <li class="Module 5 events_mergedActionList">graded_problem11.module5.problem_check</li>
+                      <li class="Module 5 events_mergedActionList">graded_problem11.module5.showanswer</li>
+                      <li class="Module 5 events_mergedActionList">graded_problem2.module5.problem_check</li>
+                      <li class="Module 5 events_mergedActionList">graded_problem2.module5.showanswer</li>
+                      <li class="Module 5 events_mergedActionList">graded_problem3.module5.problem_check</li>
+                      <li class="Module 5 events_mergedActionList">graded_problem3.module5.showanswer</li>
+                      <li class="Module 5 events_mergedActionList">graded_problem4.module5.problem_check</li>
+                      <li class="Module 5 events_mergedActionList">graded_problem4.module5.showanswer</li>
+                      <li class="Module 5 events_mergedActionList">graded_problem5.module5.problem_check</li>
+                      <li class="Module 5 events_mergedActionList">graded_problem5.module5.showanswer</li>
+                      <li class="Module 5 events_mergedActionList">graded_problem6.module5.problem_check</li>
+                      <li class="Module 5 events_mergedActionList">graded_problem6.module5.showanswer</li>
+                      <li class="Module 5 events_mergedActionList">graded_problem7.module5.problem_check</li>
+                      <li class="Module 5 events_mergedActionList">graded_problem7.module5.showanswer</li>
+                      <li class="Module 5 events_mergedActionList">graded_problem8.module5.problem_check</li>
+                      <li class="Module 5 events_mergedActionList">graded_problem8.module5.showanswer</li>
+                      <li class="Module 5 events_mergedActionList">graded_problem9.module5.problem_check</li>
+                      <li class="Module 5 events_mergedActionList">graded_problem9.module5.showanswer</li>
+                      <li class="Module 5 events_mergedActionList">self_test1.module5.problem_check</li>
+                      <li class="Module 5 events_mergedActionList">self_test1.module5.showanswer</li>
+                      <li class="Module 5 events_mergedActionList">video1.module5.pause_video</li>
+                      <li class="Module 5 events_mergedActionList">video1.module5.play_video</li>
+                      <li class="Module 5 events_mergedActionList">video1.module5.seek_video</li>
+                      <li class="Module 5 events_mergedActionList">video2.module5.pause_video</li>
+                      <li class="Module 5 events_mergedActionList">video2.module5.play_video</li>
+                      <li class="Module 5 events_mergedActionList">video2.module5.seek_video</li>
+                      <li class="Module 5 events_mergedActionList">video3.module5.pause_video</li>
+                      <li class="Module 5 events_mergedActionList">video3.module5.play_video</li>
+                      <li class="Module 5 events_mergedActionList">video3.module5.seek_video</li>
+                      <li class="Module 5 events_mergedActionList">video4.module5.pause_video</li>
+                      <li class="Module 5 events_mergedActionList">video4.module5.play_video</li>
+                      <li class="Module 5 events_mergedActionList">video4.module5.seek_video</li>
+                    </ul>
+                  </li>    
+                  <li><input type="checkbox" name="aca" value="Module 6 events">Module 6 events
+                    <ul class="no_collapse">
+                      <li class="Module 6 events_mergedActionList">graded_problem1.module6.problem_check</li>
+                      <li class="Module 6 events_mergedActionList">graded_problem1.module6.showanswer</li>
+                      <li class="Module 6 events_mergedActionList">graded_problem10.module6.problem_check</li>
+                      <li class="Module 6 events_mergedActionList">graded_problem10.module6.showanswer</li>
+                      <li class="Module 6 events_mergedActionList">graded_problem2.module6.problem_check</li>
+                      <li class="Module 6 events_mergedActionList">graded_problem2.module6.showanswer</li>
+                      <li class="Module 6 events_mergedActionList">graded_problem3.module6.problem_check</li>
+                      <li class="Module 6 events_mergedActionList">graded_problem3.module6.showanswer</li>
+                      <li class="Module 6 events_mergedActionList">graded_problem4.module6.problem_check</li>
+                      <li class="Module 6 events_mergedActionList">graded_problem4.module6.showanswer</li>
+                      <li class="Module 6 events_mergedActionList">graded_problem5.module6.problem_check</li>
+                      <li class="Module 6 events_mergedActionList">graded_problem5.module6.showanswer</li>
+                      <li class="Module 6 events_mergedActionList">graded_problem6.module6.problem_check</li>
+                      <li class="Module 6 events_mergedActionList">graded_problem6.module6.showanswer</li>
+                      <li class="Module 6 events_mergedActionList">graded_problem7.module6.problem_check</li>
+                      <li class="Module 6 events_mergedActionList">graded_problem7.module6.showanswer</li>
+                      <li class="Module 6 events_mergedActionList">graded_problem8.module6.problem_check</li>
+                      <li class="Module 6 events_mergedActionList">graded_problem8.module6.showanswer</li>
+                      <li class="Module 6 events_mergedActionList">graded_problem9.module6.problem_check</li>
+                      <li class="Module 6 events_mergedActionList">graded_problem9.module6.showanswer</li>
+                      <li class="Module 6 events_mergedActionList">self_test1.module6.problem_check</li>
+                      <li class="Module 6 events_mergedActionList">self_test1.module6.showanswer</li>
+                      <li class="Module 6 events_mergedActionList">self_test2.module6.problem_check</li>
+                      <li class="Module 6 events_mergedActionList">self_test2.module6.showanswer</li>
+                      <li class="Module 6 events_mergedActionList">video1.module6.pause_video</li>
+                      <li class="Module 6 events_mergedActionList">video1.module6.play_video</li>
+                      <li class="Module 6 events_mergedActionList">video1.module6.seek_video</li>
+                      <li class="Module 6 events_mergedActionList">video2.module6.pause_video</li>
+                      <li class="Module 6 events_mergedActionList">video2.module6.play_video</li>
+                      <li class="Module 6 events_mergedActionList">video2.module6.seek_video</li>
+                      <li class="Module 6 events_mergedActionList">video3.module6.pause_video</li>
+                      <li class="Module 6 events_mergedActionList">video3.module6.play_video</li>
+                      <li class="Module 6 events_mergedActionList">video3.module6.seek_video</li>
+                      <li class="Module 6 events_mergedActionList">video4.module6.pause_video</li>
+                      <li class="Module 6 events_mergedActionList">video4.module6.play_video</li>
+                      <li class="Module 6 events_mergedActionList">video4.module6.seek_video</li>
+                    </ul>
+                  </li>    
+                  <li><input type="checkbox" name="aca" value="Module 7 events">Module 7 events
+                    <ul class="no_collapse">
+                      <li class="Module 7 events_mergedActionList">graded_problem1.module7.problem_check</li>
+                      <li class="Module 7 events_mergedActionList">graded_problem1.module7.showanswer</li>
+                      <li class="Module 7 events_mergedActionList">graded_problem10.module7.problem_check</li>
+                      <li class="Module 7 events_mergedActionList">graded_problem10.module7.showanswer</li>
+                      <li class="Module 7 events_mergedActionList">graded_problem11.module7.problem_check</li>
+                      <li class="Module 7 events_mergedActionList">graded_problem11.module7.showanswer</li>
+                      <li class="Module 7 events_mergedActionList">graded_problem12.module7.problem_check</li>
+                      <li class="Module 7 events_mergedActionList">graded_problem12.module7.showanswer</li>
+                      <li class="Module 7 events_mergedActionList">graded_problem13.module7.problem_check</li>
+                      <li class="Module 7 events_mergedActionList">graded_problem13.module7.showanswer</li>
+                      <li class="Module 7 events_mergedActionList">graded_problem14.module7.problem_check</li>
+                      <li class="Module 7 events_mergedActionList">graded_problem14.module7.showanswer</li>
+                      <li class="Module 7 events_mergedActionList">graded_problem15.module7.problem_check</li>
+                      <li class="Module 7 events_mergedActionList">graded_problem15.module7.showanswer</li>
+                      <li class="Module 7 events_mergedActionList">graded_problem16.module7.problem_check</li>
+                      <li class="Module 7 events_mergedActionList">graded_problem16.module7.showanswer</li>
+                      <li class="Module 7 events_mergedActionList">graded_problem17.module7.problem_check</li>
+                      <li class="Module 7 events_mergedActionList">graded_problem17.module7.showanswer</li>
+                      <li class="Module 7 events_mergedActionList">graded_problem18.module7.problem_check</li>
+                      <li class="Module 7 events_mergedActionList">graded_problem18.module7.showanswer</li>
+                      <li class="Module 7 events_mergedActionList">graded_problem19.module7.problem_check</li>
+                      <li class="Module 7 events_mergedActionList">graded_problem19.module7.showanswer</li>
+                      <li class="Module 7 events_mergedActionList">graded_problem2.module7.problem_check</li>
+                      <li class="Module 7 events_mergedActionList">graded_problem2.module7.showanswer</li>
+                      <li class="Module 7 events_mergedActionList">graded_problem20.module7.problem_check</li>
+                      <li class="Module 7 events_mergedActionList">graded_problem20.module7.showanswer</li>
+                      <li class="Module 7 events_mergedActionList">graded_problem3.module7.problem_check</li>
+                      <li class="Module 7 events_mergedActionList">graded_problem3.module7.showanswer</li>
+                      <li class="Module 7 events_mergedActionList">graded_problem4.module7.problem_check</li>
+                      <li class="Module 7 events_mergedActionList">graded_problem4.module7.showanswer</li>
+                      <li class="Module 7 events_mergedActionList">graded_problem5.module7.problem_check</li>
+                      <li class="Module 7 events_mergedActionList">graded_problem5.module7.showanswer</li>
+                      <li class="Module 7 events_mergedActionList">graded_problem6.module7.problem_check</li>
+                      <li class="Module 7 events_mergedActionList">graded_problem6.module7.showanswer</li>
+                      <li class="Module 7 events_mergedActionList">graded_problem7.module7.problem_check</li>
+                      <li class="Module 7 events_mergedActionList">graded_problem7.module7.showanswer</li>
+                      <li class="Module 7 events_mergedActionList">graded_problem8.module7.problem_check</li>
+                      <li class="Module 7 events_mergedActionList">graded_problem8.module7.showanswer</li>
+                      <li class="Module 7 events_mergedActionList">graded_problem9.module7.problem_check</li>
+                      <li class="Module 7 events_mergedActionList">graded_problem9.module7.showanswer</li>
+                    </ul>
+                  </li>    
+                  <li><input type="checkbox" name="aca" value="Module 8 events">Module 8 events
+                    <ul class="no_collapse">
+                      <li class="Module 8 events_mergedActionList">graded_problem1.module8.problem_check</li>
+                      <li class="Module 8 events_mergedActionList">graded_problem1.module8.showanswer</li>
+                      <li class="Module 8 events_mergedActionList">graded_problem2.module8.problem_check</li>
+                      <li class="Module 8 events_mergedActionList">graded_problem2.module8.showanswer</li>
                     </ul>
                   </li>
-<!--                   <li><input type="checkbox" name="aca" value="All Testing"> All Testing
+                  <li><input type="checkbox" name="aca" value="Graded problem checks and show answers">Graded problem checks and show answers
                     <ul class="no_collapse">
-                      <li class="All Testing_mergedActionList">model.nonContactAmmeterModel.connectionBroken</li>
-                      <li class="All Testing_mergedActionList">model.nonContactAmmeterModel.connectionFormed</li>
-                      <li class="All Testing_mergedActionList">model.nonContactAmmeterModel.measuredCurrentChanged</li>
-                      <li class="All Testing_mergedActionList">model.seriesAmmeter.fireEnded</li>
-                      <li class="All Testing_mergedActionList">model.seriesAmmeter.fireStarted</li>
-                      <li class="All Testing_mergedActionList">model.seriesAmmeter.measuredCurrentChanged</li>
-                      <li class="All Testing_mergedActionList">model.voltmeterBlackLeadModel.connectionBroken</li>
-                      <li class="All Testing_mergedActionList">model.voltmeterBlackLeadModel.connectionFormed</li>
-                      <li class="All Testing_mergedActionList">model.voltmeterModel.measuredVoltageChanged</li>
-                      <li class="All Testing_mergedActionList">model.voltmeterRedLeadModel.connectionBroken</li>
-                      <li class="All Testing_mergedActionList">model.voltmeterRedLeadModel.connectionFormed</li>
-                      <li class="All Testing_mergedActionList">user.blackProbe.drag</li>
-                      <li class="All Testing_mergedActionList">user.blackProbe.endDrag</li>
-                      <li class="All Testing_mergedActionList">user.blackProbe.startDrag</li>
-                      <li class="All Testing_mergedActionList">user.nonContactAmmeter.drag</li>
-                      <li class="All Testing_mergedActionList">user.nonContactAmmeter.endDrag</li>
-                      <li class="All Testing_mergedActionList">user.nonContactAmmeter.startDrag</li>
-                      <li class="All Testing_mergedActionList">user.nonContactAmmeterCheckBox.pressed</li>
-                      <li class="All Testing_mergedActionList">user.redProbe.drag</li>
-                      <li class="All Testing_mergedActionList">user.redProbe.endDrag</li>
-                      <li class="All Testing_mergedActionList">user.redProbe.startDrag</li>
-                      <li class="All Testing_mergedActionList">user.seriesAmmeter.addedComponent</li>
-                      <li class="All Testing_mergedActionList">user.seriesAmmeter.movedComponent</li>
-                      <li class="All Testing_mergedActionList">user.seriesAmmeter.removedComponent</li>
-                      <li class="All Testing_mergedActionList">user.seriesAmmeterCheckBox.pressed</li>
-                      <li class="All Testing_mergedActionList">user.voltmeterCheckBox.pressed</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem1.module0.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem1.module0.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem1.module1.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem1.module1.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem1.module2.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem1.module2.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem1.module3.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem1.module3.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem1.module4.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem1.module4.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem1.module5.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem1.module5.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem1.module6.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem1.module6.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem1.module7.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem1.module7.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem1.module8.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem1.module8.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem10.module2.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem10.module2.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem10.module3.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem10.module3.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem10.module4.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem10.module4.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem10.module5.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem10.module5.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem10.module6.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem10.module6.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem10.module7.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem10.module7.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem11.module2.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem11.module2.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem11.module5.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem11.module5.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem11.module7.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem11.module7.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem12.module2.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem12.module2.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem12.module7.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem12.module7.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem13.module7.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem13.module7.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem14.module7.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem14.module7.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem15.module7.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem15.module7.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem16.module7.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem16.module7.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem17.module7.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem17.module7.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem18.module7.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem18.module7.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem19.module7.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem19.module7.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem2.module0.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem2.module0.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem2.module1.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem2.module1.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem2.module2.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem2.module2.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem2.module3.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem2.module3.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem2.module4.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem2.module4.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem2.module5.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem2.module5.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem2.module6.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem2.module6.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem2.module7.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem2.module7.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem2.module8.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem2.module8.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem20.module7.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem20.module7.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem3.module1.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem3.module1.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem3.module2.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem3.module2.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem3.module3.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem3.module3.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem3.module4.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem3.module4.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem3.module5.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem3.module5.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem3.module6.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem3.module6.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem3.module7.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem3.module7.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem4.module1.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem4.module1.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem4.module2.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem4.module2.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem4.module3.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem4.module3.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem4.module4.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem4.module4.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem4.module5.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem4.module5.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem4.module6.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem4.module6.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem4.module7.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem4.module7.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem5.module1.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem5.module1.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem5.module2.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem5.module2.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem5.module3.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem5.module3.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem5.module4.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem5.module4.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem5.module5.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem5.module5.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem5.module6.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem5.module6.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem5.module7.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem5.module7.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem6.module1.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem6.module1.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem6.module2.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem6.module2.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem6.module3.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem6.module3.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem6.module4.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem6.module4.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem6.module5.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem6.module5.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem6.module6.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem6.module6.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem6.module7.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem6.module7.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem7.module1.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem7.module1.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem7.module2.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem7.module2.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem7.module3.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem7.module3.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem7.module4.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem7.module4.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem7.module5.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem7.module5.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem7.module6.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem7.module6.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem7.module7.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem7.module7.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem8.module1.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem8.module1.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem8.module2.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem8.module2.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem8.module3.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem8.module3.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem8.module4.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem8.module4.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem8.module5.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem8.module5.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem8.module6.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem8.module6.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem8.module7.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem8.module7.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem9.module1.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem9.module1.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem9.module2.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem9.module2.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem9.module3.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem9.module3.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem9.module4.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem9.module4.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem9.module5.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem9.module5.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem9.module6.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem9.module6.showanswer</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem9.module7.problem_check</li>
+                      <li class="Graded problem checks and show answers_mergedActionList">graded_problem9.module7.showanswer</li>       
                     </ul>
-                  </li> -->
-<!--                   <li><input type="checkbox" name="aca" value="Voltmeter Testing"> Voltmeter Testing
+                  </li>
+                  <li><input type="checkbox" name="aca" value="Self-test checks and show answers">Self-test checks and show answers
+                    <ul class="no_collapse">                
+                      <li class="Self-test checks and show answers_mergedActionList">self_test1.module1.problem_check</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test1.module1.showanswer</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test1.module2.problem_check</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test1.module2.showanswer</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test1.module3.problem_check</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test1.module3.showanswer</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test1.module4.problem_check</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test1.module4.showanswer</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test1.module5.problem_check</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test1.module5.showanswer</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test1.module6.problem_check</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test1.module6.showanswer</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test10.module2.problem_check</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test10.module2.showanswer</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test10.module3.problem_check</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test10.module3.showanswer</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test11.module2.problem_check</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test11.module2.showanswer</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test11.module3.problem_check</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test11.module3.showanswer</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test12.module2.problem_check</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test12.module2.showanswer</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test12.module3.problem_check</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test12.module3.showanswer</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test13.module2.problem_check</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test13.module2.showanswer</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test13.module3.problem_check</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test13.module3.showanswer</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test14.module2.problem_check</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test14.module2.showanswer</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test14.module3.problem_check</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test14.module3.showanswer</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test15.module2.problem_check</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test15.module2.showanswer</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test15.module3.problem_check</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test15.module3.showanswer</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test16.module2.problem_check</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test16.module2.showanswer</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test16.module3.problem_check</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test16.module3.showanswer</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test17.module2.problem_check</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test17.module2.showanswer</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test17.module3.problem_check</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test17.module3.showanswer</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test18.module2.problem_check</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test18.module2.showanswer</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test18.module3.problem_check</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test18.module3.showanswer</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test19.module2.problem_check</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test19.module2.showanswer</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test19.module3.problem_check</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test19.module3.showanswer</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test2.module2.problem_check</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test2.module2.showanswer</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test2.module3.problem_check</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test2.module3.showanswer</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test2.module4.problem_check</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test2.module4.showanswer</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test2.module6.problem_check</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test2.module6.showanswer</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test20.module2.problem_check</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test20.module2.showanswer</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test20.module3.problem_check</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test20.module3.showanswer</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test21.module2.problem_check</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test21.module2.showanswer</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test21.module3.problem_check</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test21.module3.showanswer</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test22.module2.problem_check</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test22.module2.showanswer</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test23.module2.problem_check</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test23.module2.showanswer</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test24.module2.problem_check</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test24.module2.showanswer</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test25.module2.problem_check</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test25.module2.showanswer</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test26.module2.problem_check</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test26.module2.showanswer</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test27.module2.problem_check</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test27.module2.showanswer</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test28.module2.problem_check</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test28.module2.showanswer</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test29.module2.problem_check</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test29.module2.showanswer</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test3.module2.problem_check</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test3.module2.showanswer</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test3.module3.problem_check</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test3.module3.showanswer</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test3.module4.problem_check</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test3.module4.showanswer</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test30.module2.problem_check</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test30.module2.showanswer</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test4.module2.problem_check</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test4.module2.showanswer</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test4.module3.problem_check</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test4.module3.showanswer</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test4.module4.problem_check</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test4.module4.showanswer</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test5.module2.problem_check</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test5.module2.showanswer</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test5.module3.problem_check</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test5.module3.showanswer</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test6.module2.problem_check</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test6.module2.showanswer</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test6.module3.problem_check</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test6.module3.showanswer</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test7.module2.problem_check</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test7.module2.showanswer</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test7.module3.problem_check</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test7.module3.showanswer</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test8.module2.problem_check</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test8.module2.showanswer</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test8.module3.problem_check</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test8.module3.showanswer</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test9.module2.problem_check</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test9.module2.showanswer</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test9.module3.problem_check</li>
+                      <li class="Self-test checks and show answers_mergedActionList">self_test9.module3.showanswer</li>                  
+                    </ul>
+                  </li>
+                  <li><input type="checkbox" name="aca" value="Video play, pause, seek">Video play, pause, seek
                     <ul class="no_collapse">
-                      <li class="Voltmeter Testing_mergedActionList">model.voltmeterBlackLeadModel.connectionBroken</li>
-                      <li class="Voltmeter Testing_mergedActionList">model.voltmeterBlackLeadModel.connectionFormed</li>
-                      <li class="Voltmeter Testing_mergedActionList">model.voltmeterModel.measuredVoltageChanged</li>
-                      <li class="Voltmeter Testing_mergedActionList">model.voltmeterRedLeadModel.connectionBroken</li>
-                      <li class="Voltmeter Testing_mergedActionList">model.voltmeterRedLeadModel.connectionFormed</li>
-                      <li class="Voltmeter Testing_mergedActionList">user.blackProbe.drag</li>
-                      <li class="Voltmeter Testing_mergedActionList">user.blackProbe.endDrag</li>
-                      <li class="Voltmeter Testing_mergedActionList">user.blackProbe.startDrag</li>
-                      <li class="Voltmeter Testing_mergedActionList">user.redProbe.drag</li>
-                      <li class="Voltmeter Testing_mergedActionList">user.redProbe.endDrag</li>
-                      <li class="Voltmeter Testing_mergedActionList">user.redProbe.startDrag</li>
-                      <li class="Voltmeter Testing_mergedActionList">user.voltmeterCheckBox.pressed</li>
+                      <li class="Video play, pause, seek_mergedActionList">video1.module0.pause_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video1.module0.play_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video1.module0.seek_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video1.module1.pause_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video1.module1.play_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video1.module1.seek_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video1.module2.pause_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video1.module2.play_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video1.module2.seek_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video1.module3.pause_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video1.module3.play_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video1.module3.seek_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video1.module4.pause_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video1.module4.play_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video1.module4.seek_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video1.module5.pause_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video1.module5.play_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video1.module5.seek_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video1.module6.pause_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video1.module6.play_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video1.module6.seek_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video10.module2.pause_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video10.module2.play_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video10.module3.pause_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video10.module3.play_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video10.module3.seek_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video11.module2.pause_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video11.module2.play_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video11.module2.seek_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video11.module3.pause_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video11.module3.play_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video11.module3.seek_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video12.module2.pause_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video12.module2.play_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video12.module2.seek_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video12.module3.pause_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video12.module3.play_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video12.module3.seek_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video13.module2.pause_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video13.module2.play_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video13.module2.seek_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video13.module3.pause_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video13.module3.play_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video13.module3.seek_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video14.module2.pause_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video14.module2.play_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video14.module2.seek_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video14.module3.pause_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video14.module3.play_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video14.module3.seek_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video15.module2.pause_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video15.module2.play_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video15.module2.seek_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video15.module3.pause_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video15.module3.play_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video15.module3.seek_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video16.module2.pause_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video16.module2.play_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video16.module2.seek_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video16.module3.pause_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video16.module3.play_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video16.module3.seek_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video17.module2.pause_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video17.module2.play_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video17.module2.seek_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video18.module2.pause_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video18.module2.play_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video18.module2.seek_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video19.module2.pause_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video19.module2.play_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video19.module2.seek_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video2.module1.pause_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video2.module1.play_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video2.module1.seek_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video2.module2.pause_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video2.module2.play_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video2.module2.seek_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video2.module3.pause_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video2.module3.play_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video2.module3.seek_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video2.module4.pause_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video2.module4.play_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video2.module4.seek_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video2.module5.pause_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video2.module5.play_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video2.module5.seek_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video2.module6.pause_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video2.module6.play_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video2.module6.seek_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video20.module2.pause_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video20.module2.play_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video20.module2.seek_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video3.module1.pause_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video3.module1.play_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video3.module1.seek_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video3.module2.pause_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video3.module2.play_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video3.module2.seek_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video3.module3.pause_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video3.module3.play_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video3.module3.seek_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video3.module4.pause_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video3.module4.play_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video3.module4.seek_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video3.module5.pause_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video3.module5.play_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video3.module5.seek_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video3.module6.pause_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video3.module6.play_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video3.module6.seek_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video4.module2.pause_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video4.module2.play_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video4.module2.seek_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video4.module3.pause_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video4.module3.play_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video4.module3.seek_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video4.module4.pause_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video4.module4.play_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video4.module4.seek_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video4.module5.pause_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video4.module5.play_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video4.module5.seek_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video4.module6.pause_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video4.module6.play_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video4.module6.seek_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video5.module2.pause_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video5.module2.play_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video5.module2.seek_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video5.module3.pause_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video5.module3.play_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video5.module3.seek_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video5.module4.pause_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video5.module4.play_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video5.module4.seek_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video6.module2.pause_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video6.module2.play_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video6.module2.seek_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video6.module3.pause_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video6.module3.play_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video6.module3.seek_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video6.module4.pause_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video6.module4.play_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video6.module4.seek_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video7.module2.pause_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video7.module2.play_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video7.module2.seek_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video7.module3.pause_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video7.module3.play_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video7.module3.seek_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video7.module4.pause_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video7.module4.play_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video7.module4.seek_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video8.module2.pause_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video8.module2.play_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video8.module2.seek_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video8.module3.pause_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video8.module3.play_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video8.module3.seek_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video9.module2.pause_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video9.module2.play_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video9.module2.seek_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video9.module3.pause_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video9.module3.play_video</li>
+                      <li class="Video play, pause, seek_mergedActionList">video9.module3.seek_video</li>
                     </ul>
-                  </li>  -->
-                  <li><input type="checkbox" name="aca" value="User dragging voltmeter probes"> User dragging voltmeter probes
-                    <ul class="no_collapse">
-                      <li class="User dragging voltmeter probes_mergedActionList">user.blackProbe.drag</li>
-                      <li class="User dragging voltmeter probes_mergedActionList">user.blackProbe.startDrag</li>
-                      <li class="User dragging voltmeter probes_mergedActionList">user.blackProbe.endDrag</li>
-                      <li class="User dragging voltmeter probes_mergedActionList">user.redProbe.drag</li>
-                      <li class="User dragging voltmeter probes_mergedActionList">user.redProbe.startDrag</li>
-                      <li class="User dragging voltmeter probes_mergedActionList">user.redProbe.endDrag</li>
-                    </ul>
-                  </li>  
-                  <li><input type="checkbox" name="aca" value="User dragging nonContactAmmeter probes"> User dragging nonContactAmmeter probes
-                    <ul class="no_collapse">
-                      <li class="User dragging nonContactAmmeter probes_mergedActionList">user.nonContactAmmeter.drag</li>
-                      <li class="User dragging nonContactAmmeter probes_mergedActionList">user.nonContactAmmeter.startDrag</li>
-                      <li class="User dragging nonContactAmmeter probes_mergedActionList">user.nonContactAmmeter.endDrag</li>
-                    </ul>
-                  </li>  
-                  <li><input type="checkbox" name="aca" value="User adding series Ammeter"> User adding series Ammeter
-                    <ul class="no_collapse">
-                      <li class="User adding series Ammeter_mergedActionList">user.seriesAmmeter.addedComponent</li>
-                    </ul>
-                  </li>                   
-                  <li><input type="checkbox" name="aca" value="Instruments detect change"> Instruments detect change
-                    <ul class="no_collapse">
-                      <li class="Instruments detect change_mergedActionList">model.nonContactAmmeterModel.measuredCurrentChanged</li>
-                      <li class="Instruments detect change_mergedActionList">model.seriesAmmeter.measuredCurrentChanged</li>
-                      <li class="Instruments detect change_mergedActionList">model.voltmeterModel.measuredVoltageChanged</li>
-                    </ul>
-                  </li>  
-                  <li><input type="checkbox" name="aca" value="All resistor editor changes"> All resistor editor changes
-                    <ul class="no_collapse">
-                      <li class="All resistor editor changes_mergedActionList">user.resistorEditor.startDrag</li>
-                      <li class="All resistor editor changes_mergedActionList">user.resistorEditor.endDrag</li>
-                      <li class="All resistor editor changes_mergedActionList">user.resistorEditor.changed</li>
-                    </ul>
-                  </li>    
-                  <li><input type="checkbox" name="aca" value="Resistor editor dragging"> Resistor editor dragging
-                    <ul class="no_collapse">
-                      <li class="Resistor editor dragging_mergedActionList">user.resistorEditor.startDrag</li>
-                      <li class="Resistor editor dragging_mergedActionList">user.resistorEditor.endDrag</li>
-                    </ul>
-                  </li>    
-<!--                   <li><input type="checkbox" name="aca" value="Ammeter Testing"> Ammeter Testing
-                    <ul class="no_collapse">
-                      <li class="Ammeter Testing_mergedActionList">model.nonContactAmmeterModel.connectionBroken</li>
-                      <li class="Ammeter Testing_mergedActionList">model.nonContactAmmeterModel.connectionFormed</li>
-                      <li class="Ammeter Testing_mergedActionList">model.nonContactAmmeterModel.measuredCurrentChanged</li>
-                      <li class="Ammeter Testing_mergedActionList">model.seriesAmmeter.fireEnded</li>
-                      <li class="Ammeter Testing_mergedActionList">model.seriesAmmeter.fireStarted</li>
-                      <li class="Ammeter Testing_mergedActionList">model.seriesAmmeter.measuredCurrentChanged</li>
-                      <li class="Ammeter Testing_mergedActionList">user.nonContactAmmeter.drag</li>
-                      <li class="Ammeter Testing_mergedActionList">user.nonContactAmmeter.endDrag</li>
-                      <li class="Ammeter Testing_mergedActionList">user.nonContactAmmeter.startDrag</li>
-                      <li class="Ammeter Testing_mergedActionList">user.nonContactAmmeterCheckBox.pressed</li>
-                      <li class="Ammeter Testing_mergedActionList">user.seriesAmmeter.addedComponent</li>
-                      <li class="Ammeter Testing_mergedActionList">user.seriesAmmeter.movedComponent</li>
-                      <li class="Ammeter Testing_mergedActionList">user.seriesAmmeter.removedComponent</li>
-                      <li class="Ammeter Testing_mergedActionList">user.seriesAmmeterCheckBox.pressed</li>
-                    </ul>
-                  </li> -->
-                  <li><input type="checkbox" name="aca" value="Basic Building - Adding Components"> Basic Building - Adding Components
-                    <ul class="no_collapse">
-                      <li class="Basic Building - Adding Components_mergedActionList">user.battery.addedComponent</li>
-                      <li class="Basic Building - Adding Components_mergedActionList">user.circuitSwitch.addedComponent</li>
-                      <li class="Basic Building - Adding Components_mergedActionList">user.grabBagResistor.addedComponent</li>
-                      <li class="Basic Building - Adding Components_mergedActionList">user.lightBulb.addedComponent</li>
-                      <li class="Basic Building - Adding Components_mergedActionList">user.resistor.addedComponent</li>
-<!--                       <li class="Basic Building - Adding Components_mergedActionList">user.seriesAmmeter.addedComponent</li> -->
-                      <li class="Basic Building - Adding Components_mergedActionList">user.wire.addedComponent</li>
-                    </ul>
+                  </li>
                 </ul>
               </li>
             </ul>
