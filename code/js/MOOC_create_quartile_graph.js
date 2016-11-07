@@ -45,6 +45,7 @@ d3.json("processing/json_files/MOOC_ALL_ACTIONS.json", function(error, orig_data
 	    }
 	    
 	    for (var ind=0; ind < merged_action_list.length; ind++){
+	    	console.log(merged_action_list[ind])
 	    	merged_freq_list_high = addArrays(merged_freq_list_high, orig_data["High"][i.toString()][merged_action_list[ind]]);
 	    	merged_freq_list_low = addArrays(merged_freq_list_low, orig_data["Low"][i.toString()][merged_action_list[ind]]);
 	    }
