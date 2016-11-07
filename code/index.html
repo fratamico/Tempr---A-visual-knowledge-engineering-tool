@@ -234,9 +234,10 @@
             </div>
           <div class="container">
             <input type="text" size="30" style="height:25px;" id="filter_raw_list" placeholder="Type Here to Filter Raw List"/>
+            <input type="checkbox" onClick="toggle(this)" /> Toggle All<br/>
             
             <ul id="collapse_list">
-              <li>Raw Log Events
+              <li id="raw_log_events">Raw Log Events
                 <ul class="filterable_list">
                   <li><input type="checkbox" name="aca" value="model.battery.currentChanged"> model.battery.currentChanged</li>
                   <li><input type="checkbox" name="aca" value="model.battery.fireEnded"> model.battery.fireEnded</li>
@@ -504,6 +505,20 @@
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="js/ie10-viewport-bug-workaround.js"></script>
     <script>
+    function toggle(source) {
+      checkboxes = document.getElementsByName('aca');
+      for(var i=0, n=checkboxes.length;i<n;i++) {
+        if (source.checked === false) {
+          checkboxes[i].checked = source.checked;
+        }
+        var parentID = checkboxes[i].parentElement.parentElement.parentElement.id;
+        if (parentID === "raw_log_events") {
+          if (checkboxes[i].offsetParent !== null) {
+            checkboxes[i].checked = source.checked;
+          }
+        }
+      }
+    }
         $(function(){
 
     $('#merge_button').click(function(){
