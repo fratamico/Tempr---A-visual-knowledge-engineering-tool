@@ -3,7 +3,7 @@ from decimal import Decimal
 import json
 import numpy as np
 
-NUM_SPLITS = 5
+NUM_SPLITS = 10
 THREEPLACES = Decimal(10) ** -2
 
 
@@ -299,7 +299,7 @@ d_file = open("MOOC_heatmap_data.tsv", 'w')
 d_file_2 = open("MOOC_heatmap_data_labels.tsv", 'w')
 d_file.write("row_idx\tcol_idx\tlog2ratio\n")
 col = 0
-rowLabel = ['video3.module1.play_video', 'self_test20.module3.problem_check', 'video2.module2.play_video', 'self_test3.module3.problem_check', 'video1.module3.pause_video', 'video18.module2.play_video', 'self_test15.module2.problem_check', 'video15.module3.pause_video', 'graded_problem2.module0.showanswer', 'self_test5.module3.showanswer', 'video3.module5.play_video', 'video3.module3.play_video', 'graded_problem9.module3.problem_check', 'video2.module5.play_video', 'video3.module2.pause_video', 'video3.module1.pause_video', 'video1.module3.play_video', 'graded_problem3.module3.problem_check', 'self_test17.module2.problem_check', 'video4.module2.play_video', 'video13.module3.play_video', 'video5.module2.play_video', 'self_test2.module3.problem_check', 'graded_problem2.module5.problem_check', 'video4.module5.play_video', 'video2.module3.play_video', 'self_test1.module4.problem_check', 'graded_problem8.module3.problem_check', 'video2.module5.pause_video', 'video11.module2.play_video', 'video1.module6.play_video', 'video5.module2.pause_video', 'video11.module2.pause_video', 'video1.module5.play_video', 'forum.read', 'video13.module3.pause_video', 'self_test21.module3.problem_check', 'video12.module3.pause_video', 'video2.module2.pause_video', 'self_test10.module3.problem_check', 'self_test21.module2.problem_check', 'self_test16.module2.problem_check', 'graded_problem1.module5.problem_check', 'video3.module5.pause_video', 'self_test1.module3.problem_check', 'video4.module2.pause_video', 'video15.module3.play_video', 'self_test1.module4.showanswer', 'video2.module1.pause_video', 'self_test18.module2.problem_check']
+rowLabel = ['graded_problem5.module5.problem_check', 'video3.module1.play_video', 'graded_problem9.module5.problem_check', 'video2.module2.play_video', 'graded_problem2.module5.problem_check', 'video1.module4.play_video', 'graded_problem11.module5.problem_check', 'graded_problem6.module2.problem_check', 'graded_problem4.module5.problem_check', 'video3.module2.pause_video', 'self_test24.module2.problem_check', 'graded_problem4.module6.problem_check', 'graded_problem4.module2.problem_check', 'video3.module5.play_video', 'graded_problem8.module2.problem_check', 'video2.module2.pause_video', 'video1.module4.pause_video', 'graded_problem3.module5.problem_check', 'video11.module2.play_video', 'graded_problem7.module5.problem_check', 'self_test23.module2.problem_check', 'self_test17.module2.problem_check', 'video19.module2.play_video', 'video4.module2.play_video', 'video4.module6.play_video', 'video4.module6.pause_video', 'video5.module2.play_video', 'graded_problem10.module4.problem_check', 'graded_problem5.module2.problem_check', 'video4.module5.play_video', 'video12.module2.play_video', 'video3.module5.pause_video', 'self_test20.module2.problem_check', 'graded_problem8.module5.problem_check', 'video1.module5.play_video', 'forum.read', 'graded_problem1.module6.problem_check', 'video11.module2.pause_video', 'video19.module2.pause_video', 'video2.module6.play_video', 'self_test16.module2.problem_check', 'graded_problem3.module2.problem_check', 'self_test22.module2.problem_check', 'graded_problem6.module5.problem_check', 'video3.module1.pause_video', 'video1.module6.play_video', 'video2.module6.pause_video', 'graded_problem2.module6.problem_check', 'video1.module2.play_video', 'video2.module1.pause_video', 'graded_problem10.module5.problem_check']
 for aca in rowLabel:
     col += 1
     d_file_2.write('"' + aca + '",')
@@ -324,9 +324,9 @@ print max_num
 top_events = []
 for aca in final_med_dict:
     for i in range(NUM_SPLITS):
-        if final_med_dict[aca][i] < -.0043:
+        if final_med_dict[aca][i] < -.01:
             top_events.append(aca)
-        if final_med_dict[aca][i] > .0043:
+        if final_med_dict[aca][i] > .01:
             top_events.append(aca)
 
 top_events = set(top_events)

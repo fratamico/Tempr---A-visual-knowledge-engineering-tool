@@ -12,13 +12,13 @@ var margin = {top: 10, right: 50, bottom: 50, left: 40},
     height = 300 - margin.top - margin.bottom;
 
 
-d3.json("processing/json_files/MOOC_ALL_ACTIONS.json", function(error, orig_data) {
+d3.json("processing/mooc data/MOOC_ALL_ACTIONS.json", function(error, orig_data) {
   var data = {
     "timeslice": [],
     "freq_difference": []
   };
 
-  var NUM_SPLITS = 5;
+  var NUM_SPLITS = 10;
 
   var high_25 = [];
   var high_50 = [];
@@ -39,8 +39,11 @@ d3.json("processing/json_files/MOOC_ALL_ACTIONS.json", function(error, orig_data
   	for (var i = 0; i < NUM_SPLITS; i++) {
 	  	var merged_freq_list_high = [];
 	  	var merged_freq_list_low = [];
-	    for (var j = 0; j < 32; j++) {
+	    for (var j = 0; j < 37; j++) {
 	      merged_freq_list_high.push(0);
+	    }
+
+	    for (var j = 0; j < 39; j++) {
 	      merged_freq_list_low.push(0);
 	    }
 	    
