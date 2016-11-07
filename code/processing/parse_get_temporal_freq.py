@@ -177,6 +177,12 @@ with open('json_files/ALL_ACTIONS_PERCENTILES.json', 'w') as fp:
 with open('json_files/ALL_ACTIONS.json', 'w') as fp:
     json.dump(users_action_dict, fp)
 
+final_med_dict = {}
+
+for aca in all_types:
+    final_med_dict[aca] = {}
+    for i in range(NUM_SPLITS):
+        final_med_dict[aca][i] = final_percentile_dict[aca]["high_med"][i] - final_percentile_dict[aca]["low_med"][i]
 
 """
 print "user.bulbResistorEditor.changed: ", ",".join(final_dict["user.bulbResistorEditor.changed"].values())
@@ -270,13 +276,45 @@ d_file = open("heatmap_data.tsv", 'w')
 d_file_2 = open("heatmap_data_labels.tsv", 'w')
 d_file.write("row_idx\tcol_idx\tlog2ratio\n")
 col = 0
-for aca in final_dict:
+rowLabel = ['user.showReadoutCheckBox.pressed', 'user.blackProbe.drag', 'user.bulbResistorEditor.activated', 'user.batteryResistanceEditor.changed', 'user.mediumRadioButton.pressed', 'user.blackProbe.startDrag', 'model.nonContactAmmeterModel.measuredCurrentChanged', 'user.battery.addedComponent', 'user.voltmeterCheckBox.pressed', 'user.nonContactAmmeter.startDrag', 'model.voltmeterRedLeadModel.connectionFormed', 'user.resetAllConfirmationDialogYesButton.pressed', 'user.smallRadioButton.pressed', 'user.resistor.movedComponent', 'model.nonContactAmmeterModel.connectionFormed', 'user.resistorEditor.changed', 'user.grabBagItemButton.pressed', 'user.redProbe.startDrag', 'user.resistorEditor.deactivated', 'model.junction.junctionSplit', 'user.resetAllButton.pressed', 'user.nonContactAmmeter.drag', 'user.redProbe.drag', 'user.blackProbe.endDrag', 'user.junction.movedJunction', 'user.resetAllConfirmationDialogNoButton.pressed', 'user.resistorEditor.activated', 'user.battery.removedComponent', 'model.voltmeterModel.measuredVoltageChanged', 'user.resistorEditor.endDrag', 'model.voltmeterBlackLeadModel.connectionBroken', 'user.lightBulb.removedComponent', 'user.wire.addedComponent', 'user.resistor.removedComponent', 'parser.break.merge', 'user.voltageEditor.endDrag', 'model.voltmeterRedLeadModel.connectionBroken', 'user.resistor.addedComponent', 'user.resistorEditor.startDrag', 'model.junction.junctionFormed', 'user.nonContactAmmeter.endDrag', 'user.wire.removedComponent', 'model.resistor.fireStarted', 'user.redProbe.endDrag', 'model.voltmeterBlackLeadModel.connectionFormed', 'user.nonContactAmmeterCheckBox.pressed', 'model.nonContactAmmeterModel.connectionBroken', 'user.wire.movedComponent', 'model.battery.currentChanged', 'user.voltageEditor.windowClosing']
+for aca in rowLabel:
     col += 1
     d_file_2.write('"' + aca + '",')
     if col == 51:
         break
     for i in range(NUM_SPLITS):
-        d_file.write(str(col) + "\t" + str(i+1) + "\t" + str(final_dict[aca][i]) + "\n")
+        d_file.write(str(col) + "\t" + str(i+1) + "\t" + str(final_med_dict[aca][i]) + "\n")
+
+min_num = 100000
+max_num = -10000
+for aca in final_med_dict:
+    for i in range(NUM_SPLITS):
+        if final_med_dict[aca][i] < min_num:
+            min_num = final_med_dict[aca][i]
+        if final_med_dict[aca][i] > max_num:
+            max_num = final_med_dict[aca][i]
+
+print min_num
+print max_num
+
+
+top_events = []
+for aca in final_med_dict:
+    for i in range(NUM_SPLITS):
+        if final_med_dict[aca][i] < -.0000001:
+            top_events.append(aca)
+        if final_med_dict[aca][i] > .0000001:
+            top_events.append(aca)
+
+top_events = set(top_events)
+print len(top_events)
+for aca in final_med_dict:
+    if aca not in top_events:
+        top_events.add(aca)
+    if len(top_events) == 50:
+        break
+print len(top_events)
+print top_events
 
 
 
