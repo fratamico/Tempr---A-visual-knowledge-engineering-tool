@@ -6,7 +6,7 @@ g_h = open("events_HL_formatted.csv",'w')
 f_b = open("events_B.csv",'r')
 g_l = open("events_LL_formatted.csv",'w')
 
-gains = open("climate_gains.csv",'r')
+gains = open("climate_gains_tertiarysplit.csv",'r')
 anon_id = open("anon_id.csv",'r')
 
 
@@ -20,6 +20,9 @@ for line in anon_id.readlines():
 	l =line.split(',')
 	id_to_anon[l[0]]=l[1]
 
+LLcount = 0
+HLcount = 0
+MLcount = 0
 
 lines = f_a.readlines()[1:]
 lines.extend(f_b.readlines()[1:])
@@ -37,15 +40,20 @@ for line in lines:
 		if sid != '':
 			if 'HL' in learning[anonid]:
 				g_h.write("========================================\n")
-			else:
+				HLcount += 1
+			elif 'LL' in learning[anonid]:
 				g_l.write("========================================\n")
+				LLcount += 1
+			else:
+				MLcount += 1
 		current_student = sid
 
 	if 'HL' in learning[anonid]:
 		g_h.write(action+'\n')
-	else:
+	elif 'LL' in learning[anonid]:
 		g_l.write(action+'\n')
 
+print HLcount, LLcount, MLcount
 
 
 f_a.close()
