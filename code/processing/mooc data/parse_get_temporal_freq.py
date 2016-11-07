@@ -177,6 +177,13 @@ with open('MOOC_ALL_ACTIONS_PERCENTILES.json', 'w') as fp:
 with open('MOOC_ALL_ACTIONS.json', 'w') as fp:
     json.dump(users_action_dict, fp)
 
+final_med_dict = {}
+
+for aca in all_types:
+    final_med_dict[aca] = {}
+    for i in range(NUM_SPLITS):
+        final_med_dict[aca][i] = final_percentile_dict[aca]["high_med"][i] - final_percentile_dict[aca]["low_med"][i]
+
 
 """
 print "user.bulbResistorEditor.changed: ", ",".join(final_dict["user.bulbResistorEditor.changed"].values())
@@ -265,7 +272,7 @@ outfile.write("]}")
 """
 
 
-
+"""
 d_file = open("heatmap_data.tsv", 'w')
 d_file_2 = open("heatmap_data_labels.tsv", 'w')
 d_file.write("row_idx\tcol_idx\tlog2ratio\n")
@@ -284,6 +291,55 @@ d_file_3 = open("heatmap_data_labels2.tsv", 'w')
 for i in range(61):
     val = str(Decimal(str(i*100/float(60))).quantize(THREEPLACES))
     d_file_3.write("'" + val + "%',")
+
+"""
+
+
+d_file = open("MOOC_heatmap_data.tsv", 'w')
+d_file_2 = open("MOOC_heatmap_data_labels.tsv", 'w')
+d_file.write("row_idx\tcol_idx\tlog2ratio\n")
+col = 0
+rowLabel = ['video3.module1.play_video', 'self_test20.module3.problem_check', 'video2.module2.play_video', 'self_test3.module3.problem_check', 'video1.module3.pause_video', 'video18.module2.play_video', 'self_test15.module2.problem_check', 'video15.module3.pause_video', 'graded_problem2.module0.showanswer', 'self_test5.module3.showanswer', 'video3.module5.play_video', 'video3.module3.play_video', 'graded_problem9.module3.problem_check', 'video2.module5.play_video', 'video3.module2.pause_video', 'video3.module1.pause_video', 'video1.module3.play_video', 'graded_problem3.module3.problem_check', 'self_test17.module2.problem_check', 'video4.module2.play_video', 'video13.module3.play_video', 'video5.module2.play_video', 'self_test2.module3.problem_check', 'graded_problem2.module5.problem_check', 'video4.module5.play_video', 'video2.module3.play_video', 'self_test1.module4.problem_check', 'graded_problem8.module3.problem_check', 'video2.module5.pause_video', 'video11.module2.play_video', 'video1.module6.play_video', 'video5.module2.pause_video', 'video11.module2.pause_video', 'video1.module5.play_video', 'forum.read', 'video13.module3.pause_video', 'self_test21.module3.problem_check', 'video12.module3.pause_video', 'video2.module2.pause_video', 'self_test10.module3.problem_check', 'self_test21.module2.problem_check', 'self_test16.module2.problem_check', 'graded_problem1.module5.problem_check', 'video3.module5.pause_video', 'self_test1.module3.problem_check', 'video4.module2.pause_video', 'video15.module3.play_video', 'self_test1.module4.showanswer', 'video2.module1.pause_video', 'self_test18.module2.problem_check']
+for aca in rowLabel:
+    col += 1
+    d_file_2.write('"' + aca + '",')
+    if col == 51:
+        break
+    for i in range(NUM_SPLITS):
+        d_file.write(str(col) + "\t" + str(i+1) + "\t" + str(final_med_dict[aca][i]) + "\n")
+
+min_num = 100000
+max_num = -10000
+for aca in final_med_dict:
+    for i in range(NUM_SPLITS):
+        if final_med_dict[aca][i] < min_num:
+            min_num = final_med_dict[aca][i]
+        if final_med_dict[aca][i] > max_num:
+            max_num = final_med_dict[aca][i]
+
+print min_num
+print max_num
+
+
+top_events = []
+for aca in final_med_dict:
+    for i in range(NUM_SPLITS):
+        if final_med_dict[aca][i] < -.0043:
+            top_events.append(aca)
+        if final_med_dict[aca][i] > .0043:
+            top_events.append(aca)
+
+top_events = set(top_events)
+print len(top_events)
+print top_events
+"""
+for aca in final_med_dict:
+    if aca not in top_events:
+        top_events.add(aca)
+    if len(top_events) == 50:
+        break
+print len(top_events)
+print top_events"""
 
 
 
