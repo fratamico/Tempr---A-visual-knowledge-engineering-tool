@@ -3,29 +3,57 @@ from decimal import Decimal
 import json
 import numpy as np
 
-NUM_SPLITS = 5
-THREEPLACES = Decimal(10) ** -2
+#LL_FILE = "_MOOC_events_LL_formatted.csv"
+#HL_FILE = "_MOOC_events_HL_formatted.csv"
+LL_FILE = "_PHET_a2_low_log.txt"
+HL_FILE = "_PHET_a2_high_log.txt"
 
-
-f_low = open("a2_low_log.txt")
-
+f_low = open(LL_FILE)
 lines = f_low.readlines()
-
+num_LL = 0
 all_types = []
 for line in lines:
     val = line.replace("\n", "")
+    if "=====" in val:
+        num_LL += 1
     all_types.append(val)
 f_low.close()
 
-f_high = open("a2_high_log.txt")
+f_high = open(HL_FILE)
 lines = f_high.readlines()
+num_HL = 0
 for line in lines:
     val = line.replace("\n", "")
+    if "=====" in val:
+        num_HL += 1
     all_types.append(val)
 f_high.close()
 
 all_types = set(all_types)
 all_types.remove("========================================")
+
+
+##write number in each group to file
+f = open("data/get_num_users.js", 'w')
+f.write("function get_num_users() {\n")
+f.write("   return {\n")
+f.write('    "High": ' + str(num_HL) + ',\n')
+f.write('    "Low": ' + str(num_LL) + ',\n')
+f.write("   }\n")
+f.write("}")
+f.close()
+
+
+## write all actions to file for use in dashboard
+f = open("data/get_raw_log_events.js", 'w')
+f.write("function get_raw_log_events() {\n")
+f.write("   return ")
+f.write(str(sorted(all_types)))
+f.write(";\n")
+f.write("}")
+f.close()
+
+
 
 
 def get_list_freq(l):
@@ -48,110 +76,103 @@ def split_list(l):
     return s_list
 
 
-## Create dictionary of "High/Low":user:list of actions
-d = {"High": {}, "Low": {}}
-#read in, save to dict of dict:"high":user:actions
+for NUM_SPLITS in range(1,21): #precalculate for all potential NUM_SPLITS
 
-f_low = open("a2_high_log.txt")
+    ## Create dictionary of "High/Low":user:list of actions
+    d = {"High": {}, "Low": {}}
+    #read in, save to dict of dict:"high":user:actions
 
-lines = f_low.readlines()
-user = 0
-for line in lines:
-    val = line.replace("\n", "")
-    if "======" in val:
-        user += 1
-        d["High"][user] = []
-    else:
-        d["High"][user].append(val)
-f_low.close()
+    f_high = open(HL_FILE)
 
-f_high = open("a2_low_log.txt")
-lines = f_high.readlines()
-user = 0
-for line in lines:
-    val = line.replace("\n", "")
-    if "======" in val:
-        user += 1
-        d["Low"][user] = []
-    else:
-        d["Low"][user].append(val)
-f_high.close()
+    lines = f_high.readlines()
+    user = 0
+    for line in lines:
+        val = line.replace("\n", "")
+        if "======" in val:
+            user += 1
+            d["High"][user] = []
+        else:
+            d["High"][user].append(val)
+    f_high.close()
+
+    f_low = open(LL_FILE)
+    lines = f_low.readlines()
+    user = 0
+    for line in lines:
+        val = line.replace("\n", "")
+        if "======" in val:
+            user += 1
+            d["Low"][user] = []
+        else:
+            d["Low"][user].append(val)
+    f_low.close()
 
 
-## Generate a dictionary of the frequency of items at eact of NUM_SPLITS time series
-f_dict = {}
-f_dict["High"] = {}
-f_dict["Low"] = {}
+    ## Generate a dictionary of the frequency of items at eact of NUM_SPLITS time series
+    f_dict = {}
+    f_dict["High"] = {}
+    f_dict["Low"] = {}
 
-for user in d["High"]:
-    s_list = split_list(d["High"][user])
-    f_dict["High"][user] = {}
+    for user in d["High"]:
+        s_list = split_list(d["High"][user])
+        f_dict["High"][user] = {}
+        for i in range(NUM_SPLITS):
+            f_dict["High"][user][i] = get_list_freq(s_list[i])
+
+    for user in d["Low"]:
+        s_list = split_list(d["Low"][user])
+        f_dict["Low"][user] = {}
+        for i in range(NUM_SPLITS):
+            f_dict["Low"][user][i] = get_list_freq(s_list[i])
+
+
+    ## Calculate the average frequency for the two groups at each timeslice and for each action
+    ### This would be where to add the t-test
+    avg_freq = {}
+    avg_freq["High"] = {}
+    avg_freq["Low"] = {}
+    num_high_users = len(f_dict["High"].keys())
+    num_low_users = len(f_dict["Low"].keys())
+
+    #get list of frequencies for each user
+    users_action_dict = {}
+    users_action_dict["High"] = {}
+    users_action_dict["Low"] = {}
+
     for i in range(NUM_SPLITS):
-        f_dict["High"][user][i] = get_list_freq(s_list[i])
+        avg_freq["High"][i] = {}
+        users_action_dict["High"][i] = {}
+        for aca in all_types:
+            users_action_dict["High"][i][aca] = []
+            total = 0
+            for user in d["High"]:
+                total += f_dict["High"][user][i][aca]
+                users_action_dict["High"][i][aca].append(f_dict["High"][user][i][aca])
+            avg_freq["High"][i][aca] = total/float(num_high_users)
 
-for user in d["Low"]:
-    s_list = split_list(d["Low"][user])
-    f_dict["Low"][user] = {}
+
     for i in range(NUM_SPLITS):
-        f_dict["Low"][user][i] = get_list_freq(s_list[i])
+        avg_freq["Low"][i] = {}
+        users_action_dict["Low"][i] = {}
+        for aca in all_types:
+            users_action_dict["Low"][i][aca] = []
+            total = 0
+            for user in d["Low"]:
+                total += f_dict["Low"][user][i][aca]
+                users_action_dict["Low"][i][aca].append(f_dict["Low"][user][i][aca])
+            avg_freq["Low"][i][aca] = total/float(num_low_users)
 
 
-## Calculate the average frequency for the two groups at each timeslice and for each action
-### This would be where to add the t-test
-avg_freq = {}
-avg_freq["High"] = {}
-avg_freq["Low"] = {}
-num_high_users = len(f_dict["High"].keys())
-num_low_users = len(f_dict["Low"].keys())
-
-#get list of frequencies for each user
-users_action_dict = {}
-users_action_dict["High"] = {}
-users_action_dict["Low"] = {}
-
-for i in range(NUM_SPLITS):
-    avg_freq["High"][i] = {}
-    users_action_dict["High"][i] = {}
-    for aca in all_types:
-        users_action_dict["High"][i][aca] = []
-        total = 0
-        for user in d["High"]:
-            total += f_dict["High"][user][i][aca]
-            users_action_dict["High"][i][aca].append(f_dict["High"][user][i][aca])
-        avg_freq["High"][i][aca] = total/float(num_high_users)
-
-
-for i in range(NUM_SPLITS):
-    avg_freq["Low"][i] = {}
-    users_action_dict["Low"][i] = {}
-    for aca in all_types:
-        users_action_dict["Low"][i][aca] = []
-        total = 0
-        for user in d["Low"]:
-            total += f_dict["Low"][user][i][aca]
-            users_action_dict["Low"][i][aca].append(f_dict["Low"][user][i][aca])
-        avg_freq["Low"][i][aca] = total/float(num_low_users)
+    with open('json_files/ALL_ACTIONS_' + str(NUM_SPLITS) + '.json', 'w') as fp:
+        json.dump(users_action_dict, fp)
 
 
 
 
-final_dict = {}
 
-for aca in all_types:
-    final_dict[aca] = {}
-    for i in range(NUM_SPLITS):
-        final_dict[aca][i] = str(avg_freq["High"][i][aca] - avg_freq["Low"][i][aca])
-    # write to file
-    #outfile = open("json_files/horizon-" + aca + ".json", 'w')
-    #outfile.write('{"timeslice":' + str(range(1,NUM_SPLITS + 1)) + ',\n"freq_difference":[')
-    #outfile.write(",".join(final_dict[aca].values()))
-    #outfile.write("]}")
 
-# Save frequencies to json file
-# This is read back into javascript when merging actions
-with open('json_files/ALL_ACTIONS_FREQUENCY.json', 'w') as fp:
-    json.dump(final_dict, fp)
-
+##heatmap
+NUM_SPLITS = 5
 
 #save the median, 25%, and 75% values
 final_percentile_dict = {}
@@ -169,13 +190,6 @@ for aca in all_types:
         final_percentile_dict[aca]["high_med"][i] = np.percentile(users_action_dict["High"][i][aca], 50)
         final_percentile_dict[aca]["high_75"][i] = np.percentile(users_action_dict["High"][i][aca], 75)
 
-# Save frequencies to json file
-# This is read back into javascript when merging actions
-with open('json_files/ALL_ACTIONS_PERCENTILES.json', 'w') as fp:
-    json.dump(final_percentile_dict, fp)
-
-with open('json_files/ALL_ACTIONS.json', 'w') as fp:
-    json.dump(users_action_dict, fp)
 
 final_med_dict = {}
 
@@ -184,99 +198,18 @@ for aca in all_types:
     for i in range(NUM_SPLITS):
         final_med_dict[aca][i] = final_percentile_dict[aca]["high_med"][i] - final_percentile_dict[aca]["low_med"][i]
 
-"""
-print "user.bulbResistorEditor.changed: ", ",".join(final_dict["user.bulbResistorEditor.changed"].values())
-print "user.nonContactAmmeter.drag: ", ",".join(final_dict["user.nonContactAmmeter.drag"].values())
-
-print "model.nonContactAmmeterModel.measuredCurrentChanged: ", ",".join(final_dict["model.nonContactAmmeterModel.measuredCurrentChanged"].values())
-print "model.junction.junctionFormed: ", ",".join(final_dict["model.junction.junctionFormed"].values())
-#print "user.nonContactAmmeter.drag: ", ",".join(final_dict["user.nonContactAmmeter.drag"].values())
-"""
-
-"""
-## Create json files for initially defined merged events
-
-# Voltmeter Testing
-voltmeter_test_list = ["model.voltmeterBlackLeadModel.connectionBroken", "model.voltmeterBlackLeadModel.connectionFormed", "model.voltmeterModel.measuredVoltageChanged", "model.voltmeterRedLeadModel.connectionBroken", "model.voltmeterRedLeadModel.connectionFormed", "user.blackProbe.drag", "user.blackProbe.endDrag", "user.blackProbe.startDrag", "user.redProbe.drag", "user.redProbe.endDrag", "user.redProbe.startDrag", "user.voltmeterCheckBox.pressed"]
-
-test_final_dict = {}
-for i in range(NUM_SPLITS):
-    test_final_dict[i] = {}
-    total = 0
-    for aca in voltmeter_test_list:
-        total += float(final_dict[aca][i])
-    test_final_dict[i] = str(total)
-
-print "voltmeter_test_final_dict: ", ",".join(test_final_dict.values())
-outfile = open("json_files/horizon-Voltmeter Testing.json", 'w')
-outfile.write('{"timeslice":' + str(range(1,NUM_SPLITS + 1)) + ',\n"freq_difference":[')
-outfile.write(",".join(test_final_dict.values()))
-outfile.write("]}")
-
-
-# Ammeter Testing
-ammeter_test_list = ["model.nonContactAmmeterModel.connectionBroken","model.nonContactAmmeterModel.connectionFormed","model.nonContactAmmeterModel.measuredCurrentChanged","model.seriesAmmeter.fireEnded","model.seriesAmmeter.fireStarted","model.seriesAmmeter.measuredCurrentChanged","user.nonContactAmmeter.drag","user.nonContactAmmeter.endDrag","user.nonContactAmmeter.startDrag","user.nonContactAmmeterCheckBox.pressed","user.seriesAmmeter.addedComponent","user.seriesAmmeter.movedComponent","user.seriesAmmeter.removedComponent","user.seriesAmmeterCheckBox.pressed"]
-
-test_final_dict = {}
-for i in range(NUM_SPLITS):
-    test_final_dict[i] = {}
-    total = 0
-    for aca in ammeter_test_list:
-        total += float(final_dict[aca][i])
-    test_final_dict[i] = str(total)
-
-print "ammeter_test_final_dict: ", ",".join(test_final_dict.values())
-outfile = open("json_files/horizon-Ammeter Testing.json", 'w')
-outfile.write('{"timeslice":' + str(range(1,NUM_SPLITS + 1)) + ',\n"freq_difference":[')
-outfile.write(",".join(test_final_dict.values()))
-outfile.write("]}")
-
-
-# All Testing
-all_test_list = voltmeter_test_list + ammeter_test_list
-
-test_final_dict = {}
-for i in range(NUM_SPLITS):
-    test_final_dict[i] = {}
-    total = 0
-    for aca in all_test_list:
-        total += float(final_dict[aca][i])
-    test_final_dict[i] = str(total)
-
-print "all_test_final_dict: ", ",".join(test_final_dict.values())
-outfile = open("json_files/horizon-All Testing.json", 'w')
-outfile.write('{"timeslice":' + str(range(1,NUM_SPLITS + 1)) + ',\n"freq_difference":[')
-outfile.write(",".join(test_final_dict.values()))
-outfile.write("]}")
-
-
-# Initial Building
-build_list = ["user.battery.addedComponent","user.circuitSwitch.addedComponent","user.grabBagResistor.addedComponent","user.lightBulb.addedComponent","user.resistor.addedComponent","user.seriesAmmeter.addedComponent","user.wire.addedComponent"]
-
-basic_build_final_dict = {}
-for i in range(NUM_SPLITS):
-    basic_build_final_dict[i] = {}
-    total = 0
-    for aca in build_list:
-        total += float(final_dict[aca][i])
-    basic_build_final_dict[i] = str(total)
-
-
-print "basic_build_final_dict: ", ",".join(basic_build_final_dict.values())
-outfile = open("json_files/horizon-Initial Building.json", 'w')
-outfile.write('{"timeslice":' + str(range(1,NUM_SPLITS + 1)) + ',\n"freq_difference":[')
-outfile.write(",".join(basic_build_final_dict.values()))
-outfile.write("]}")
-
-"""
-
 
 
 d_file = open("heatmap_data.tsv", 'w')
 d_file_2 = open("heatmap_data_labels.tsv", 'w')
 d_file.write("row_idx\tcol_idx\tlog2ratio\n")
 col = 0
-rowLabel = ['user.showReadoutCheckBox.pressed', 'user.blackProbe.drag', 'user.bulbResistorEditor.activated', 'user.batteryResistanceEditor.changed', 'user.mediumRadioButton.pressed', 'user.blackProbe.startDrag', 'model.nonContactAmmeterModel.measuredCurrentChanged', 'user.battery.addedComponent', 'user.voltmeterCheckBox.pressed', 'user.nonContactAmmeter.startDrag', 'model.voltmeterRedLeadModel.connectionFormed', 'user.resetAllConfirmationDialogYesButton.pressed', 'user.smallRadioButton.pressed', 'user.resistor.movedComponent', 'model.nonContactAmmeterModel.connectionFormed', 'user.resistorEditor.changed', 'user.grabBagItemButton.pressed', 'user.redProbe.startDrag', 'user.resistorEditor.deactivated', 'model.junction.junctionSplit', 'user.resetAllButton.pressed', 'user.nonContactAmmeter.drag', 'user.redProbe.drag', 'user.blackProbe.endDrag', 'user.junction.movedJunction', 'user.resetAllConfirmationDialogNoButton.pressed', 'user.resistorEditor.activated', 'user.battery.removedComponent', 'model.voltmeterModel.measuredVoltageChanged', 'user.resistorEditor.endDrag', 'model.voltmeterBlackLeadModel.connectionBroken', 'user.lightBulb.removedComponent', 'user.wire.addedComponent', 'user.resistor.removedComponent', 'parser.break.merge', 'user.voltageEditor.endDrag', 'model.voltmeterRedLeadModel.connectionBroken', 'user.resistor.addedComponent', 'user.resistorEditor.startDrag', 'model.junction.junctionFormed', 'user.nonContactAmmeter.endDrag', 'user.wire.removedComponent', 'model.resistor.fireStarted', 'user.redProbe.endDrag', 'model.voltmeterBlackLeadModel.connectionFormed', 'user.nonContactAmmeterCheckBox.pressed', 'model.nonContactAmmeterModel.connectionBroken', 'user.wire.movedComponent', 'model.battery.currentChanged', 'user.voltageEditor.windowClosing']
+if "MOOC" in LL_FILE:
+    rowLabel = ['graded_problem5.module5.problem_check', 'video3.module1.play_video', 'graded_problem9.module5.problem_check', 'video2.module2.play_video', 'graded_problem2.module5.problem_check', 'video1.module4.play_video', 'graded_problem11.module5.problem_check', 'graded_problem6.module2.problem_check', 'graded_problem4.module5.problem_check', 'video3.module2.pause_video', 'self_test24.module2.problem_check', 'graded_problem4.module6.problem_check', 'graded_problem4.module2.problem_check', 'video3.module5.play_video', 'graded_problem8.module2.problem_check', 'video2.module2.pause_video', 'video1.module4.pause_video', 'graded_problem3.module5.problem_check', 'video11.module2.play_video', 'graded_problem7.module5.problem_check', 'self_test23.module2.problem_check', 'self_test17.module2.problem_check', 'video19.module2.play_video', 'video4.module2.play_video', 'video4.module6.play_video', 'video4.module6.pause_video', 'video5.module2.play_video', 'graded_problem10.module4.problem_check', 'graded_problem5.module2.problem_check', 'video4.module5.play_video', 'video12.module2.play_video', 'video3.module5.pause_video', 'self_test20.module2.problem_check', 'graded_problem8.module5.problem_check', 'video1.module5.play_video', 'forum.read', 'graded_problem1.module6.problem_check', 'video11.module2.pause_video', 'video19.module2.pause_video', 'video2.module6.play_video', 'self_test16.module2.problem_check', 'graded_problem3.module2.problem_check', 'self_test22.module2.problem_check', 'graded_problem6.module5.problem_check', 'video3.module1.pause_video', 'video1.module6.play_video', 'video2.module6.pause_video', 'graded_problem2.module6.problem_check', 'video1.module2.play_video', 'video2.module1.pause_video', 'graded_problem10.module5.problem_check']
+if "PHET" in LL_FILE:
+    rowLabel = ['user.showReadoutCheckBox.pressed', 'user.blackProbe.drag', 'user.bulbResistorEditor.activated', 'user.batteryResistanceEditor.changed', 'user.mediumRadioButton.pressed', 'user.blackProbe.startDrag', 'model.nonContactAmmeterModel.measuredCurrentChanged', 'user.battery.addedComponent', 'user.voltmeterCheckBox.pressed', 'user.nonContactAmmeter.startDrag', 'model.voltmeterRedLeadModel.connectionFormed', 'user.resetAllConfirmationDialogYesButton.pressed', 'user.smallRadioButton.pressed', 'user.resistor.movedComponent', 'model.nonContactAmmeterModel.connectionFormed', 'user.resistorEditor.changed', 'user.grabBagItemButton.pressed', 'user.redProbe.startDrag', 'user.resistorEditor.deactivated', 'model.junction.junctionSplit', 'user.resetAllButton.pressed', 'user.nonContactAmmeter.drag', 'user.redProbe.drag', 'user.blackProbe.endDrag', 'user.junction.movedJunction', 'user.resetAllConfirmationDialogNoButton.pressed', 'user.resistorEditor.activated', 'user.battery.removedComponent', 'model.voltmeterModel.measuredVoltageChanged', 'user.resistorEditor.endDrag', 'model.voltmeterBlackLeadModel.connectionBroken', 'user.lightBulb.removedComponent', 'user.wire.addedComponent', 'user.resistor.removedComponent', 'parser.break.merge', 'user.voltageEditor.endDrag', 'model.voltmeterRedLeadModel.connectionBroken', 'user.resistor.addedComponent', 'user.resistorEditor.startDrag', 'model.junction.junctionFormed', 'user.nonContactAmmeter.endDrag', 'user.wire.removedComponent', 'model.resistor.fireStarted', 'user.redProbe.endDrag', 'model.voltmeterBlackLeadModel.connectionFormed', 'user.nonContactAmmeterCheckBox.pressed', 'model.nonContactAmmeterModel.connectionBroken', 'user.wire.movedComponent', 'model.battery.currentChanged', 'user.voltageEditor.windowClosing']
+else:
+    print "need to fix heatmap"
 for aca in rowLabel:
     col += 1
     d_file_2.write('"' + aca + '",')
@@ -318,6 +251,7 @@ print top_events
 
 
 
+THREEPLACES = Decimal(10) ** -2
 d_file_3 = open("heatmap_data_labels2.tsv", 'w')
 for i in range(61):
     val = str(Decimal(str(i*100/float(60))).quantize(THREEPLACES))

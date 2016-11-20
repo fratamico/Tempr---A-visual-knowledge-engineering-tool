@@ -1,0 +1,259 @@
+/*
+* Base structure
+*/
+
+/* Move down content because we have a fixed navbar that is 50px tall */
+body {
+  padding-top: 50px;
+}
+
+
+/*
+* Global add-ons
+*/
+
+.sub-header {
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+/*
+* Top navigation
+* Hide default border to remove 1px line.
+*/
+.navbar-fixed-top {
+  border: 0;
+}
+
+/*
+* Sidebar
+*/
+
+/* Hide for mobile, show later */
+.sidebar {
+  display: none;
+}
+@media (min-width: 768px) {
+.sidebar {
+  position: fixed;
+  top: 51px;
+  bottom: 0;
+  left: 0;
+  z-index: 1000;
+  display: block;
+  padding: 20px;
+  overflow-x: hidden;
+  overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+  background-color: #f5f5f5;
+  border-right: 1px solid #eee;
+}
+}
+
+/* Sidebar navigation */
+.nav-sidebar {
+  margin-right: -21px; /* 20px padding + 1px border */
+  margin-bottom: 20px;
+  margin-left: -20px;
+}
+.nav-sidebar > li > a {
+  padding-right: 20px;
+  padding-left: 20px;
+}
+.nav-sidebar > .active > a,
+.nav-sidebar > .active > a:hover,
+.nav-sidebar > .active > a:focus {
+  color: #fff;
+  background-color: #428bca;
+}
+
+
+/*
+* Main content
+*/
+
+.main {
+  padding: 20px;
+}
+@media (min-width: 768px) {
+.main {
+  padding-right: 40px;
+  padding-left: 40px;
+}
+}
+.main .page-header {
+  margin-top: 0;
+}
+
+
+/*
+* Placeholder dashboard ideas
+*/
+
+.placeholders {
+  margin-bottom: 30px;
+  text-align: center;
+}
+.placeholders h4 {
+  margin-bottom: 0;
+}
+.placeholder {
+  margin-bottom: 20px;
+}
+.placeholder img {
+  display: inline-block;
+  border-radius: 50%;
+}
+
+
+
+.container { border:2px solid #ccc; width:500px; height: 700px; overflow-y: scroll; position: relative; padding-top: 15px; padding-bottom: 15px; float:left;} 
+
+.container2 { border:2px solid #ccc; width:841px; height: 700px; overflow-y: scroll; position: relative; left: 20px; padding-top: 5px; padding-bottom: 5px; padding-left: 5px} 
+.container3 { border:2px solid #ccc; width:1000; height: 750px; overflow-y: scroll; position: relative; padding-top: 15px; padding-bottom: 15px;} 
+
+#showhorizonplot {width: 820px;}
+
+#merge {
+  position:relative;
+  float:left
+}
+
+#visualize {
+  position:relative;
+  float:right;
+}
+
+.buttons {
+  height: 30px;
+}
+
+#collapse_list {
+  padding-left: 20px;
+}
+
+#content
+{
+  height:auto;
+  width:250px;
+  margin:0px auto;
+}
+
+/* disable text selection */
+svg *::selection {
+  background : transparent;
+}
+
+svg *::-moz-selection {
+  background:transparent;
+} 
+
+svg *::-webkit-selection {
+  background:transparent;
+}
+rect.selection {
+  stroke          : #333;
+  stroke-dasharray: 4px;
+  stroke-opacity  : 0.5;
+  fill            : transparent;
+}
+
+rect.cell-border {
+  stroke: #eee;
+  stroke-width:0.3px;   
+}
+
+rect.cell-selected {
+  stroke: rgb(51,102,153);
+  stroke-width:0.5px;   
+}
+
+rect.cell-hover {
+  stroke: #F00;
+  stroke-width:0.3px;   
+}
+
+text.mono {
+  font-size: 9pt;
+  font-family: Consolas, courier;
+  fill: #aaa;
+}
+
+text.text-selected {
+  fill: #000;
+}
+
+text.text-highlight {
+  fill: #c00;
+}
+text.text-hover {
+  fill: #00C;
+}
+#tooltip {
+  position: absolute;
+  width: 400px;
+  height: auto;
+  padding: 10px;
+  background-color: white;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  -webkit-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+  -moz-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+  pointer-events: none;
+}
+
+#tooltip.hidden {
+  display: none;
+}
+
+#tooltip p {
+  margin: 0;
+  font-family: sans-serif;
+  font-size: 12px;
+  line-height: 20px;
+}
+
+/* for horizon plots */
+.stacked_charts {
+  position: relative;
+}
+
+
+/*.axis path,
+.axis line {
+    fill: none;
+    stroke: black;
+    shape-rendering: crispEdges;
+}*/
+
+.axis text {
+  font-family: sans-serif;
+  font-size: 11px;
+}
+
+.axis path,
+.axis line{
+  fill: none;
+  stroke: black;
+}
+
+.line{
+  fill: none;
+}
+
+.tick line{
+  opacity: 0.2;
+}
+
+
+/*for header of temporal log frequencies*/
+.form-control {
+  margin-top: 17px;
+}
+  
+.form-group {
+  width: 100%;
+}
+
+    
