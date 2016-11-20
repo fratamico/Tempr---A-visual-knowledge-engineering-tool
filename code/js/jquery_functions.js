@@ -13,6 +13,19 @@ function toggle(source) {
         }
       }  
 
+function check_all(source) {
+        checkboxes = document.getElementsByName('aca');
+        for(var i=0, n=checkboxes.length;i<n;i++) {
+          var parentID = checkboxes[i].parentElement.parentElement.parentElement.id;
+          if (parentID === "raw_log_events") {
+            if (checkboxes[i].offsetParent !== null) {
+              checkboxes[i].checked = true;
+            }
+          }
+        }
+        source.checked = false;
+      } 
+
 $(function(){
 
         $('#merge_button').click(function(){
