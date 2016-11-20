@@ -9,7 +9,7 @@ function showHeatmapPlot() {
   width = cellSize_width*col_number, // - margin.left - margin.right,
   height = cellSize_height*row_number , // - margin.top - margin.bottom,
   //gridSize = Math.floor(width / 24),
-  legendElementWidth = cellSize_height*3,
+  legendElementWidth = cellSize_height*3, //width of legend at bottom
   colorBuckets = 11,
   colors = ['#543005','#8c510a','#bf812d','#dfc27d','#f6e8c3','#ffffff','#c7eae5','#80cdc1','#35978f','#01665e','#003c30'];
   hcrow = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50], // change to gene name or probe id
@@ -28,7 +28,7 @@ function showHeatmapPlot() {
     },
     function(error, data) {
       var colorScale = d3.scale.quantile()
-      .domain([ -.025 , 0, .025])
+      .domain([ -.025 , 0, .025]) ///GET DOMAIN HERE
       .range(colors);
 
       var svg = d3.select("#chart").append("svg")
@@ -46,9 +46,9 @@ function showHeatmapPlot() {
       .append("text")
       .text(function (d) { return d; })
       .attr("x", 0)
-      .attr("y", function (d, i) { return hcrow.indexOf(i+1) * cellSize; })
+      .attr("y", function (d, i) { return hcrow.indexOf(i+1) * cellSize_height; })
       .style("text-anchor", "end")
-      .attr("transform", "translate(-6," + cellSize / 1.5 + ")")
+      .attr("transform", "translate(-6," + cellSize_height / 1.5 + ")")
       .attr("class", function (d,i) { return "rowLabel mono r"+i;} ) 
       .on("mouseover", function(d) {d3.select(this).classed("text-hover",true);})
       .on("mouseout" , function(d) {d3.select(this).classed("text-hover",false);})
@@ -80,10 +80,10 @@ function showHeatmapPlot() {
   .enter()
   .append("rect")
   .attr("x", function(d) { return hccol.indexOf(d.col) * cellSize_width; })
-  .attr("y", function(d) { return hcrow.indexOf(d.row) * cellSize_height; })
+  .attr("y", function(d) { return hcrow.indexOf(d.row) * cellSize_height; }) //coloring of cells
   .attr("class", function(d){return "cell cell-border cr"+(d.row-1)+" cc"+(d.col-1);})
   .attr("width", cellSize_width)
-  .attr("height", cellSize_height)
+  .attr("height", cellSize_height) //height of bottom cell
   .style("fill", function(d) { return colorScale(d.value); })
   .on("mouseover", function(d){
                //highlight text
@@ -109,7 +109,7 @@ function showHeatmapPlot() {
   ;
 
   var legend = svg.selectAll(".legend")
-  .data(["",-.02,,-.01,,0.00,,.01,,.02,""])
+  .data(["",-.02,,-.01,,0.00,,.01,,.02,""]) //SIMILARLY PUT DOMAIN HERE
   .enter().append("g")
   .attr("class", "legend");
 
@@ -117,7 +117,7 @@ function showHeatmapPlot() {
   .attr("x", function(d, i) { return legendElementWidth * i; })
   .attr("y", height+(cellSize*2))
   .attr("width", legendElementWidth)
-  .attr("height", cellSize)
+  .attr("height", cellSize) //NO
   .style("fill", function(d, i) { return colors[i]; });
 
   legend.append("text")
@@ -138,21 +138,21 @@ function sortbylabel(rORc,i,sortOrder){
         log2r.push(ce.value);
       })
        ;
-       if(rORc=="r"){ // sort log2ratio of a gene
+       if(rORc=="r"){ // click action event (to change order of time intervals)
          sorted=d3.range(col_number).sort(function(a,b){ if(sortOrder){ return log2r[b]-log2r[a];}else{ return log2r[a]-log2r[b];}});
          t.selectAll(".cell")
-         .attr("x", function(d) { return sorted.indexOf(d.col-1) * cellSize; })
+         .attr("x", function(d) { return sorted.indexOf(d.col-1) * cellSize_width; })
          ;
          t.selectAll(".colLabel")
-         .attr("y", function (d, i) { return sorted.indexOf(i) * cellSize; })
+         .attr("y", function (d, i) { return sorted.indexOf(i) * cellSize_width; })
          ;
-       }else{ // sort log2ratio of a contrast
+       }else{ // clict column (to change order of action events)
          sorted=d3.range(row_number).sort(function(a,b){if(sortOrder){ return log2r[b]-log2r[a];}else{ return log2r[a]-log2r[b];}});
          t.selectAll(".cell")
-         .attr("y", function(d) { return sorted.indexOf(d.row-1) * cellSize; })
+         .attr("y", function(d) { return sorted.indexOf(d.row-1) * cellSize_height; })
          ;
          t.selectAll(".rowLabel")
-         .attr("y", function (d, i) { return sorted.indexOf(i) * cellSize; })
+         .attr("y", function (d, i) { return sorted.indexOf(i) * cellSize_height; })
          ;
        }
      }
@@ -217,9 +217,9 @@ function sortbylabel(rORc,i,sortOrder){
                  d3.selectAll('.cell').filter(function(cell_d, i) {
                    if(
                      !d3.select(this).classed("cell-selected") && 
-                         // inner circle inside selection frame
-                         (this.x.baseVal.value)+cellSize >= d.x && (this.x.baseVal.value)<=d.x+d.width && 
-                         (this.y.baseVal.value)+cellSize >= d.y && (this.y.baseVal.value)<=d.y+d.height
+                         // inner circle inside selection frame 
+                         (this.x.baseVal.value)+cellSize_width >= d.x && (this.x.baseVal.value)<=d.x+d.width && 
+                         (this.y.baseVal.value)+cellSize_height >= d.y && (this.y.baseVal.value)<=d.y+d.height
                          ) {
 
                      d3.select(this)
