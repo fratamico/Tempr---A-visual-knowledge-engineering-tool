@@ -232,7 +232,7 @@ d3.json("processing/json_files/ALL_ACTIONS_" + NUM_SPLITS + ".json", function(er
 	      .attr("dy", ".35em")
 	      .attr("text-anchor", "start")
 	      .style("fill", "#01665e")
-	      .text("HL");
+	      .text(get_data_names()["GROUP_B_NAME"]);
 
 	  
 
@@ -265,7 +265,7 @@ d3.json("processing/json_files/ALL_ACTIONS_" + NUM_SPLITS + ".json", function(er
 	      .attr("dy", ".35em")
 	      .attr("text-anchor", "start")
 	      .style("fill", "#8c510a")
-	      .text("LL");
+	      .text(get_data_names()["GROUP_A_NAME"]);
 
 	    
 });

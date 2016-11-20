@@ -3,10 +3,40 @@ from decimal import Decimal
 import json
 import numpy as np
 
-#LL_FILE = "_MOOC_events_LL_formatted.csv"
-#HL_FILE = "_MOOC_events_HL_formatted.csv"
-LL_FILE = "_PHET_a2_low_log.txt"
-HL_FILE = "_PHET_a2_high_log.txt"
+
+################################################
+# USER ENTERED SPECIFICATIONS
+#
+# Specify here the two files to be read in
+# GROUP_A_FILE = "_MOOC_events_LL_formatted.csv"
+# GROUP_B_FILE = "_MOOC_events_HL_formatted.csv"
+GROUP_A_FILE = "_PHET_a2_low_log.txt"
+GROUP_B_FILE = "_PHET_a2_high_log.txt"
+#
+# Specify here a name for the data
+DATA_NAME = "PhET Sim"
+# DATA_NAME = "MOOC Climate Change"
+#
+# Specify here a two letter name for group
+GROUP_A_NAME = "LL" #brown color
+GROUP_B_NAME = "HL" #blue/green color
+#
+################################################
+
+##write user entered specifications to file
+f = open("data/get_data_names.js", 'w')
+f.write("function get_data_names() {\n")
+f.write("   return {\n")
+f.write('     "DATA_NAME": "' + str(DATA_NAME) + '",\n')
+f.write('     "GROUP_A_NAME": "' + str(GROUP_A_NAME) + '",\n')
+f.write('     "GROUP_B_NAME": "' + str(GROUP_B_NAME) + '",\n')
+f.write("   }\n")
+f.write("}")
+f.close()
+
+
+LL_FILE = GROUP_A_FILE
+HL_FILE = GROUP_B_FILE
 
 f_low = open(LL_FILE)
 lines = f_low.readlines()
