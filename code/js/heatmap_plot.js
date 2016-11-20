@@ -1,7 +1,7 @@
 function showHeatmapPlot() {
 
   var margin = { top: 60, right: 10, bottom: 50, left: 400 },
-  cellSize_width=79.2;
+  cellSize_width=120;
   cellSize_height=12;
   cellSize = 12;
   col_number=5;
@@ -9,13 +9,14 @@ function showHeatmapPlot() {
   width = cellSize_width*col_number, // - margin.left - margin.right,
   height = cellSize_height*row_number , // - margin.top - margin.bottom,
   //gridSize = Math.floor(width / 24),
-  legendElementWidth = cellSize_height*3, //width of legend at bottom
   colorBuckets = 11,
+  legendElementWidth = cellSize_width*col_number/colorBuckets, //width of legend at bottom
   colors = ['#543005','#8c510a','#bf812d','#dfc27d','#f6e8c3','#ffffff','#c7eae5','#80cdc1','#35978f','#01665e','#003c30'];
   hcrow = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50], // change to gene name or probe id
   hccol = [1, 2, 3, 4, 5], // change to gene name or probe id
-  rowLabel = ['user.showReadoutCheckBox.pressed', 'user.blackProbe.drag', 'user.bulbResistorEditor.activated', 'user.batteryResistanceEditor.changed', 'user.mediumRadioButton.pressed', 'user.blackProbe.startDrag', 'model.nonContactAmmeterModel.measuredCurrentChanged', 'user.battery.addedComponent', 'user.voltmeterCheckBox.pressed', 'user.nonContactAmmeter.startDrag', 'model.voltmeterRedLeadModel.connectionFormed', 'user.resetAllConfirmationDialogYesButton.pressed', 'user.smallRadioButton.pressed', 'user.resistor.movedComponent', 'model.nonContactAmmeterModel.connectionFormed', 'user.resistorEditor.changed', 'user.grabBagItemButton.pressed', 'user.redProbe.startDrag', 'user.resistorEditor.deactivated', 'model.junction.junctionSplit', 'user.resetAllButton.pressed', 'user.nonContactAmmeter.drag', 'user.redProbe.drag', 'user.blackProbe.endDrag', 'user.junction.movedJunction', 'user.resetAllConfirmationDialogNoButton.pressed', 'user.resistorEditor.activated', 'user.battery.removedComponent', 'model.voltmeterModel.measuredVoltageChanged', 'user.resistorEditor.endDrag', 'model.voltmeterBlackLeadModel.connectionBroken', 'user.lightBulb.removedComponent', 'user.wire.addedComponent', 'user.resistor.removedComponent', 'parser.break.merge', 'user.voltageEditor.endDrag', 'model.voltmeterRedLeadModel.connectionBroken', 'user.resistor.addedComponent', 'user.resistorEditor.startDrag', 'model.junction.junctionFormed', 'user.nonContactAmmeter.endDrag', 'user.wire.removedComponent', 'model.resistor.fireStarted', 'user.redProbe.endDrag', 'model.voltmeterBlackLeadModel.connectionFormed', 'user.nonContactAmmeterCheckBox.pressed', 'model.nonContactAmmeterModel.connectionBroken', 'user.wire.movedComponent', 'model.battery.currentChanged', 'user.voltageEditor.windowClosing'], // change to gene name or probe id
-  colLabel = ['0%-20%','20%-40%','40%-60%','60%-80%','80%-100%']; // change to contrast name
+  rowLabel = get_heatmap_data()["ROW_LABELS"],
+  colLabel = ['0%-20%','20%-40%','40%-60%','60%-80%','80%-100%'], // change to contrast name
+  DOMAIN = get_heatmap_data()["DOMAIN"];
 
 
   d3.tsv("processing/heatmap_data.tsv",
@@ -28,7 +29,7 @@ function showHeatmapPlot() {
     },
     function(error, data) {
       var colorScale = d3.scale.quantile()
-      .domain([ -.025 , 0, .025]) ///GET DOMAIN HERE
+      .domain([ DOMAIN[0] , 0, DOMAIN[DOMAIN.length-1]])
       .range(colors);
 
       var svg = d3.select("#chart").append("svg")
@@ -105,11 +106,10 @@ function showHeatmapPlot() {
    d3.selectAll(".rowLabel").classed("text-highlight",false);
    d3.selectAll(".colLabel").classed("text-highlight",false);
    d3.select("#tooltip").classed("hidden", true);
- })
-  ;
+ });
 
   var legend = svg.selectAll(".legend")
-  .data(["",-.02,,-.01,,0.00,,.01,,.02,""]) //SIMILARLY PUT DOMAIN HERE
+  .data([get_data_names()["GROUP_A_NAME"],DOMAIN[1],DOMAIN[2],DOMAIN[3],DOMAIN[4],DOMAIN[5],DOMAIN[6],DOMAIN[7],DOMAIN[8],DOMAIN[9],get_data_names()["GROUP_B_NAME"]]) //SIMILARLY PUT DOMAIN HERE
   .enter().append("g")
   .attr("class", "legend");
 
@@ -117,7 +117,7 @@ function showHeatmapPlot() {
   .attr("x", function(d, i) { return legendElementWidth * i; })
   .attr("y", height+(cellSize*2))
   .attr("width", legendElementWidth)
-  .attr("height", cellSize) //NO
+  .attr("height", cellSize)
   .style("fill", function(d, i) { return colors[i]; });
 
   legend.append("text")
@@ -128,7 +128,6 @@ function showHeatmapPlot() {
   .attr("y", height + (cellSize*4));
 
 // Change ordering of cells
-
 function sortbylabel(rORc,i,sortOrder){
  var t = svg.transition().duration(3000);
  var log2r=[];

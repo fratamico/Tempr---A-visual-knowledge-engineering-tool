@@ -14,7 +14,7 @@ function showTemporalPlot(NUM_SPLITS) {
   plots_container.innerHTML = '';
 
   for (var i in to_display) {
-    var merged_action_list = [for (e of document.getElementsByClassName(to_display[i] + "_mergedActionList")) e.textContent];
+    var merged_action_list = [for (e of document.getElementsByClassName(to_display[i].replace(" ", "_") + "_mergedActionList")) e.textContent];
     var plot_title = document.createElement('p');
     if (merged_action_list.length === 0) {
       var bold_element = document.createElement("b");

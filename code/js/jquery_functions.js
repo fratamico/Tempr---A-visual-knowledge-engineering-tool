@@ -55,7 +55,7 @@ $(function(){
         for (var i=0; i < merged_items.length; i++){
           var subentry = document.createElement('li');
           subentry.appendChild(document.createTextNode(merged_items[i]));
-          subentry.setAttribute("class", merged_name + "_mergedActionList");
+          subentry.setAttribute("class", merged_name.replace(" ", "_") + "_mergedActionList");
           sublist.appendChild(subentry);
         }
         
