@@ -4,7 +4,7 @@
 - all users for one group will be in one file
 - the first line of a user file should be ========================================
 - each proceeding line is one user action, in order
-- NOTE: These lines will eventually be the id of an html element, and therefore may not contain illegal characters. "ID tokens must begin with a letter ([A-Za-z]) and may be followed by any number of letters, digits ([0-9]), hyphens ("-"), underscores ("_"), colons (":"), and periods (".")."
+- NOTE: These lines will eventually be the id of an html element, and therefore may not contain illegal characters. "ID and NAME tokens must begin with a letter ([A-Za-z]) and may be followed by any number of letters, digits ([0-9]), hyphens ("-"), underscores ("_"), colons (":"), and periods (".")."
 
 
 # To use Tempr:
