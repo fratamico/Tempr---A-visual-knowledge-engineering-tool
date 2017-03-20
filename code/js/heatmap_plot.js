@@ -1,7 +1,7 @@
 function showHeatmapPlot() {
 
   var margin = { top: 60, right: 10, bottom: 50, left: 400 },
-  cellSize_width=120;
+  cellSize_width=215;
   cellSize_height=12;
   cellSize = 12;
   col_number=5;
