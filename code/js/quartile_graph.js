@@ -103,21 +103,21 @@ d3.json("processing/json_files/ALL_ACTIONS_" + NUM_SPLITS + ".json", function(er
 	    	merged_freq_list_low = addArrays(merged_freq_list_low, orig_data["Low"][i.toString()][merged_action_list[ind]]);
 	    }
 
-	    high_25[i].y = math.quantileSeq(merged_freq_list_high, 0.25);
-        high_50[i].y = math.quantileSeq(merged_freq_list_high, 0.5);
-        high_75[i].y = math.quantileSeq(merged_freq_list_high, 0.75);
-        low_25[i].y = math.quantileSeq(merged_freq_list_low, 0.25);
-        low_50[i].y = math.quantileSeq(merged_freq_list_low, 0.5);
-        low_75[i].y = math.quantileSeq(merged_freq_list_low, 0.75);
+	    high_25[i].y = 100*math.quantileSeq(merged_freq_list_high, 0.25);
+        high_50[i].y = 100*math.quantileSeq(merged_freq_list_high, 0.5);
+        high_75[i].y = 100*math.quantileSeq(merged_freq_list_high, 0.75);
+        low_25[i].y = 100*math.quantileSeq(merged_freq_list_low, 0.25);
+        low_50[i].y = 100*math.quantileSeq(merged_freq_list_low, 0.5);
+        low_75[i].y = 100*math.quantileSeq(merged_freq_list_low, 0.75);
 	}
   } else {
     for (var i = 0; i < NUM_SPLITS; i++) {
-      high_25[i].y = math.quantileSeq(orig_data["High"][i.toString()][action_item], 0.25);
-      high_50[i].y = math.quantileSeq(orig_data["High"][i.toString()][action_item], 0.5);
-      high_75[i].y = math.quantileSeq(orig_data["High"][i.toString()][action_item], 0.75);
-      low_25[i].y = math.quantileSeq(orig_data["Low"][i.toString()][action_item], 0.25);
-      low_50[i].y = math.quantileSeq(orig_data["Low"][i.toString()][action_item], 0.5);
-      low_75[i].y = math.quantileSeq(orig_data["Low"][i.toString()][action_item], 0.75);
+      high_25[i].y = 100*math.quantileSeq(orig_data["High"][i.toString()][action_item], 0.25);
+      high_50[i].y = 100*math.quantileSeq(orig_data["High"][i.toString()][action_item], 0.5);
+      high_75[i].y = 100*math.quantileSeq(orig_data["High"][i.toString()][action_item], 0.75);
+      low_25[i].y = 100*math.quantileSeq(orig_data["Low"][i.toString()][action_item], 0.25);
+      low_50[i].y = 100*math.quantileSeq(orig_data["Low"][i.toString()][action_item], 0.5);
+      low_75[i].y = 100*math.quantileSeq(orig_data["Low"][i.toString()][action_item], 0.75);
     };
   }
 
@@ -153,7 +153,8 @@ d3.json("processing/json_files/ALL_ACTIONS_" + NUM_SPLITS + ".json", function(er
 	    .orient("left")
 	    .innerTickSize(-width)
 	    .outerTickSize(0)
-	    .tickPadding(10);
+	    .tickPadding(10)
+	    .tickFormat(function(d) { return d + "%"; });
 
 	var line = d3.svg.line()
 	    .interpolate("step-after")
