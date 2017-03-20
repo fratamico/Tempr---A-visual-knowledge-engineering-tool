@@ -58,7 +58,7 @@ function addArrays(ar1, ar2){
 
 function create_quartile_graph(NUM_SPLITS, action_item, merged_action_list) {
 var action_item_new_name = action_item.split(".").join("_").split(" ").join("_");
-var margin = {top: 10, right: 50, bottom: 50, left: 40},
+var margin = {top: 10, right: 50, bottom: 50, left: 60},
     width = 830 - margin.left - margin.right,
     height = 300 - margin.top - margin.bottom;
 
@@ -153,7 +153,7 @@ d3.json("processing/json_files/ALL_ACTIONS_" + NUM_SPLITS + ".json", function(er
 	    .orient("left")
 	    .innerTickSize(-width)
 	    .outerTickSize(0)
-	    .tickPadding(10)
+	    .tickPadding(5)
 	    .tickFormat(function(d) { return d + "%"; });
 
 	var line = d3.svg.line()
@@ -175,6 +175,19 @@ d3.json("processing/json_files/ALL_ACTIONS_" + NUM_SPLITS + ".json", function(er
 	  svg.append("g")
 	      .attr("class", "y axis")
 	      .call(yAxis)
+
+      //add x and y axis labels
+	  svg.append("text")
+	    .attr("class", "x label")
+	    .attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
+        .attr("transform", "translate("+ (width/2) +","+(height+40)+")")  // centre below axis
+        .text("Percent of Interaction");
+
+      svg.append("text")
+        .attr("class", "y label")
+        .attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
+        .attr("transform", "translate("+ (-50) +","+(height/2)+")rotate(-90)")
+        .text("Percent of Log Events");
 
 
 	  //shade area between HL lines
