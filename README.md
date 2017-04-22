@@ -15,4 +15,11 @@
 - open index.html in firefox
 
 
-Video for an older version of the project can be found at: https://www.youtube.com/watch?v=kkeWC6rLBe4
+Video demo of tempr can be found here: https://www.youtube.com/watch?v=91kVatg3Oa8&t=14s This video includes:
+- how to add your log data to tempr
+- basic overview of the user interface and affordances of tempr
+
+The paper describing this tool can be found here: http://dl.acm.org/citation.cfm?id=3051468&CFID=922155637&CFTOKEN=91681876
+
+Slides to paper presentation can be found here: http://www.laurenfratamico.com/presentations/las2017_presentation.pdf
+
